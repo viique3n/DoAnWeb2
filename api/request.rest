@@ -1,0 +1,25 @@
+GET http://localhost:9000/
+HEAD : application/json
+
+{
+    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJwaG9uZW51bWJlciI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiZGlzcGxheW5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiJDJiJDEwJE11dG1RMmQyMWk4Q0VUZVNPQmtDRGUvZ0g5SVgzdWpGN2dFb0ovWW5vVFBqaFRqTXlYN3IyIiwidG9rZW4iOm51bGwsImNyZWF0ZWRBdCI6IjIwMDQtMTAtMTlUMDg6MjM6NTQuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMDQtMTAtMTlUMDg6MjM6NTQuMDAwWiJ9LCJpYXQiOjE1OTIxMzM5MTF9.y9nZwvxMl9NwAfni9v2RxcXnvAC3w0Re-Fdxdnkniss"
+}
+###
+
+GET http://localhost:9000/
+Content-Type: application/json
+
+{
+    "userEmail": "admin@admin.com",
+    "userPassword": "123456"
+}
+
+
+###
+POST http://localhost:9000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@admin.com",
+    "matkhau": "123456"
+}
