@@ -9,6 +9,11 @@ class LoginForm extends Component {
       email: '',
       matkhau: '',
       isAuthenticated: false,
+      validateErrors: {
+        emailError: '',
+        sodienthoaiError: '',
+        matkhauError: '',
+      },
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
