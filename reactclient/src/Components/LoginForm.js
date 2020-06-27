@@ -6,37 +6,24 @@ class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      matkhau: '',
       isAuthenticated: false,
-      validateErrors: {
-        emailError: '',
-        sodienthoaiError: '',
-        matkhauError: '',
-      },
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleInputChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
-
   handleSubmit(e) {
+    console.log(this.props);
     e.preventDefault();
-    const { email, matkhau } = this.state;
-    const user = { email, matkhau };
-
+    const { sodienthoai, matkhau } = this.props.values;
+    const user = { sodienthoai, matkhau };
+    debugger;
     axios
       .post('http://localhost:9000/api/auth/login', user)
       .then((res) => {
         console.log(res.data.token);
         localStorage.setItem('jwtToken', res.data.token);
-        const { sodienthoai, email, tenhienthi } = res.data.khachhang;
-        const userInfor = { sodienthoai, email, tenhienthi };
+        const { email, sodienthoai, tenhienthi } = res.data.khachhang;
+        const userInfor = { email, sodienthoai, tenhienthi };
         localStorage.setItem('user', JSON.stringify(userInfor));
         this.setState({ isAuthenticated: true });
       })
@@ -53,26 +40,29 @@ class LoginForm extends Component {
       <div className="login">
         <form className="loginform" onSubmit={this.handleSubmit}>
           <h1>Login</h1>
-          <label for="email">
-            <b>Email</b>
+          <label for="sodienthoai">
+            <b>Số điện thoại</b>
           </label>
           <input
             type="text"
-            placeholder="Enter Email"
-            name="email"
+            name="sodienthoai"
             required
-            onChange={this.handleInputChange}
+            onChange={this.props.handleChange}
           ></input>
+          <div>{this.props.errors.sodienthoai}</div>
+          <br></br>
           <label for="password">
             <b>Password</b>
           </label>
           <input
             type="password"
-            placeholder="Enter Password"
             name="matkhau"
             required
-            onChange={this.handleInputChange}
+            onChange={this.props.handleChange}
           ></input>
+          <div>{this.props.errors.matkhau}</div>
+
+          <br></br>
           <button type="submit">Login</button>
         </form>
       </div>

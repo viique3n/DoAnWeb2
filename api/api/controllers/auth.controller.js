@@ -2,18 +2,45 @@
 const KhachHang = require('../../db/models/KhachHang.Model');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const joy = require('@hapi/joi');
-const { validationResult } = require('express-validator');
-const { func } = require('@hapi/joi');
+const crypto = require('crypto');
+
 dotenv.config();
 
 //#region  api
-module.exports.postSignUpAPI = (req, res) => {};
+module.exports.postSignUpAPI = async (req, res) => {
+  console.log('signup api');
+  const foundKh = await KhachHang.findByPhone(req.body.sodienthoai);
+  if (foundKh) {
+    return res.status(303).json({
+      error: true,
+      message: 'User existed',
+    });
+  }
+
+  console.log(req.body);
+  const khachhang = await KhachHang.create({
+    sodienthoai: req.body.sodienthoai,
+    email: req.body.email,
+    tenhienthi: req.body.tenhienthi,
+    matkhau: KhachHang.hashPassword(req.body.matkhau),
+    token: crypto.randomBytes(3).toString('hex').toUpperCase(),
+  });
+  console.log('success');
+  const accessToken = jwt.sign(
+    { khachhang: khachhang },
+    process.env.ACCESS_TOKEN_SECRET
+  );
+
+  return res.json({
+    khachhang: khachhang,
+    token: accessToken,
+  });
+};
 
 module.exports.postLoginAPI = async (req, res) => {
   console.log(req.body);
-  console.log(`requestbody: ${req.body.email} ${req.body.matkhau}`);
-  const khachhang = await KhachHang.findByEmail(req.body.email);
+  console.log(`requestbody: ${req.body.sodienthoai} ${req.body.matkhau}`);
+  const khachhang = await KhachHang.findByPhone(req.body.sodienthoai);
   if (
     !khachhang ||
     !KhachHang.verifyPassword(req.body.matkhau, khachhang.matkhau)

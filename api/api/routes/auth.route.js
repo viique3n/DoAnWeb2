@@ -6,6 +6,7 @@ var verifySignUp = require('../../middlewares/validateSignUp');
 
 // router.post('/signup', controller.postSignUp);
 router.post('/login', controller.postLoginAPI);
+router.post('/signup', controller.postSignUpAPI);
 // router.get('/me/from/token', verify, controller.getUserFromToken);
 
 // router.get('/login', controller.getLogin);
