@@ -23,3 +23,12 @@ Content-Type: application/json
     "email": "admin@admin.com",
     "matkhau": "123456"
 }
+
+###
+GET http://localhost:9000/api/admin/thongtinkhachhang
+Content-Type: application/json
+
+{
+    "tinhtrang": "Chưa xác thực",
+    
+}

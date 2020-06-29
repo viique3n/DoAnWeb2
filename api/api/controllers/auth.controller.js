@@ -1,31 +1,39 @@
-//const User = require('../../db/models/user.model');
-const KhachHang = require('../../db/models/KhachHang.Model');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const crypto = require('crypto');
+const khachHangService = require('../../services/khachang.service');
 
 dotenv.config();
 
 //#region  api
 module.exports.postSignUpAPI = async (req, res) => {
-  console.log('signup api');
-  const foundKh = await KhachHang.findByPhone(req.body.sodienthoai);
-  if (foundKh) {
+  // Kiểm tra số điện thoại hoặc email đã tồn tại hay chưa
+  const khByPhone = await khachHangService.findByPhone(req.body.sodienthoai);
+  if (!khByPhone.error) {
+    console.log('so dien thoai da ton tai');
+    return res.status(303).json({
+      error: true,
+      message: 'User existed',
+    });
+  }
+  const khByEmail = await khachHangService.findByEmail(req.body.email);
+  if (!khByEmail.error) {
+    console.log('email da ton tai');
     return res.status(303).json({
       error: true,
       message: 'User existed',
     });
   }
 
-  console.log(req.body);
-  const khachhang = await KhachHang.create({
+  // Thêm khách hàng mới
+  const thongtin = {
     sodienthoai: req.body.sodienthoai,
     email: req.body.email,
     tenhienthi: req.body.tenhienthi,
-    matkhau: KhachHang.hashPassword(req.body.matkhau),
-    token: crypto.randomBytes(3).toString('hex').toUpperCase(),
-  });
-  console.log('success');
+    matkhau: req.body.matkhau,
+  };
+  const khachhang = await khachHangService.TaoTaiKhoan(thongtin);
+  console.log('khach hang');
+  console.log(khachhang);
   const accessToken = jwt.sign(
     { khachhang: khachhang },
     process.env.ACCESS_TOKEN_SECRET
@@ -38,12 +46,11 @@ module.exports.postSignUpAPI = async (req, res) => {
 };
 
 module.exports.postLoginAPI = async (req, res) => {
-  console.log(req.body);
-  console.log(`requestbody: ${req.body.sodienthoai} ${req.body.matkhau}`);
-  const khachhang = await KhachHang.findByPhone(req.body.sodienthoai);
+  const khachhang = await khachHangService.findByPhone(req.body.sodienthoai);
+  console.log(khachhang);
   if (
     !khachhang ||
-    !KhachHang.verifyPassword(req.body.matkhau, khachhang.matkhau)
+    !khachHangService.verifyPassword(req.body.matkhau, khachhang.matkhau)
   ) {
     return res.status(404).json({
       error: true,
@@ -60,14 +67,6 @@ module.exports.postLoginAPI = async (req, res) => {
   res.json({
     khachhang: khachhang,
     token: accessToken,
-  });
-};
-
-module.exports.getUserFromToken = async (req, res) => {
-  console.log(`get user from token`);
-  console.log(req.user);
-  return res.json({
-    user: req.user,
   });
 };
 

@@ -1,10 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../config/sequelize');
-const LoaiTaiKhoan = require('./LoaiTaiKhoan.Model');
 const Model = Sequelize.Model;
 
-class TaiKhoan extends Model {}
-TaiKhoan.init(
+class TaiKhoanThanhToan extends Model {
+  static async findById(id) {
+    return TaiKhoan.findByPk(id);
+  }
+}
+TaiKhoanThanhToan.init(
   {
     // attributes
     mataikhoan: {
@@ -19,7 +22,8 @@ TaiKhoan.init(
       type: Sequelize.DECIMAL,
       allowNull: false,
     },
-    password: {
+    tinhtrang: {
+      // Chưa xác thực - Hoạt động bình thường - Bị khóa - Đã hủy
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -29,10 +33,8 @@ TaiKhoan.init(
   },
   {
     sequelize: db,
-    modelName: 'taikhoan',
+    modelName: 'taikhoanthanhtoan',
   }
 );
 
-TaiKhoan.belongsTo(LoaiTaiKhoan);
-
-module.exports = TaiKhoan;
+module.exports = TaiKhoanThanhToan;

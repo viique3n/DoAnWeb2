@@ -6,8 +6,9 @@ var path = require('path');
 var logger = require('morgan');
 var cors = require('cors');
 
-var indexRouter = require('./api/routes/index');
-var authApiRouter = require('./api/routes/auth.route');
+const indexRouter = require('./api/routes/index');
+const authApiRouter = require('./api/routes/auth.route');
+const adminApiRouter = require('./api/routes/admin.route');
 const authRouter = require('./api/routes/auth.route');
 var app = express();
 //#endregion
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use(require('./middlewares/auth.middleware'));
 
 //#region api
+app.use('/api/admin/', adminApiRouter);
 app.use('/api/auth/', authApiRouter);
 app.use('/', indexRouter);
 //#endregion

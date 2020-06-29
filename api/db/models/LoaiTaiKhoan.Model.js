@@ -6,10 +6,6 @@ class LoaiTaiKhoan extends Model {}
 LoaiTaiKhoan.init(
   {
     // attributes
-    donvitiente: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
     tenloaitaikhoan: {
       type: Sequelize.STRING,
       allowNull: false,
