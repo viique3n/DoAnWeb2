@@ -4,9 +4,13 @@ const crypto = require('crypto');
 const { Op } = require('sequelize');
 
 //#region Authentication
-module.exports.findAll = async (conditions) => {
-  const { tenhienthi, tinhtrang } = conditions;
-
+module.exports.findAll = async (filter) => {
+  const { tenhienthi, tinhtrang } = filter;
+  console.log('filter khachhang');
+  console.log(filter);
+  console.log(typeof filter);
+  console.log(tenhienthi);
+  console.log(tinhtrang);
   let dsKhachHang;
   if (!tenhienthi && !tinhtrang) {
     dsKhachHang = await KhachHang.findAll();
@@ -93,8 +97,8 @@ module.exports.TaoTaiKhoan = async (khachhang) => {
 };
 //#endregion
 
-module.exports.CapNhatMatKhau = async (conditions) => {
-  const { sodienthoai, email, matkhaumoi } = conditions;
+module.exports.CapNhatMatKhau = async (filter) => {
+  const { sodienthoai, email, matkhaumoi } = filter;
   let khachhang;
   if (!sodienthoai && !email) {
     return {
@@ -126,8 +130,8 @@ module.exports.CapNhatMatKhau = async (conditions) => {
   return result;
 };
 
-module.exports.CapNhatTinhTrang = async (conditions) => {
-  const { sodienthoai, email, tinhtrang } = conditions;
+module.exports.CapNhatTinhTrang = async (filter) => {
+  const { sodienthoai, email, tinhtrang } = filter;
   let khachhang;
   if (!sodienthoai && !email) {
     return {
@@ -158,8 +162,8 @@ module.exports.CapNhatTinhTrang = async (conditions) => {
   return result;
 };
 
-module.exports.CapNhatTenHienThi = async (conditions) => {
-  const { sodienthoai, email, tenhienthi } = conditions;
+module.exports.CapNhatTenHienThi = async (filter) => {
+  const { sodienthoai, email, tenhienthi } = filter;
   let khachhang;
   if (!sodienthoai && !email) {
     return {

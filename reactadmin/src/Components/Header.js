@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import decode from 'jwt-decode';
 
 class Header extends Component {
   constructor(props) {
@@ -10,17 +11,34 @@ class Header extends Component {
     };
     this.logout = this.logout.bind(this);
   }
+
   isLogin() {
-    if (localStorage.getItem('jwtToken')) {
-      this.setState({
-        isAuthentiacted: true,
-        userData: localStorage.getItem('nhanvien'),
-      });
+    const token = sessionStorage.getItem('jwtToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    if (!token || !refreshToken) {
+      return false;
     }
+    try {
+      const { exp } = decode(token);
+      if (exp < new Date().getTime() / 1000) {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+
+    this.setState(
+      {
+        isAuthentiacted: true,
+        userData: decode(token),
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
   logout() {
-    debugger;
-    localStorage.clear();
+    sessionStorage.clear();
     this.setState({
       isAuthentiacted: false,
       userData: null,
@@ -29,16 +47,22 @@ class Header extends Component {
 
   renderLoginLink() {
     if (this.state.isAuthentiacted) {
-      const userData = JSON.parse(this.state.userData);
-      const { tenhienthi } = userData;
-      console.log(tenhienthi);
+      const userData = this.state.userData;
       return (
         <ul>
           <li>
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/admin/profile">{tenhienthi}</Link>
+            <Link to="/admin/profile">{userData.tenhienthi}</Link>
+          </li>
+          <li>
+            <Link to="/admin/getdanhsachkhachhang">Danh sách khách hàng</Link>
+          </li>
+          <li>
+            <Link to="/" onClick={this.logout}>
+              Logout
+            </Link>
           </li>
         </ul>
       );

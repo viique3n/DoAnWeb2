@@ -16,15 +16,15 @@ class LoginForm extends Component {
     e.preventDefault();
     const { email, matkhau } = this.props.values;
     const user = { email, matkhau };
-    debugger;
     axios
-      .post('http://localhost:9000/api/auth/login', user)
+      .post('http://localhost:9000/api/admin/login', user)
       .then((res) => {
         console.log(res.data.token);
-        localStorage.setItem('jwtToken', res.data.token);
-        const { email, sodienthoai, tenhienthi } = res.data.nhanvienquanly;
-        const userInfor = { email, sodienthoai, tenhienthi };
-        localStorage.setItem('nhanvien', JSON.stringify(userInfor));
+        sessionStorage.setItem('jwtToken', res.data.token);
+        sessionStorage.setItem('refreshToken', res.data.refreshToken);
+        // const { email, sodienthoai, tenhienthi } = res.data.nhanvienquanly;
+        // const userInfor = { email, sodienthoai, tenhienthi };
+        // sessionStorage.setItem('nhanvien', JSON.stringify(userInfor));
         this.setState({ isAuthenticated: true });
       })
       .catch((err) => {

@@ -10,10 +10,11 @@ class ProfileCard extends Component {
     };
   }
   componentDidMount() {
-    debugger;
-
-    if (localStorage.getItem('jwtToken') && localStorage.getItem('nhanvien')) {
-      const userData = JSON.parse(localStorage.getItem('nhanvien'));
+    if (
+      sessionStorage.getItem('jwtToken') &&
+      sessionStorage.getItem('nhanvien')
+    ) {
+      const userData = JSON.parse(sessionStorage.getItem('nhanvien'));
       this.setState({
         isAuthenticated: true,
         user: userData,

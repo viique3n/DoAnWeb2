@@ -4,6 +4,7 @@ const NhanVienQuanLy = require('../db/models/NhanVienQuanLy.Model');
 const khachHangService = require('./khachang.service');
 
 //#region Admin Authentication
+
 module.exports.findByPhone = async (sodienthoai) => {
   const nhanvien = await NhanVienQuanLy.findOne({
     where: {
@@ -43,15 +44,16 @@ module.exports.verifyPassword = (password, passwordHash) => {
 //#endregion
 
 //#region Quan lý thông tin khách hàng
-module.exports.getThongTinKhachHang = async (conditions) => {
-  console.log(conditions);
+
+module.exports.getThongTinKhachHang = async (filter) => {
+  // console.log(filter);
   let dsKhachHang;
-  if (conditions.email) {
-    dsKhachHang = await khachHangService.findByEmail(conditions.email);
-  } else if (conditions.sodienthoai) {
-    dsKhachHang = await khachHangService.findByPhone(conditions.sodienthoai);
+  if (filter.email) {
+    dsKhachHang = await khachHangService.findByEmail(filter.email);
+  } else if (filter.sodienthoai) {
+    dsKhachHang = await khachHangService.findByPhone(filter.sodienthoai);
   } else {
-    dsKhachHang = await khachHangService.findAll(conditions);
+    dsKhachHang = await khachHangService.findAll(filter);
   }
   if (dsKhachHang.error) {
     return {
@@ -61,8 +63,8 @@ module.exports.getThongTinKhachHang = async (conditions) => {
   return dsKhachHang;
 };
 
-module.exports.CapNhatTinhTrangKhachHang = async (conditions) => {
-  const capnhat = khachHangService.CapNhatTinhTrang(conditions);
+module.exports.CapNhatTinhTrangKhachHang = async (filter) => {
+  const capnhat = khachHangService.CapNhatTinhTrang(filter);
   if (capnhat.error) {
     const { error } = capnhat;
     console.log(error);
