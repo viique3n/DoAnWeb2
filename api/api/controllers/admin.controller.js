@@ -9,8 +9,8 @@ let refreshTokens = [];
 //#region auth
 module.exports.renewAccessToken = (req, res) => {
   const refreshToken = req.body.refreshToken;
-  console.log(refreshTokens);
-  console.log('renew access token');
+  // console.log(refreshTokens);
+  // console.log('renew access token');
   // console.log(req);
   if (refreshToken == null) {
     console.log('refresh token null');
@@ -20,7 +20,7 @@ module.exports.renewAccessToken = (req, res) => {
     console.log('some error');
     return res.status(403);
   }
-  console.log('verify token');
+  // console.log('verify token');
 
   jwt.verify(
     refreshToken,
@@ -30,7 +30,7 @@ module.exports.renewAccessToken = (req, res) => {
         return res.status(403);
       }
       const accessToken = jwtService.generateAccessToken(khachhang);
-      console.log(accessToken);
+      // console.log(accessToken);
       return res.json({
         accessToken,
       });
@@ -55,8 +55,8 @@ module.exports.postLoginAPI = async (req, res) => {
   const refreshToken = jwtService.generateRefreshToken(nhanvienquanly);
   refreshTokens.push(refreshToken);
   /* res.header('auth-token', accessToken).send(accessToken); */
-  console.log('accesstoken');
-  console.log(accessToken);
+  // console.log('accesstoken');
+  // console.log(accessToken);
   res.json({
     token: accessToken,
     refreshToken,
@@ -68,9 +68,9 @@ module.exports.postLoginAPI = async (req, res) => {
 module.exports.getThongTinKhachHang = async (req, res) => {
   let { filter } = req.query;
   filter = JSON.parse(filter);
-  console.log('get thong tin khach hang');
-  console.log(filter);
-  console.log(typeof filter);
+  // console.log('get thong tin khach hang');
+  // console.log(filter);
+  // console.log(typeof filter);
   // const filter = {
   //   email: req.query.email,
   //   sodienthoai: req.query.sodienthoai,

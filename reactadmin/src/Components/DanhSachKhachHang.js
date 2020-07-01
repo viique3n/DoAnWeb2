@@ -2,102 +2,245 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { renewAccessToken } from '../Auth/AuthRoute';
+import './css/khachhang.css';
 
 class DanhSachKhachHang extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      tinhtrang: '',
+      tukhoa: '',
+      loaitimkiem: 'Email',
       danhsachkhachhang: [],
-      danhsachUpdate: [],
-      isAuthenticated: false,
+      isAuthenticated: true,
     };
-    this.filterList = this.filterList.bind(this);
-  }
-  filterList(e) {
-    let updateDSKH = this.state.danhsachkhachhang;
-    updateDSKH = updateDSKH.filter((kh) => {
-      return (
-        kh.tenhienthi.toLowerCase().search(e.target.value.toLowerCase()) !== -1
-      );
-    });
-    this.setState(
-      {
-        danhsachUpdate: updateDSKH,
-      },
-      () => {
-        const tset = this.state.danhsachkhachhang;
-        debugger;
-      }
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handleSelectLoaiTimKiemChange = this.handleSelectLoaiTimKiemChange.bind(
+      this
     );
+    this.handleSelectTinhTrangChange = this.handleSelectTinhTrangChange.bind(
+      this
+    );
+    // this.handleTableDeleteButtonClick = this.handleTableDeleteButtonClick.bind(
+    //   this
+    // );
+    // this.handleTableUpdateButtonClick = this.handleTableUpdateButtonClick.bind(
+    //   this
+    // );
   }
-  getDanhSachKhachHang() {
+  //#region get danh sách khách hàng
+  getDanhSachKhachHang(filter) {
     const token = sessionStorage.getItem('refreshToken');
-    renewAccessToken(token);
+    const isValidToken = renewAccessToken(token);
+    if (isValidToken === false) {
+      return;
+    }
 
-    const filter = {
-      tinhtrang: 'Chưa xác thực',
-    };
     axios('http://localhost:9000/api/admin/thongtinkhachhang', {
       params: { filter },
     })
       .then((res) => {
         console.log(res.data);
-        this.setState({ danhsachkhachhang: res.data });
+        this.setState({
+          danhsachkhachhang: res.data,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   }
+  //#endregion
 
-  componentDidMount() {
-    this.getDanhSachKhachHang();
-    if (
-      sessionStorage.getItem('jwtToken') &&
-      sessionStorage.getItem('nhanvien')
-    ) {
-      const ds = this.getDanhSachKhachHang();
-      this.setState({
-        isAuthenticated: true,
-        danhsachUpdate: ds,
-      });
-    }
-    if (this.state.isAuthenticated === false) {
-      return <Redirect to={{ pathname: '/' }} />;
-    }
-  }
-  render() {
-    const dskh = this.state.danhsachkhachhang;
+  //#region render table
+  renderTableHeader() {
     return (
-      <form>
-        <label for="email-sodienthoai">Lọc theo: </label>
-        <select for="loaitimkiem">
-          <option value="all" selected="true">
-            Tất cả
-          </option>
-          <option value="email">Email</option>
-          <option value="sodienthoai">Số điện thoại</option>
-        </select>
-        <label for="tinhtrang">Tình trạng: </label>
-        <select name="tinhtrang">
-          <option value="tatca">Tất cả</option>
-          <option value="chuaxacthuc">Chưa xác thực</option>
-          <option value="daxacthuc">Đã xác thực</option>
-          <option value="dakhoa">Đã khóa</option>
-        </select>
-        <input type="text"></input>
-      </form>
-      // <React.Fragment>
-      //   <input type="text" onChange={this.filterList}></input>
-      //   <ul>
-      //     {this.state.danhsachUpdate.map((khachhang) => (
-      //       <li key={khachhang.sodienthoai}>
-      //         {khachhang.tenhienthi} - --- {khachhang.email} --- -{' '}
-      //         {khachhang.sodienthoai}
-      //       </li>
-      //     ))}
-      //   </ul>
-      // </React.Fragment>
+      <tr>
+        <th>Số điện thoại</th>
+        <th>Email</th>
+        <th>Tên hiển thị</th>
+        <th>Tình trạng</th>
+        <th>Cập nhật tình trạng</th>
+      </tr>
     );
   }
+  renderTable() {
+    return this.state.danhsachkhachhang.map((khachhang) => {
+      const { email, sodienthoai, tinhtrang, tenhienthi } = khachhang;
+      return (
+        <tr key={sodienthoai}>
+          <td>{sodienthoai}</td>
+          <td>{email}</td>
+          <td>{tenhienthi}</td>
+          <td>{tinhtrang}</td>
+          <td>
+            <button
+              className="khachhangDeleteButton"
+              onClick={this.handleTableDeleteButtonClick}
+            >
+              Xóa
+            </button>
+            <button
+              className="khachhangUpdateButton"
+              onClick={this.handleTableUpdateButtonClick}
+            >
+              Cập nhật
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  }
+  //#endregion
+
+  //#region handle filter
+  handleSelectTinhTrangChange = (event) => {
+    debugger;
+    // this.setState({ tinhtrang: event.target.value });
+    const index = event.target.selectedIndex;
+    let tinhtrang = event.target[index].text;
+    if (tinhtrang === 'Tất cả') {
+      tinhtrang = '';
+    }
+    this.setState({
+      tinhtrang,
+    });
+    const filter = {
+      tinhtrang,
+    };
+    this.getDanhSachKhachHang(filter);
+  };
+  handleSelectLoaiTimKiemChange = (event) => {
+    debugger;
+    const index = event.target.selectedIndex;
+    let loaitimkiem = event.target[index].text;
+    const tukhoa = this.state.tukhoa;
+
+    let filter;
+    if (loaitimkiem === 'Tên hiển thị') {
+      filter = { tenhienthi: tukhoa };
+    } else if (loaitimkiem === 'Email') {
+      filter = { email: tukhoa };
+    } else if (loaitimkiem === 'Số điện thoại') {
+      filter = { sodienthoai: tukhoa };
+    } else {
+      filter = { error: '' };
+    }
+    this.setState({ loaitimkiem });
+  };
+
+  handleSearchChange = (event) => {
+    const tukhoa = event.target.value;
+    this.setState({ tukhoa });
+    // const filter
+  };
+
+  handleSearchSubmit = (event) => {
+    debugger;
+    const loaitimkiem = this.state.loaitimkiem;
+    const tinhtrang = this.state.tinhtrang;
+    const tukhoa = this.state.tukhoa;
+    let filter;
+    if (loaitimkiem === 'Email') {
+      filter = {
+        email: tukhoa,
+        tinhtrang: tinhtrang,
+      };
+    } else if (loaitimkiem === 'Số điện thoại') {
+      filter = {
+        sodienthoai: tukhoa,
+        tinhtrang: tinhtrang,
+      };
+    } else if (loaitimkiem === 'Tên hiển thị') {
+      filter = {
+        tenhienthi: tukhoa,
+        tinhtrang: tinhtrang,
+      };
+    }
+    this.getDanhSachKhachHang(filter);
+  };
+  //#endregion
+
+  //#region handleTableButton
+  handleTableDeleteButtonClick = (event) => {
+    const check = event.target;
+    debugger;
+  };
+  handleTableUpdateButtonClick;
+  //#endregion
+
+  //#region component lifecircle
+  componentDidMount() {
+    const filter = { tinhtrang: '' };
+    this.getDanhSachKhachHang(filter);
+    // if (
+    //   sessionStorage.getItem('jwtToken') &&
+    //   sessionStorage.getItem('nhanvien')
+    // ) {
+    //   const ds = this.getDanhSachKhachHang();
+    //   this.setState({
+    //     isAuthenticated: true,
+    //     danhsachUpdate: ds,
+    //   });
+    // }
+    // if (this.state.isAuthenticated === false) {
+    //   return <Redirect to={{ pathname: '/' }} />;
+    // }
+  }
+  //#endregion
+
+  //#region render
+  render() {
+    return (
+      <>
+        <div className="khachhangbody">
+          <form id="formkhachhang">
+            <div>
+              <label className="khachhangLabel">Tình trạng: </label>
+              <select
+                className="khachhangSelect"
+                name="tinhtrang"
+                defaultValue={'DEFAULT'}
+                onChange={this.handleSelectTinhTrangChange}
+              >
+                <option value="DEFAULT">Tất cả</option>
+                <option value="chuaxacthuc">Chưa xác thực</option>
+                <option value="daxacthuc">Đã xác thực</option>
+                <option value="dakhoa">Đã khóa</option>
+              </select>
+            </div>
+            <div>
+              <label className="khachhangLabel">Lọc theo: </label>
+              <select
+                defaultValue={'DEFAULT'}
+                className="khachhangSelect"
+                onChange={this.handleSelectLoaiTimKiemChange}
+              >
+                <option value="DEFAULT">Email</option>
+                <option value="tenhienthi">Tên hiển thị</option>
+                <option value="sodienthoai">Số điện thoại</option>
+              </select>
+              <input
+                type="text"
+                className="khachhangSearchBox"
+                onChange={this.handleSearchChange}
+              ></input>
+              <button type="button" onClick={this.handleSearchSubmit}>
+                Filter
+              </button>
+            </div>
+          </form>
+          <br></br>
+          <table id="khachhang">
+            <tbody>
+              {this.renderTableHeader()}
+              {this.renderTable()}
+            </tbody>
+          </table>
+        </div>
+      </>
+    );
+  }
+  //#endregion
 }
 export default DanhSachKhachHang;

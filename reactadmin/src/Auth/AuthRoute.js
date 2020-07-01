@@ -14,12 +14,12 @@ const checkAuth = () => {
 
   try {
     const { exp } = decode(token);
-    const decodetoken = decode(token);
-    const decoderefreshtoken = decode(refreshToken);
-    console.log(exp);
-    console.log(new Date().getTime() / 1000);
-    console.log(new Date(exp));
-    console.log(new Date(new Date() / 1000));
+    // const decodetoken = decode(token);
+    // const decoderefreshtoken = decode(refreshToken);
+    // console.log(exp);
+    // console.log(new Date().getTime() / 1000);
+    // console.log(new Date(exp));
+    // console.log(new Date(new Date() / 1000));
 
     if (exp < new Date().getTime() / 1000) {
       sessionStorage.clear();
@@ -81,12 +81,13 @@ export function renewAccessToken(token) {
       refreshToken: token,
     })
     .then((res) => {
-      debugger;
       const token = JSON.stringify(res.data.accessToken);
-      console.log(token);
+      // console.log(token);
       sessionStorage.setItem('jwtToken', token);
+      return true;
     })
     .catch((err) => {
       console.log(err);
+      return false;
     });
 }

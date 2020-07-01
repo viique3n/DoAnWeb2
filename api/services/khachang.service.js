@@ -5,42 +5,114 @@ const { Op } = require('sequelize');
 
 //#region Authentication
 module.exports.findAll = async (filter) => {
-  const { tenhienthi, tinhtrang } = filter;
+  const { tenhienthi, tinhtrang, email, sodienthoai } = filter;
   console.log('filter khachhang');
   console.log(filter);
-  console.log(typeof filter);
-  console.log(tenhienthi);
-  console.log(tinhtrang);
+
   let dsKhachHang;
-  if (!tenhienthi && !tinhtrang) {
+  if (!tenhienthi && !email && !sodienthoai && !tinhtrang) {
+    console.log('rong');
     dsKhachHang = await KhachHang.findAll();
-  } else if (!tenhienthi) {
-    dsKhachHang = await KhachHang.findAll({
-      where: {
-        tinhtrang,
-      },
-    });
-  } else if (!tinhtrang) {
-    dsKhachHang = await KhachHang.findAll({
-      where: {
-        tenhienthi: {
-          [Op.like]: `%${tenhienthi}%`,
+  } else if (tinhtrang === '') {
+    if (email) {
+      console.log('email = 0 tinh trang = all');
+      dsKhachHang = await KhachHang.findAll({
+        where: {
+          email: {
+            [Op.like]: `%${email}%`,
+          },
         },
-      },
-    });
-  } else {
-    dsKhachHang = await KhachHang.findAll({
-      where: {
-        tenhienthi: {
-          [Op.like]: `%${tenhienthi}%`,
+      });
+      console.log(dsKhachHang);
+    } else if (sodienthoai) {
+      dsKhachHang = await KhachHang.findAll({
+        where: {
+          sodienthoai: {
+            [Op.like]: `%${sodienthoai}%`,
+          },
         },
-        tinhtrang,
-      },
-    });
+      });
+    } else if (tenhienthi) {
+      console.log('ten hien thi = 5 tinh trang = all');
+      dsKhachHang = await KhachHang.findAll({
+        where: {
+          tenhienthi: {
+            [Op.like]: `%${tenhienthi}%`,
+          },
+        },
+      });
+    }
+  } else if (tinhtrang !== '') {
+    if (email) {
+      dsKhachHang = await KhachHang.findAll({
+        where: {
+          email: {
+            [Op.like]: `%${email}%`,
+          },
+          tinhtrang,
+        },
+      });
+    } else if (sodienthoai) {
+      dsKhachHang = await KhachHang.findAll({
+        where: {
+          sodienthoai: {
+            [Op.like]: `%${sodienthoai}%`,
+          },
+          tinhtrang,
+        },
+      });
+    } else if (tenhienthi) {
+      dsKhachHang = await KhachHang.findAll({
+        where: {
+          tenhienthi: {
+            [Op.like]: `%${tenhienthi}%`,
+          },
+          tinhtrang,
+        },
+      });
+    } else {
+      console.log('here');
+      dsKhachHang = await KhachHang.findAll({
+        where: {
+          tinhtrang,
+        },
+      });
+    }
   }
+
+  // else if (email && tinhtrang !== '') {
+  //   console.log('email va tinh trang');
+  //   dsKhachHang = await KhachHang.findAll({
+  //     where: {
+  //       tinhtrang,
+  //       email: {
+  //         [Op.like]: `%${email}`,
+  //       },
+  //     },
+  //   });
+  // } else if (tenhienthi && tinhtrang !== '') {
+  //   dsKhachHang = await KhachHang.findAll({
+  //     where: {
+  //       tinhtrang,
+  //       tenhienthi: {
+  //         [Op.like]: `%${tenhienthi}%`,
+  //       },
+  //     },
+  //   });
+  // } else if (sodienthoai && tinhtrang !== '') {
+  //   dsKhachHang = await KhachHang.findAll({
+  //     where: {
+  //       sodienthoai: {
+  //         [Op.like]: `%${sodienthoai}%`,
+  //       },
+  //       tinhtrang,
+  //     },
+  //   });
+  // }
   if (!dsKhachHang) {
     return { error: 'Không tồn tại khách hàng với thông tin theo yêu cầu' };
   }
+  // console.log(dsKhachHang);
   return dsKhachHang;
 };
 

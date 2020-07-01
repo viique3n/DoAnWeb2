@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import './css/login.css';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class LoginForm extends Component {
     axios
       .post('http://localhost:9000/api/admin/login', user)
       .then((res) => {
-        console.log(res.data.token);
+        // console.log(res.data.token);
         sessionStorage.setItem('jwtToken', res.data.token);
         sessionStorage.setItem('refreshToken', res.data.refreshToken);
         // const { email, sodienthoai, tenhienthi } = res.data.nhanvienquanly;
@@ -37,10 +38,10 @@ class LoginForm extends Component {
       return <Redirect to={{ pathname: '/' }} />;
     }
     return (
-      <div className="login">
+      <div className="w3-container" style={{ width: '30%' }}>
         <form className="loginform" onSubmit={this.handleSubmit}>
           <h1>Login</h1>
-          <label for="email">
+          <label>
             <b>Email</b>
           </label>
           <input
@@ -51,7 +52,7 @@ class LoginForm extends Component {
           ></input>
           <div>{this.props.errors.email}</div>
           <br></br>
-          <label for="password">
+          <label>
             <b>Password</b>
           </label>
           <input

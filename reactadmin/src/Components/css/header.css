@@ -1,0 +1,24 @@
+ul#menu li {
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  display: inline;
+  padding: 8px;
+}
+
+.navLink {
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.navLink:hover {
+  color: red;
+  cursor: pointer;
+}
+.cursors {
+  display: flex;
+  flex-wrap: wrap;
+}
+.cursors > div:hover {
+  background: #eee;
+}

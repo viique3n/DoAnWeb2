@@ -48,13 +48,14 @@ module.exports.verifyPassword = (password, passwordHash) => {
 module.exports.getThongTinKhachHang = async (filter) => {
   // console.log(filter);
   let dsKhachHang;
-  if (filter.email) {
-    dsKhachHang = await khachHangService.findByEmail(filter.email);
-  } else if (filter.sodienthoai) {
-    dsKhachHang = await khachHangService.findByPhone(filter.sodienthoai);
-  } else {
-    dsKhachHang = await khachHangService.findAll(filter);
-  }
+  dsKhachHang = await khachHangService.findAll(filter);
+  // if (filter.email) {
+  //   dsKhachHang = await khachHangService.findByEmail(filter.email);
+  // } else if (filter.sodienthoai) {
+  //   dsKhachHang = await khachHangService.findByPhone(filter.sodienthoai);
+  // } else {
+  //   dsKhachHang = await khachHangService.findAll(filter);
+  // }
   if (dsKhachHang.error) {
     return {
       error: 'Không có khách hành theo yêu cầu',

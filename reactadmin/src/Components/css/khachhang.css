@@ -1,0 +1,54 @@
+.khachhangbody {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+#khachhang {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  width: 80%;
+}
+
+#khachhang td,
+#khachhang th {
+  text-align: left;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#khachhang tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#khachhang tr:hover {
+  background-color: #ddd;
+}
+
+#khachhang th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  /* background-color: #4caf50; */
+  /* color: white; */
+}
+
+#formkhachhang {
+  text-align: center;
+}
+
+.khachhangSelect {
+  padding-right: 20px;
+}
+.khachhangLabel {
+  padding-left: 20px;
+}
+.khachhangSearchBox {
+  padding-right: 50px;
+}
+.khachhangDeleteButton {
+}
+.khachhangUpdateButton {
+}
