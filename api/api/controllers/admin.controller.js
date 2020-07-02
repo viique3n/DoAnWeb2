@@ -84,6 +84,8 @@ module.exports.getThongTinKhachHang = async (req, res) => {
 };
 
 module.exports.putCapNhatTinhTrangKhachHang = async (req, res) => {
+  console.log('put cap nhat tinh trang khach hang controller')
+  console.log(req.body)
   const { email, sodienthoai, tinhtrang } = req.body;
   const filter = {
     email,

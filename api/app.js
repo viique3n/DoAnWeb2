@@ -10,6 +10,7 @@ const indexRouter = require('./api/routes/index');
 const authApiRouter = require('./api/routes/auth.route');
 const adminApiRouter = require('./api/routes/admin.route');
 const authRouter = require('./api/routes/auth.route');
+const taikhoanRouter = require('./api/routes/taikhoan.route');
 var app = express();
 //#endregion
 
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //#region api
 app.use('/api/admin/', adminApiRouter);
 app.use('/api/auth/', authApiRouter);
+app.use('/api/taikhoan/', taikhoanRouter);
 app.use('/', indexRouter);
 //#endregion
 
