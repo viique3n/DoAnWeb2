@@ -30,7 +30,7 @@
 #khachhang th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: center;
+  text-align: left;
   /* background-color: #4caf50; */
   /* color: white; */
 }
@@ -48,6 +48,7 @@
 .khachhangSearchBox {
   padding-right: 50px;
 }
+
 .khachhangDeleteButton {
 }
 .khachhangUpdateButton {

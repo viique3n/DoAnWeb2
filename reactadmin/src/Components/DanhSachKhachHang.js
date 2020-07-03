@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { renewAccessToken } from '../Auth/AuthRoute';
 import './css/khachhang.css';
+import { array } from 'yup';
 
 class DanhSachKhachHang extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class DanhSachKhachHang extends Component {
       tukhoa: '',
       loaitimkiem: 'Email',
       danhsachkhachhang: [],
+      khachhangmoixoa: [],
       isAuthenticated: true,
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -60,7 +62,10 @@ class DanhSachKhachHang extends Component {
         <th>Email</th>
         <th>Tên hiển thị</th>
         <th>Tình trạng</th>
-        <th>Cập nhật tình trạng</th>
+        <th>Xóa</th>
+        <th>Khóa</th>
+        <th>Xác thực</th>
+        <th>Hủy xác thực</th>
       </tr>
     );
   }
@@ -74,17 +79,46 @@ class DanhSachKhachHang extends Component {
           <td>{tenhienthi}</td>
           <td>{tinhtrang}</td>
           <td>
-            <button
+            {/* Một kiểu truyền dữ liệu, không hiệu quả bằng cách bên dưới */}
+            {/* <button
               className="khachhangDeleteButton"
-              onClick={this.handleTableDeleteButtonClick}
+              onClick={this.handleTableDeleteButtonClick.bind(this, khachhang)}
+            >
+              Xóa
+            </button> */}
+            <button
+              onClick={this.handleTableUpdateButtonClick}
+              data-khsodienthoai={khachhang.sodienthoai}
+              data-tinhtrang="Đã xóa"
             >
               Xóa
             </button>
+          </td>
+          <td>
             <button
-              className="khachhangUpdateButton"
               onClick={this.handleTableUpdateButtonClick}
+              data-khsodienthoai={khachhang.sodienthoai}
+              data-tinhtrang="Đã khóa"
             >
-              Cập nhật
+              Khoá
+            </button>
+          </td>
+          <td>
+            <button
+              onClick={this.handleTableUpdateButtonClick}
+              data-khsodienthoai={khachhang.sodienthoai}
+              data-tinhtrang="Đã xác thực"
+            >
+              Xác thực
+            </button>
+          </td>
+          <td>
+            <button
+              onClick={this.handleTableUpdateButtonClick}
+              data-khsodienthoai={khachhang.sodienthoai}
+              data-tinhtrang="Chưa xác thực"
+            >
+              Hủy xác thực
             </button>
           </td>
         </tr>
@@ -162,11 +196,64 @@ class DanhSachKhachHang extends Component {
   //#endregion
 
   //#region handleTableButton
-  handleTableDeleteButtonClick = (event) => {
-    const check = event.target;
+  handleTableUpdateButtonClick = (event) => {
+    const token = sessionStorage.getItem('refreshToken');
+    const isValidToken = renewAccessToken(token);
+
+    if (isValidToken === false) {
+      return;
+    }
+    debugger;
+    const sodienthoai = event.target.dataset.khsodienthoai;
+    const tinhtrang = event.target.dataset.tinhtrang;
+    axios
+      .put('http://localhost:9000/api/admin/capnhattinhtrangkhachhang', {
+        sodienthoai,
+        tinhtrang,
+      })
+      .then((res) => {
+        alert('Cập nhật tình trạng thành công');
+        this.setState({ khachhangmoixoa: res.data });
+
+        const loaitimkiem = this.state.loaitimkiem;
+        const tinhtrang = this.state.tinhtrang;
+        const tukhoa = this.state.tukhoa;
+        let filter;
+        if (loaitimkiem === 'Email') {
+          filter = {
+            email: tukhoa,
+            tinhtrang: tinhtrang,
+          };
+        } else if (loaitimkiem === 'Số điện thoại') {
+          filter = {
+            sodienthoai: tukhoa,
+            tinhtrang: tinhtrang,
+          };
+        } else if (loaitimkiem === 'Tên hiển thị') {
+          filter = {
+            tenhienthi: tukhoa,
+            tinhtrang: tinhtrang,
+          };
+        }
+        this.getDanhSachKhachHang(filter);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     debugger;
   };
-  handleTableUpdateButtonClick;
+
+  // Test, tham khảo
+  // handleTableDeleteButtonClick = (khackhang, event) => {
+  //   // const check1 = event.target.getAttribute('key');
+  //   // const check = event.target;
+  //   debugger;
+  // };
+  // handleTableUpdateButtonClick = (event) => {
+  //   const sodienthoai = event.target.dataset.khsodienthoai;
+  // };
   //#endregion
 
   //#region component lifecircle
