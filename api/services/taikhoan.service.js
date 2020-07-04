@@ -1,7 +1,7 @@
 const TaiKhoanThanhToan = require('../db/models/TaiKhoanThanhToan.Model');
 
 module.exports.TaoTaiKhoan = async (taikhoan) => {
-  const {
+  const taikhoan ={
     mataikhoan,
     donvitiente,
     sodu,
@@ -10,7 +10,7 @@ module.exports.TaoTaiKhoan = async (taikhoan) => {
     createdAt,
     updatedAt,
     khachhangSodienthoai,
-  } = taikhoan;
+  } ;
   const newTaiKhoan = await TaiKhoanThanhToan.create({
     mataikhoan,
     donvitiente,
@@ -28,7 +28,7 @@ module.exports.findAll = async () => {
   let danhSachTaiKhoan = await TaiKhoanThanhToan.findAll();
   if (!danhSachTaiKhoan) {
     return {
-      error: 'bang tai khoan thanh toan rong',
+      error: 'Bảng tài khoản thanh toán rỗng',
     };
   }
   return danhSachTaiKhoan;
@@ -42,7 +42,7 @@ module.exports.findAllByPhone = async (khachhangSodienthoai) => {
   });
   if (!danhSachTaiKhoan) {
     return {
-      error: 'So dien thoai khong ton tai',
+          error: 'Số điện thoại không tồn tại ',
     };
   }
   return danhSachTaiKhoan;

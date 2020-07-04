@@ -923,6 +923,16 @@ const bangLaiSuat = [
   },
 ];
 
+// const KhongKyHan = {
+//   id: 'khongkyhan',
+//   donvitiente: 'VND',
+//   kyhan,
+//   muctien,
+//   laisuat: '0.4',
+//   createdAt: now,
+//   updatedAt: now,
+// };
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('laisuats', bangLaiSuat);
