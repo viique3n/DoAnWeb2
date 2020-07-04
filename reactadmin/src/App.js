@@ -1,27 +1,31 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { AuthRoute, UnAuthRoute } from './Auth/AuthRoute';
-import HomePage from './Pages/HomePage';
-import LoginPage from './Pages/LoginPage';
-import ProfilePage from './Pages/ProfilePage';
-import DanhSachKhachHangPage from './Pages/DanhSachKhachHangPage';
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
+import { AuthRoute, UnAuthRoute } from "./Auth/AuthRoute";
+import HomePage from "./Pages/HomePage";
+import LoginPage from "./Pages/LoginPage";
+import ProfilePage from "./Pages/ProfilePage";
+import DanhSachKhachHangPage from "./Pages/DanhSachKhachHangPage";
+import CapNhatTaiKhoanPage from "./Pages/CapNhatTaiKhoanPage";
 
 class App extends Component {
   render() {
     return (
-      <div className="container">
+      <div className='container'>
         <Switch>
-          <Route exact path="/">
+          <Route exact path='/'>
             <HomePage />
           </Route>
-          <UnAuthRoute path="/admin/login">
+          <UnAuthRoute path='/admin/login'>
             <LoginPage />
           </UnAuthRoute>
-          <Route path="/admin/profile">
+          <AuthRoute path='/admin/profile'>
             <ProfilePage />
-          </Route>
-          <AuthRoute path="/admin/getdanhsachkhachhang">
+          </AuthRoute>
+          <AuthRoute path='/admin/getdanhsachkhachhang'>
             <DanhSachKhachHangPage />
+          </AuthRoute>
+          <AuthRoute path='/admin/capnhattaikhoan'>
+            <CapNhatTaiKhoanPage />
           </AuthRoute>
         </Switch>
       </div>
