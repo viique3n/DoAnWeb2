@@ -11,7 +11,7 @@ class LoginPage extends Component {
         <Header />
         <LoginForMikContainer />
         {/* <LoginForm /> */}
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }

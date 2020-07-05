@@ -4,9 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 class Home extends Component {
   render() {
     return (
-      <Grid container justify="center" alignContent="center" component="main">
+      <Grid container justify='center' alignContent='center' component='main'>
         <CssBaseline />
-        <div>Home page</div>
+        <div className='w3-container'>
+          <h1>Home page</h1>
+        </div>
       </Grid>
     );
   }

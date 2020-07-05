@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import './css/login.css';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class LoginForm extends Component {
       return <Redirect to={{ pathname: '/' }} />;
     }
     return (
-      <div className="login">
+      <div className="w3-container" style={{ width: '30%' }}>
         <form className="loginform" onSubmit={this.handleSubmit}>
           <h1>Login</h1>
           <label for="sodienthoai">

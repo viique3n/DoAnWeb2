@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import './css/header.css';
 
 class Header extends Component {
   constructor(props) {
@@ -33,33 +34,41 @@ class Header extends Component {
       const { tenhienthi } = userData;
       console.log(tenhienthi);
       return (
-        <ul>
+        <ul id='menu'>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink className='navLink' to='/'>
+              Home
+            </NavLink>
           </li>
           <li>
-            <Link to="/profile">{tenhienthi}</Link>
+            <NavLink className='navLink' to='/profile'>
+              {tenhienthi}
+            </NavLink>
           </li>
           <li>
-            <Link to="/" onClick={this.logout}>
-              Log out
-            </Link>
+            <NavLink className='navLink' to='/' onClick={this.logout}>
+              LogOut
+            </NavLink>
           </li>
         </ul>
       );
     }
     return (
-      <ul>
+      <ul id='menu'>
         <li>
-          <Link to="/">Home</Link>
+          <NavLink className='navLink' to='/'>
+            Home
+          </NavLink>
         </li>
         <li>
-          <Link to="/login">Log in</Link>
+          <NavLink className='navLink' to='/login'>
+            Log in
+          </NavLink>
         </li>
         <li>
-          <Link to="signup" onClick={this.props.logout}>
+          <NavLink className='navLink' to='signup' onClick={this.props.logout}>
             Sign up
-          </Link>
+          </NavLink>
         </li>
       </ul>
     );
