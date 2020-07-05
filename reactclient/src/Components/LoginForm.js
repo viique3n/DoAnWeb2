@@ -17,15 +17,13 @@ class LoginForm extends Component {
     e.preventDefault();
     const { sodienthoai, matkhau } = this.props.values;
     const user = { sodienthoai, matkhau };
+    const loginURL = 'http://localhost:9000/' + 'api/auth/login';
     debugger;
     axios
-      .post('http://localhost:9000/api/auth/login', user)
+      .post(loginURL, user)
       .then((res) => {
-        console.log(res.data.token);
-        localStorage.setItem('jwtToken', res.data.token);
-        const { email, sodienthoai, tenhienthi } = res.data.khachhang;
-        const userInfor = { email, sodienthoai, tenhienthi };
-        localStorage.setItem('user', JSON.stringify(userInfor));
+        sessionStorage.setItem('jwtToken', res.data.token);
+        sessionStorage.setItem('refreshToken', res.data.refreshToken);
         this.setState({ isAuthenticated: true });
       })
       .catch((err) => {

@@ -1,7 +1,7 @@
 const SoTietKiem = require('../db/models/SoTietKiem.Model');
 
 module.exports.TaoSoTietKiem = async (stk) => {
-  const { sodienthoai, ngaymo, kyhan, sotiengui } = stk.ngaymo;
+  const { sodienthoai, ngaymo, kyhan, sotiengui } = stk;
   const ngaydong = ngaymo + kyhan;
   const ngay = ngaymo.getDate();
   const thang = ngaymo.getMonth();
@@ -17,28 +17,28 @@ module.exports.TaoSoTietKiem = async (stk) => {
   return newsotietkiem;
 };
 
-module.exports.findAll =async()=>{
+module.exports.findAll = async () => {
   let danhSachSoTietKiem = await SoTietKiem.findAll();
-  if(!danhSachSoTietKiem){
+  if (!danhSachSoTietKiem) {
     return {
-        error: 'Bảng danh sách sổ tiết kiệm rỗng',
-    }
-  return danhSachSoTietKiem;
+      error: 'Bảng danh sách sổ tiết kiệm rỗng',
+    };
+    return danhSachSoTietKiem;
   }
 };
 
-module.exports.findAllByPhone =async(khachhangSodienthoai)=>{
-  let danhSachSoTietKiem =await SoTietKiem.findAll({
-    where:{
+module.exports.findAllByPhone = async (khachhangSodienthoai) => {
+  let danhSachSoTietKiem = await SoTietKiem.findAll({
+    where: {
       khachhangSodienthoai,
-    }
+    },
   });
-  if (!danhSachSoTietKiem){
+  if (!danhSachSoTietKiem) {
     return {
       error: 'Số điện thoại không tồn tại',
     };
   }
   return danhSachSoTietKiem;
-}
+};
 
-module.exports.findBy
+module.exports.findBy;

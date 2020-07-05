@@ -6,23 +6,17 @@ import axios from 'axios';
 
 const checkAuth = () => {
   //return true;
-  const token = localStorage.getItem('jwtToken');
-  const refreshToken = localStorage.getItem('refreshToken');
+  const token = sessionStorage.getItem('jwtToken');
+  const refreshToken = sessionStorage.getItem('refreshToken');
   if (!token || !refreshToken) {
     return false;
   }
 
   try {
     const { exp } = decode(token);
-    // const decodetoken = decode(token);
-    // const decoderefreshtoken = decode(refreshToken);
-    // console.log(exp);
-    // console.log(new Date().getTime() / 1000);
-    // console.log(new Date(exp));
-    // console.log(new Date(new Date() / 1000));
 
     if (exp < new Date().getTime() / 1000) {
-      localStorage.clear();
+      sessionStorage.clear();
       return false;
     }
   } catch (e) {
@@ -46,7 +40,7 @@ export function AuthRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: '/auth/signup',
+              pathname: '/login',
             }}
           />
         )
@@ -74,19 +68,21 @@ export function UnAuthRoute({ children, ...rest }) {
   );
 }
 
-// export function renewAccessToken(token) {
-//   axios
-//     .post('http://localhost:9000/api/auth/renewacesstoken', {
-//       refreshToken: token,
-//     })
-//     .then((res) => {
-//       const token = JSON.stringify(res.data.accessToken);
-//       // console.log(token);
-//       localStorage.setItem('jwtToken', token);
-//       return true;
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       return false;
-//     });
-// }
+const renewAccessTokenURL =
+  'http://localhost:9000/' + 'api/auth/renewacesstoken';
+export function renewAccessToken(token) {
+  axios
+    .post(renewAccessTokenURL, {
+      refreshToken: token,
+    })
+    .then((res) => {
+      const token = JSON.stringify(res.data.accessToken);
+      // console.log(token);
+      sessionStorage.setItem('jwtToken', token);
+      return true;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+}

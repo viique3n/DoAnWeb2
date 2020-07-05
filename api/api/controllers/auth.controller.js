@@ -1,10 +1,44 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const khachHangService = require('../../services/khachang.service');
+const jwtService = require('../../services/jwt.service');
 
 dotenv.config();
 
 //#region  api
+let refreshTokens = [];
+//#region auth
+module.exports.renewAccessToken = (req, res) => {
+  const refreshToken = req.body.refreshToken;
+  // console.log(refreshTokens);
+  // console.log('renew access token');
+  // console.log(req);
+  if (refreshToken == null) {
+    console.log('refresh token null');
+    return res.status(401);
+  }
+  if (!refreshTokens.includes(refreshToken)) {
+    console.log('some error');
+    return res.status(403);
+  }
+  // console.log('verify token');
+
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    (err, khachhang) => {
+      if (err) {
+        return res.status(403);
+      }
+      const accessToken = jwtService.generateAccessToken(khachhang);
+      // console.log(accessToken);
+      return res.json({
+        accessToken,
+      });
+    }
+  );
+};
+
 module.exports.postSignUpAPI = async (req, res) => {
   // Kiểm tra số điện thoại hoặc email đã tồn tại hay chưa
   const khByPhone = await khachHangService.findByPhone(req.body.sodienthoai);
@@ -32,41 +66,43 @@ module.exports.postSignUpAPI = async (req, res) => {
     matkhau: req.body.matkhau,
   };
   const khachhang = await khachHangService.TaoTaiKhoan(thongtin);
-  console.log('khach hang');
-  console.log(khachhang);
-  const accessToken = jwt.sign(
-    { khachhang: khachhang },
-    process.env.ACCESS_TOKEN_SECRET
-  );
+
+  // Sau khi tạo tài khoản khách hàng sẽ được mở một tài khoản thanh toán mặc định
+  // console.log('khach hang');
+  // console.log(khachhang);
+  const accessToken = jwtService.generateAccessToken(khachhang);
+  const refreshToken = jwtService.generateRefreshToken(khachhang);
 
   return res.json({
-    khachhang: khachhang,
+    refreshToken,
     token: accessToken,
   });
 };
 
 module.exports.postLoginAPI = async (req, res) => {
-  const khachhang = await khachHangService.findByPhone(req.body.sodienthoai);
-  console.log(khachhang);
+  console.log('login here');
+  let khachhang = await khachHangService.findByPhone(req.body.sodienthoai);
+  khachhang = khachhang.dataValues;
   if (
     !khachhang ||
     !khachHangService.verifyPassword(req.body.matkhau, khachhang.matkhau)
   ) {
+    console.log('error');
     return res.status(404).json({
       error: true,
       message: 'Username or Password is Wrong',
     });
   }
-  const accessToken = jwt.sign(
-    { khachhang: khachhang },
-    process.env.ACCESS_TOKEN_SECRET
-  );
-  /* res.header('auth-token', accessToken).send(accessToken); */
-  console.log('accesstoken');
+
+  console.log('herre');
+
+  const accessToken = jwtService.generateAccessToken(khachhang);
+  const refreshToken = jwtService.generateRefreshToken(khachhang);
   console.log(accessToken);
+  console.log(refreshToken);
   res.json({
-    khachhang: khachhang,
     token: accessToken,
+    refreshToken,
   });
 };
 

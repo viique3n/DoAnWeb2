@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import jwt_decode from "jsonwebtoken";
+import jwt_decode from 'jwt-decode';
 import { Redirect } from 'react-router-dom';
 
 class ProfileCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false,
-      user: null,
+      isAuthenticated: true,
+      user: {},
     };
   }
   componentDidMount() {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
     const decoded = jwt_decode(token);
     debugger;
     const { email, sodienthoai, tenhienthi } = decoded;
@@ -24,17 +24,6 @@ class ProfileCard extends Component {
       user,
     });
     debugger;
-
-    // if (localStorage.getItem('jwtToken') && localStorage.getItem('user')) {
-    //   const userData = JSON.parse(localStorage.getItem('user'));
-    //   this.setState({
-    //     isAuthenticated: true,
-    //     user: userData,
-    //   });
-    // }
-    // if (this.state.isAuthenticated === false) {
-    //   return <Redirect to={{ pathname: '/' }} />;
-    // }
   }
   render() {
     if (this.state.isAuthenticated) {

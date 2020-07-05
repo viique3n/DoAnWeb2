@@ -80,35 +80,6 @@ module.exports.findAll = async (filter) => {
     }
   }
 
-  // else if (email && tinhtrang !== '') {
-  //   console.log('email va tinh trang');
-  //   dsKhachHang = await KhachHang.findAll({
-  //     where: {
-  //       tinhtrang,
-  //       email: {
-  //         [Op.like]: `%${email}`,
-  //       },
-  //     },
-  //   });
-  // } else if (tenhienthi && tinhtrang !== '') {
-  //   dsKhachHang = await KhachHang.findAll({
-  //     where: {
-  //       tinhtrang,
-  //       tenhienthi: {
-  //         [Op.like]: `%${tenhienthi}%`,
-  //       },
-  //     },
-  //   });
-  // } else if (sodienthoai && tinhtrang !== '') {
-  //   dsKhachHang = await KhachHang.findAll({
-  //     where: {
-  //       sodienthoai: {
-  //         [Op.like]: `%${sodienthoai}%`,
-  //       },
-  //       tinhtrang,
-  //     },
-  //   });
-  // }
   if (!dsKhachHang) {
     return { error: 'Không tồn tại khách hàng với thông tin theo yêu cầu' };
   }
@@ -119,9 +90,7 @@ module.exports.findAll = async (filter) => {
 module.exports.findByPhone = async (sodienthoai) => {
   const khachhang = await KhachHang.findOne({
     where: {
-      sodienthoai: {
-        [Op.like]: `%${sodienthoai}%`,
-      },
+      sodienthoai,
     },
   });
 
@@ -135,9 +104,7 @@ module.exports.findByPhone = async (sodienthoai) => {
 module.exports.findByEmail = async (email) => {
   const khachhang = await KhachHang.findOne({
     where: {
-      email: {
-        [Op.like]: `%${email}%`,
-      },
+      email,
     },
   });
 

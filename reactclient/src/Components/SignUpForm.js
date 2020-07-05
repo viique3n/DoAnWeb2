@@ -18,15 +18,16 @@ class SignupForm extends Component {
     e.preventDefault();
     const { sodienthoai, email, matkhau, tenhienthi } = this.props.values;
     const user = { sodienthoai, email, matkhau, tenhienthi };
+    const signupURL = 'http://localhost:9000/' + 'api/auth/signup';
     axios
-      .post('http://localhost:9000/api/auth/signup', user)
+      .post(signupURL, user)
       .then((res) => {
         debugger;
         console.log(res.data.token);
-        localStorage.setItem('jwtToken', res.data.token);
+        sessionStorage.setItem('jwtToken', res.data.token);
         const { email, sodienthoai, tenhienthi } = res.data.khachhang;
         const userInfor = { email, sodienthoai, tenhienthi };
-        localStorage.setItem('user', JSON.stringify(userInfor));
+        sessionStorage.setItem('user', JSON.stringify(userInfor));
         this.setState({ isAuthenticated: true });
       })
       .catch((err) => {
@@ -41,7 +42,7 @@ class SignupForm extends Component {
       return <Redirect to={{ pathname: '/' }} />;
     }
     return (
-      <div className="w3-container" style={{ width: '30%' }} >
+      <div className="w3-container" style={{ width: '30%' }}>
         <form className="loginform" onSubmit={this.handleSubmit}>
           <h1>Đăng ký tài khoản</h1>
           <label for="email">

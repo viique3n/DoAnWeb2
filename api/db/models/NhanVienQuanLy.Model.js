@@ -3,32 +3,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/sequelize');
 const Model = Sequelize.Model;
 
-class NhanVienQuanLy extends Model {
-  static async findById(id) {
-    return KhachHang.findByPk(id);
-  }
-  static async findByEmail(email) {
-    return KhachHang.findOne({
-      where: {
-        email,
-      },
-    });
-  }
-  static async findByPhone(phoneNumber) {
-    return KhachHang.findOne({
-      where: {
-        sodienthoai: phoneNumber,
-      },
-    });
-  }
-  static hashPassword(password) {
-    return bcrypt.hashSync(password, 10);
-  }
-
-  static verifyPassword(password, passwordHash) {
-    return bcrypt.compareSync(password, passwordHash);
-  }
-}
+class NhanVienQuanLy extends Model {}
 NhanVienQuanLy.init(
   {
     // attributes

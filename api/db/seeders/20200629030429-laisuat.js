@@ -921,17 +921,16 @@ const bangLaiSuat = [
     createdAt: now,
     updatedAt: now,
   },
+  {
+    id: 'khongkyhan',
+    donvitiente: 'VND',
+    kyhan: 'Không kỳ hạn',
+    muctien: 'Bất kỳ',
+    laisuat: '0.5',
+    createdAt: now,
+    updatedAt: now,
+  },
 ];
-
-// const KhongKyHan = {
-//   id: 'khongkyhan',
-//   donvitiente: 'VND',
-//   kyhan,
-//   muctien,
-//   laisuat: '0.4',
-//   createdAt: now,
-//   updatedAt: now,
-// };
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

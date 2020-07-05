@@ -4,16 +4,28 @@ import HomePage from './Pages/HomePage';
 import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
 import ProfilePage from './Pages/ProfilePage';
-
+import QuanLyTaiKhoanThanhToanPage from './Pages/QuanLyTaiKhoanThanhToanPage';
+import { AuthRoute, UnAuthRoute } from './Auth/AuthRoute';
 class App extends Component {
   render() {
     return (
       <div className="container">
         <Switch>
-          <Route exact path="/" component={HomePage}></Route>
-          <Route path="/login" component={LoginPage}></Route>
-          <Route path="/signup" component={SignUpPage}></Route>
-          <Route path="/profile" component={ProfilePage}></Route>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          <UnAuthRoute path="/login">
+            <LoginPage />
+          </UnAuthRoute>
+          <UnAuthRoute path="/signup">
+            <SignUpPage />
+          </UnAuthRoute>
+          <AuthRoute path="/profile">
+            <ProfilePage />
+          </AuthRoute>
+          <AuthRoute path="/tktt">
+            <QuanLyTaiKhoanThanhToanPage />
+          </AuthRoute>
         </Switch>
       </div>
     );

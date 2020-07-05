@@ -3,7 +3,7 @@ require('dotenv').config();
 
 module.exports.generateAccessToken = (data) => {
   const token = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: '5m',
+    expiresIn: '10m',
   });
   return token;
 };

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { NavLink, Link } from "react-router-dom";
-import decode from "jwt-decode";
-import "./css/header.css";
+import React, { Component } from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import decode from 'jwt-decode';
+import './css/header.css';
 
 class Header extends Component {
   constructor(props) {
@@ -14,8 +14,8 @@ class Header extends Component {
   }
 
   isLogin() {
-    const token = sessionStorage.getItem("jwtToken");
-    const refreshToken = sessionStorage.getItem("refreshToken");
+    const token = sessionStorage.getItem('jwtToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
     if (!token || !refreshToken) {
       return false;
     }
@@ -50,29 +50,29 @@ class Header extends Component {
     if (this.state.isAuthentiacted) {
       const userData = this.state.userData;
       return (
-        <ul id='menu'>
+        <ul id="menu">
           <li>
-            <NavLink className='navLink' to='/'>
+            <NavLink className="navLink" to="/">
               Trang chủ
             </NavLink>
           </li>
           <li>
-            <NavLink className='navLink' to='/admin/profile'>
+            <NavLink className="navLink" to="/admin/profile">
               {userData.tenhienthi}
             </NavLink>
           </li>
           <li>
-            <NavLink className='navLink' to='/admin/getdanhsachkhachhang'>
+            <NavLink className="navLink" to="/admin/getdanhsachkhachhang">
               Danh sách khách hàng
             </NavLink>
           </li>
           <li>
-            <NavLink className='navLink' to='/admin/capnhattaikhoan'>
+            <NavLink className="navLink" to="/admin/capnhattaikhoan">
               Cập nhật danh sách
             </NavLink>
           </li>
           <li>
-            <NavLink className='navLink' to='/' onClick={this.logout}>
+            <NavLink className="navLink" to="/" onClick={this.logout}>
               Đăng xuất
             </NavLink>
           </li>
@@ -80,14 +80,14 @@ class Header extends Component {
       );
     }
     return (
-      <ul id='menu'>
+      <ul id="menu">
         <li>
-          <NavLink className='navLink' to='/'>
+          <NavLink className="navLink" to="/">
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink className='navLink' to='/admin/login'>
+          <NavLink className="navLink" to="/admin/login">
             Đăng nhập
           </NavLink>
         </li>

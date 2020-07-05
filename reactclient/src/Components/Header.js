@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import decode from 'jwt-decode';
 import './css/header.css';
 
 class Header extends Component {
@@ -12,16 +13,33 @@ class Header extends Component {
     this.logout = this.logout.bind(this);
   }
   isLogin() {
-    if (localStorage.getItem('jwtToken')) {
-      this.setState({
-        isAuthentiacted: true,
-        userData: localStorage.getItem('user'),
-      });
+    const token = sessionStorage.getItem('jwtToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    if (!token || !refreshToken) {
+      return false;
     }
+    try {
+      const tet = decode(token);
+      const { exp } = decode(token);
+      if (exp < new Date().getTime() / 1000) {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+
+    this.setState(
+      {
+        isAuthentiacted: true,
+        userData: decode(token),
+      },
+      (err) => {
+        // console.log(err);
+      }
+    );
   }
   logout() {
-    debugger;
-    localStorage.clear();
+    sessionStorage.clear();
     this.setState({
       isAuthentiacted: false,
       userData: null,
@@ -30,44 +48,51 @@ class Header extends Component {
 
   renderLoginLink() {
     if (this.state.isAuthentiacted) {
-      const userData = JSON.parse(this.state.userData);
+      const userData = this.state.userData;
       const { tenhienthi } = userData;
+      debugger;
+
       console.log(tenhienthi);
       return (
-        <ul id='menu'>
+        <ul id="menu">
           <li>
-            <NavLink className='navLink' to='/'>
-              Home
+            <NavLink className="navLink" to="/">
+              Trang chủ
             </NavLink>
           </li>
           <li>
-            <NavLink className='navLink' to='/profile'>
+            <NavLink className="navLink" to="/profile">
               {tenhienthi}
             </NavLink>
           </li>
           <li>
-            <NavLink className='navLink' to='/' onClick={this.logout}>
-              LogOut
+            <NavLink className="navLink" to="tktt">
+              Quản lý tài khoản thanh toán
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="navLink" to="/" onClick={this.logout}>
+              Đăng xuất
             </NavLink>
           </li>
         </ul>
       );
     }
     return (
-      <ul id='menu'>
+      <ul id="menu">
         <li>
-          <NavLink className='navLink' to='/'>
-            Home
+          <NavLink className="navLink" to="/">
+            Trang chủ
           </NavLink>
         </li>
         <li>
-          <NavLink className='navLink' to='/login'>
-            Log in
+          <NavLink className="navLink" to="/login">
+            Đăng nhập
           </NavLink>
         </li>
         <li>
-          <NavLink className='navLink' to='signup' onClick={this.props.logout}>
-            Sign up
+          <NavLink className="navLink" to="signup" onClick={this.props.logout}>
+            Đăng ký tài khoản
           </NavLink>
         </li>
       </ul>
