@@ -5,6 +5,7 @@ import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
 import ProfilePage from './Pages/ProfilePage';
 import QuanLyTaiKhoanThanhToanPage from './Pages/QuanLyTaiKhoanThanhToanPage';
+import ChuyenKhoanPage from './Pages/ChuyenKhoanPage';
 import { AuthRoute, UnAuthRoute } from './Auth/AuthRoute';
 class App extends Component {
   render() {
@@ -25,6 +26,9 @@ class App extends Component {
           </AuthRoute>
           <AuthRoute path="/tktt">
             <QuanLyTaiKhoanThanhToanPage />
+          </AuthRoute>
+          <AuthRoute path="/chuyenkhoan">
+            <ChuyenKhoanPage />
           </AuthRoute>
         </Switch>
       </div>

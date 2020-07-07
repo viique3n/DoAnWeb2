@@ -68,3 +68,17 @@ module.exports.putcapNhatThongTinTaiKhoan = async (req, res) => {
 
   return res.json({ capnhat });
 };
+
+module.exports.getDanhSachTaiKhoanThanhToan = async (req, res) => {
+  let { khachhangSodienthoai } = req.query;
+  console.log(req.query);
+  console.log(typeof req.query);
+  // khachhangSodienthoai = JSON.parse(khachhangSodienthoai);
+  const dstk = await taiKhoanService.findAllByPhone(khachhangSodienthoai);
+  if (dstk.error) {
+    return res.status(404).json({
+      error: dstk.error,
+    });
+  }
+  return res.status(200).json(dstk);
+};

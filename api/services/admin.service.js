@@ -64,8 +64,8 @@ module.exports.getThongTinKhachHang = async (filter) => {
   return dsKhachHang;
 };
 
-module.exports.CapNhatTinhTrangKhachHang = async (filter) => {
-  const capnhat = khachHangService.CapNhatTinhTrang(filter);
+module.exports.capNhatTinhTrangKhachHang = async (filter) => {
+  const capnhat = khachHangService.capNhatTinhTrang(filter);
   if (capnhat.error) {
     const { error } = capnhat;
     console.log(error);

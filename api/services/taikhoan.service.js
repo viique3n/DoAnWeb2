@@ -1,6 +1,17 @@
 const TaiKhoanThanhToan = require('../db/models/TaiKhoanThanhToan.Model');
 
-module.exports.TaoTaiKhoan = async (taikhoan) => {
+module.exports.generateMaTaiKhoan = (sodienthoai) => {
+  const now = new Date();
+  const d = ('0' + now.getDate()).slice(-2);
+  const m = ('0' + now.getMonth()).slice(-2);
+  const y = now.getFullYear().toString().substr(-2);
+  const hs = ('0' + now.getHours()).slice(-2);
+  const mn = ('0' + now.getMinutes()).slice(-2);
+
+  return '' + sodienthoai + d + m + y + hs + mn;
+};
+
+module.exports.taoTaiKhoan = async (taikhoan) => {
   const {
     mataikhoan,
     donvitiente,
@@ -45,6 +56,8 @@ module.exports.findAllByPhone = async (khachhangSodienthoai) => {
       khachhangSodienthoai,
     },
   });
+  console.log(`danh sach tai khoan cua so dien thoai: ${khachhangSodienthoai}`);
+  console.log(danhSachTaiKhoan);
   if (!danhSachTaiKhoan) {
     return {
       error: 'Số điện thoại không tồn tại ',
@@ -52,6 +65,7 @@ module.exports.findAllByPhone = async (khachhangSodienthoai) => {
   }
   return danhSachTaiKhoan;
 };
+
 module.exports.findById = async (mataikhoan) => {
   let taiKhoan = await TaiKhoanThanhToan.findOne({
     where: {
@@ -64,4 +78,26 @@ module.exports.findById = async (mataikhoan) => {
     };
   }
   return taiKhoan;
+};
+
+module.exports.capNhatSoDu = async (thongtin) => {
+  console.log('Cập nhật số dư');
+  const { mataikhoan, sotienchuyenkhoan } = thongtin;
+  let taiKhoan = await TaiKhoanThanhToan.findOne({
+    where: {
+      mataikhoan,
+    },
+  });
+  if (!taiKhoan) {
+    return {
+      error: 'tai khoan khong ton tai',
+    };
+  }
+  console.log(taiKhoan.dataValues);
+
+  console.log(`typeof sotienchuyenkhoan: ${typeof sotienchuyenkhoan}`);
+  console.log(`typeof sodu: ${typeof taiKhoan.sodu}`);
+  taiKhoan.sodu = Number(taiKhoan.sodu) + sotienchuyenkhoan;
+  const result = await taiKhoan.save();
+  return result;
 };

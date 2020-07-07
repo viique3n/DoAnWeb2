@@ -22,12 +22,8 @@ class SignupForm extends Component {
     axios
       .post(signupURL, user)
       .then((res) => {
-        debugger;
-        console.log(res.data.token);
         sessionStorage.setItem('jwtToken', res.data.token);
-        const { email, sodienthoai, tenhienthi } = res.data.khachhang;
-        const userInfor = { email, sodienthoai, tenhienthi };
-        sessionStorage.setItem('user', JSON.stringify(userInfor));
+        sessionStorage.setItem('refreshToken', res.data.refreshToken);
         this.setState({ isAuthenticated: true });
       })
       .catch((err) => {

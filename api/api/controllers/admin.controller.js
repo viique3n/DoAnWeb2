@@ -84,8 +84,8 @@ module.exports.getThongTinKhachHang = async (req, res) => {
 };
 
 module.exports.putCapNhatTinhTrangKhachHang = async (req, res) => {
-  console.log('put cap nhat tinh trang khach hang controller')
-  console.log(req.body)
+  console.log('put cap nhat tinh trang khach hang controller');
+  console.log(req.body);
   const { email, sodienthoai, tinhtrang } = req.body;
   const filter = {
     email,
@@ -93,7 +93,7 @@ module.exports.putCapNhatTinhTrangKhachHang = async (req, res) => {
     tinhtrang,
   };
 
-  const capnhat = await adminService.CapNhatTinhTrangKhachHang(filter);
+  const capnhat = await adminService.capNhatTinhTrangKhachHang(filter);
   console.log('Trang thai cap nhat');
   console.log(capnhat);
 

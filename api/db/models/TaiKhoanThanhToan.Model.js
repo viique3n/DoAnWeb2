@@ -23,7 +23,7 @@ TaiKhoanThanhToan.init(
       allowNull: false,
     },
     tinhtrang: {
-      // Chưa xác thực - Hoạt động bình thường - Bị khóa - Đã hủy
+      // Chưa kích hoạt - Hoạt động bình thường - Bị khóa - Đã hủy
       type: Sequelize.STRING,
       allowNull: false,
     },

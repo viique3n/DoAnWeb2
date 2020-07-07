@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../config/sequelize');
 const Model = Sequelize.Model;
+const LoaiChuyenKhoan = require('./LoaiChuyenKhoan.Model');
 
-class ChiTietChuyenKhoan extends Model {}
-ChiTietChuyenKhoan.init(
+class ChuyenKhoan extends Model {}
+ChuyenKhoan.init(
   {
     id: {
       // Một chi tiết chuyển khoản có định danh là kết hợp của 3 thuộc tính
@@ -33,8 +34,9 @@ ChiTietChuyenKhoan.init(
   },
   {
     sequelize: db,
-    modelName: 'chitietchuyenkhoan',
+    modelName: 'chuyenkhoan',
   }
 );
 
-module.exports = ChiTietChuyenKhoan;
+ChuyenKhoan.belongsTo(LoaiChuyenKhoan);
+module.exports = ChuyenKhoan;

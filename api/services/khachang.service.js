@@ -83,7 +83,7 @@ module.exports.findAll = async (filter) => {
   if (!dsKhachHang) {
     return { error: 'Không tồn tại khách hàng với thông tin theo yêu cầu' };
   }
-  // console.log(dsKhachHang);
+  console.log(dsKhachHang);
   return dsKhachHang;
 };
 
@@ -123,7 +123,7 @@ module.exports.verifyPassword = (password, passwordHash) => {
   return bcrypt.compareSync(password, passwordHash);
 };
 
-module.exports.TaoTaiKhoan = async (khachhang) => {
+module.exports.taoTaiKhoan = async (khachhang) => {
   const newkhachhang = await KhachHang.create({
     sodienthoai: khachhang.sodienthoai,
     email: khachhang.email,
@@ -136,7 +136,7 @@ module.exports.TaoTaiKhoan = async (khachhang) => {
 };
 //#endregion
 
-module.exports.CapNhatMatKhau = async (filter) => {
+module.exports.capNhatMatKhau = async (filter) => {
   const { sodienthoai, email, matkhaumoi } = filter;
   let khachhang;
   if (!sodienthoai && !email) {
@@ -169,7 +169,7 @@ module.exports.CapNhatMatKhau = async (filter) => {
   return result;
 };
 
-module.exports.CapNhatTinhTrang = async (filter) => {
+module.exports.capNhatTinhTrang = async (filter) => {
   const { sodienthoai, email, tinhtrang } = filter;
   let khachhang;
   if (!sodienthoai && !email) {
@@ -201,7 +201,7 @@ module.exports.CapNhatTinhTrang = async (filter) => {
   return result;
 };
 
-module.exports.CapNhatTenHienThi = async (filter) => {
+module.exports.capNhatTenHienThi = async (filter) => {
   const { sodienthoai, email, tenhienthi } = filter;
   let khachhang;
   if (!sodienthoai && !email) {

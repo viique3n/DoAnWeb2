@@ -1,11 +1,8 @@
 const { Router } = require('express');
-const controller = require('../controllers/taikhoan.controller');
+const controller = require('../controllers/khachhang.controller');
 const router = new Router();
 
-router.post('/taotaikhoanthanhtoan', controller.postTaoTaiKhoanThanhToan);
-router.post('/mosotietkiem', controller.postMoSoTietKiem);
-router.get(
-  '/getdanhsachtaikhoanthanhtoan',
-  controller.getDanhSachTaiKhoanThanhToan
-);
+router.post('/login', controller.postLoginAPI);
+router.post('/signup', controller.postSignUpAPI);
+
 module.exports = router;

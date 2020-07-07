@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/sequelize');
 const TaiKhoanThanhToan = require('./TaiKhoanThanhToan.Model');
 const SoTietKiem = require('./SoTietKiem.Model');
+const DoiTuongKhachHang = require('./DoiTuongKhachHang.Model');
 const Model = Sequelize.Model;
 
 class KhachHang extends Model {}
@@ -31,6 +32,7 @@ KhachHang.init(
       // Chưa xác thực - Đã xác thực - Đã xóa
       type: Sequelize.STRING,
       allowNull: false,
+      defaultValue: 'Chưa xác thực',
     },
     token: {
       type: Sequelize.STRING,
@@ -42,6 +44,7 @@ KhachHang.init(
   }
 );
 
+KhachHang.belongsTo(DoiTuongKhachHang);
 KhachHang.hasMany(SoTietKiem);
 SoTietKiem.belongsTo(KhachHang);
 KhachHang.hasMany(TaiKhoanThanhToan);

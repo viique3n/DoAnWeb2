@@ -13,21 +13,27 @@ class LoginForm extends Component {
   }
 
   handleSubmit(e) {
-    console.log(this.props);
     e.preventDefault();
     const { sodienthoai, matkhau } = this.props.values;
     const user = { sodienthoai, matkhau };
+    // const loginURL = 'https://ibnodeserver.herokuapp.com/' + 'api/auth/login';
     const loginURL = 'http://localhost:9000/' + 'api/auth/login';
+    // const headers = {
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'JWT fefege...',
+    // };
     debugger;
     axios
       .post(loginURL, user)
       .then((res) => {
+        debugger;
         sessionStorage.setItem('jwtToken', res.data.token);
         sessionStorage.setItem('refreshToken', res.data.refreshToken);
         this.setState({ isAuthenticated: true });
       })
       .catch((err) => {
-        console.log(err);
+        debugger;
+        // console.log(err);
       });
   }
 

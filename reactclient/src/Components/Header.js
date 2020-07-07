@@ -67,10 +67,15 @@ class Header extends Component {
           </li>
           <li>
             <NavLink className="navLink" to="tktt">
-              Quản lý tài khoản thanh toán
+              Tài khoản
             </NavLink>
           </li>
           <li>
+            <li>
+              <NavLink className="navLink" to="/chuyenkhoan">
+                Chuyển khoản
+              </NavLink>
+            </li>
             <NavLink className="navLink" to="/" onClick={this.logout}>
               Đăng xuất
             </NavLink>

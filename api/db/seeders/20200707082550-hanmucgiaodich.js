@@ -1,9 +1,8 @@
 'use strict';
-const { nhanVienQuanLy } = require('../dataset');
-
+const { hanMucGiaoDich } = require('../dataset');
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('nhanvienquanlies', nhanVienQuanLy);
+    return queryInterface.bulkInsert('hanmucgiaodiches', hanMucGiaoDich);
   },
 
   down: (queryInterface, Sequelize) => {

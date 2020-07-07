@@ -21,13 +21,18 @@ LaiSuat.init(
       // Lãi suất được nhận không vượt quá 5.5%/ năm đối với kỳ hạn dưới 6 tháng
       type: Sequelize.STRING,
     },
-    muctien: {
+    muctientoithieu: {
+      // Mức tiền
       // Dưới 300 triệu
       // 300 triệu - 1 tỷ
       // 1 tỷ - 5 tỷ
       // 5 tỷ - 10 tỷ
       // Trên 10 tỷ
-      type: Sequelize.STRING,
+      type: Sequelize.DECIMAL,
+      allowNull: false,
+    },
+    muctientoida: {
+      type: Sequelize.DECIMAL,
       allowNull: false,
     },
     laisuat: {

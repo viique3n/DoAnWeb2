@@ -1,21 +1,28 @@
 //#region local variable
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
 //var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var cors = require('cors');
+const logger = require('morgan');
+const cors = require('cors');
 
 const indexRouter = require('./api/routes/index');
-const authApiRouter = require('./api/routes/auth.route');
+const khachhangApiRouter = require('./api/routes/khachhang.route');
 const adminApiRouter = require('./api/routes/admin.route');
-const authRouter = require('./api/routes/auth.route');
 const taikhoanRouter = require('./api/routes/taikhoan.route');
-var app = express();
+const chuyenKhoanRouter = require('./api/routes/chuyenkhoan.route');
+const { chuyenKhoanLienNganHang } = require('./services/chuyenkhoan.service');
+const app = express();
 //#endregion
 
 //#region express setup
 
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000/',
+//     credentials: true,
+//   })
+// );
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -30,13 +37,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //#region api
 app.use('/api/admin/', adminApiRouter);
-app.use('/api/auth/', authApiRouter);
+app.use('/api/auth/', khachhangApiRouter);
 app.use('/api/taikhoan/', taikhoanRouter);
+app.use('/api/chuyenkhoan/', chuyenKhoanRouter);
 app.use('/', indexRouter);
 //#endregion
 
 //#region route
-app.use('/', authRouter);
 //#endregion
 
 //#endregion
@@ -60,3 +67,7 @@ app.use(function (err, req, res, next) {
 
 //#endregion
 module.exports = app;
+// "scripts": {
+//   "start": "node ./bin/www",
+//   "start:dev": "nodemon --inspect ./bin/www"
+// },

@@ -23,7 +23,6 @@ class ProfileCard extends Component {
     this.setState({
       user,
     });
-    debugger;
   }
   render() {
     if (this.state.isAuthenticated) {
