@@ -97,7 +97,7 @@ module.exports.capNhatSoDu = async (thongtin) => {
 
   console.log(`typeof sotienchuyenkhoan: ${typeof sotienchuyenkhoan}`);
   console.log(`typeof sodu: ${typeof taiKhoan.sodu}`);
-  taiKhoan.sodu = Number(taiKhoan.sodu) + sotienchuyenkhoan;
+  taiKhoan.sodu = Number(taiKhoan.sodu) + Number(sotienchuyenkhoan);
   const result = await taiKhoan.save();
   return result;
 };

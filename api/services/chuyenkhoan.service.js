@@ -155,7 +155,10 @@ function generateMaChuyenKhoan(mataikhoanchuyenkhoan, mataikhoanthuhuong) {
   const y = now.getFullYear().toString().substr(-2);
   const hs = ('0' + now.getHours()).slice(-2);
   const mn = ('0' + now.getMinutes()).slice(-2);
-  return '' + mataikhoanchuyenkhoan + mataikhoanthuhuong + d + m + y + hs + mn;
+  const sc = ('0' + now.getSeconds()).slice(-2);
+  return (
+    '' + mataikhoanchuyenkhoan + mataikhoanthuhuong + d + m + y + hs + mn + sc
+  );
 }
 
 module.exports.chuyenKhoanNoiBo = async (thongtinchuyenkhoan) => {
