@@ -55,7 +55,11 @@ async function kiemTraChuyenKhoanHopLe(
   }
 
   // 2: Kiểm tra số tiền chuyển khoản có đủ hay không
-  if (taikhoanchuyenkhoan.sodu < thongtinchuyenkhoan.sotienchuyenkhoan) {
+  if (+taikhoanchuyenkhoan.sodu < +thongtinchuyenkhoan.sotienchuyenkhoan) {
+    console.log(`Số dư tài khoản chuyển khoản ${taikhoanchuyenkhoan.sodu}`);
+    console.log(
+      `Số tiền chuyển khoản ${thongtinchuyenkhoan.sotienchuyenkhoan}`
+    );
     console.log('Số dư tài khoản chuyển khoản không đủ');
     errors.push({
       sodutaikhoanchuyenkhoan: 'Số dư không đủ',
@@ -118,15 +122,15 @@ async function kiemTraChuyenKhoanHopLe(
   // Tính tổng số tiền chuyển khoản trong ngày của tài khoản chuyển khoản
   let tongtienchuyenkhoan = 0;
   thongtinchuyenkhoanTKTT.map(
-    (ck) => (tongtienchuyenkhoan += ck.sotienchuyenkhoan)
+    (ck) => (tongtienchuyenkhoan = +tongtienchuyenkhoan + +ck.sotienchuyenkhoan)
   );
 
   if (hanMucId != 11 && hanMucId != 12) {
     console.log(`Hạn mức id here: ${hanMucId}`);
     // Số tiền chuyển khoản vượt hạn mức tối đa trên ngày
     if (
-      thongtinchuyenkhoan.sotienchuyenkhoan + tongtienchuyenkhoan >
-      hanmuc.hanmuctoidatrenngay
+      +thongtinchuyenkhoan.sotienchuyenkhoan + +tongtienchuyenkhoan >
+      +hanmuc.hanmuctoidatrenngay
     ) {
       errors.push({
         hanmuctrenngayquaquydinh:
@@ -136,7 +140,8 @@ async function kiemTraChuyenKhoanHopLe(
 
     // Số tiền chuyển khoản vượt hạn mức tối đa trên một giao dịch
     if (
-      thongtinchuyenkhoan.sotienchuyenkhoan > hanmuc.hanmuctoithieutrengiaodich
+      +thongtinchuyenkhoan.sotienchuyenkhoan >
+      +hanmuc.hanmuctoithieutrengiaodich
     ) {
       errors.push({
         hanmuctrengiaodichquaquydinh:

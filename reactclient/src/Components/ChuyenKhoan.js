@@ -29,6 +29,7 @@ class ChuyenKhoan extends Component {
     );
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  //#region function
   getDanhSachTaiKhoanThanhToan(khachhangSodienthoai) {
     const token = sessionStorage.getItem('refreshToken');
     const isValidToken = renewAccessToken(token);
@@ -56,7 +57,13 @@ class ChuyenKhoan extends Component {
         console.log(err);
       });
   }
+  //#endregion
+
+  //#region EventHandle
   handleSelectLoaiChuyenKhoan(event) {
+    debugger;
+    const test = this.state;
+    const test2 = this.props.values;
     event.preventDefault();
     const loaichuyenkhoan = event.target.value;
     if (loaichuyenkhoan === 'DEFAULT') {
@@ -70,6 +77,7 @@ class ChuyenKhoan extends Component {
         loaichuyenkhoanId: 2,
         thongtinloaichuyenkhoan:
           'Thực hiện việc chuyển khoản tới các tài khoản trong cùng ngân hàng',
+        mataikhoanthuhuong: '',
       });
     } else if (loaichuyenkhoan === 'chuyenkhoan3') {
       this.setState({
@@ -98,12 +106,22 @@ class ChuyenKhoan extends Component {
   }
   haldeChangeSoTienChuyenKhoan(event) {
     event.preventDefault();
+    const sotienchuyenkhoan = event.target.value;
+    this.setState({
+      sotienchuyenkhoan,
+    });
   }
   handleChangeNoiDungChuyenKhoan(event) {
     event.preventDefault();
+    const noidung = event.target.value;
+    this.setState({
+      noidung,
+    });
   }
   handleSubmit(event) {
     event.preventDefault();
+    const test = this.state;
+    debugger;
 
     if (this.state.loaichuyenkhoanId == 1) {
       const {
@@ -133,11 +151,14 @@ class ChuyenKhoan extends Component {
             const decoded = jwt_decode(token);
             const { sodienthoai } = decoded;
             this.getDanhSachTaiKhoanThanhToan(sodienthoai);
-          } else if (res.data.errors) {
-            this.setState({
-              trangthaichuyenkhoan: res.data.errors,
-            });
           }
+        })
+        .catch((err) => {
+          this.setState({
+            trangthaichuyenkhoan: 'Chuyển khoản thất bại',
+          });
+          debugger;
+          console.log(err);
         });
       debugger;
     } else if (this.state.loaichuyenkhoanId == 2) {
@@ -145,6 +166,9 @@ class ChuyenKhoan extends Component {
       const { mataikhoanthuhuong } = this.props.values;
     }
   }
+  //#endregion
+
+  //#region Render Form
   renderKhungChuyenKhoan() {
     const { loaichuyenkhoanId } = this.state;
     if (loaichuyenkhoanId === 1) {
@@ -164,6 +188,7 @@ class ChuyenKhoan extends Component {
               ))}
             </select>
             <br />
+
             <label>Chọn tài khoản thụ hưởng</label>
             <select
               defaultValue={'DEFAULT'}
@@ -201,7 +226,9 @@ class ChuyenKhoan extends Component {
             <label>Chọn tài khoản gốc</label>
             <select defaultValue={'DEFAULT'} name="mataikhoanchuyenkhoan">
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
-                <option>{taikhoan.mataikhoan}</option>
+                <option>
+                  {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
+                </option>
               ))}
             </select>
             <br />
@@ -273,6 +300,9 @@ class ChuyenKhoan extends Component {
       );
     }
   }
+  //#endregion
+
+  //#region cpLifeCircle
   componentDidMount() {
     const token = sessionStorage.getItem('jwtToken');
     const decoded = jwt_decode(token);
@@ -280,6 +310,10 @@ class ChuyenKhoan extends Component {
     this.getDanhSachTaiKhoanThanhToan(sodienthoai);
   }
   componentDidUpdate() {}
+
+  //#endregion
+
+  //#region render
   render() {
     return (
       <>
@@ -304,5 +338,6 @@ class ChuyenKhoan extends Component {
       </>
     );
   }
+  //#endregion
 }
 export default ChuyenKhoan;
