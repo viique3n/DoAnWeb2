@@ -9,12 +9,22 @@ async function getThongTinChuyenKhoanCuaTaiKhoanTaiThoiGian(
   mataikhoanchuyenkhoan,
   thoigian
 ) {
+  const t = new Date(thoigian);
+  console.log(t);
+  const dmy = t.getDate() + '-' + (+t.getMonth() + +1) + '-' + t.getFullYear();
+  console.log(dmy);
   const thongtinchuyenkhoan = await ChuyenKhoan.findAll({
     where: {
+      thoigiandmy: dmy,
       mataikhoanchuyenkhoan,
-      thoigian,
     },
   });
+
+  // console.log('------------ DMY--------------');
+  // thongtinchuyenkhoan.map((chuyenkhoan) => {
+  //   console.log(chuyenkhoan.dataValues);
+  // });
+
   return thongtinchuyenkhoan;
 }
 
@@ -117,7 +127,10 @@ async function kiemTraChuyenKhoanHopLe(
     thongtinchuyenkhoan.thoigian
   );
   console.log('Thông tin chuyển khoản của tài khoản trong ngày');
-  console.log(thongtinchuyenkhoanTKTT);
+  // console.log(thongtinchuyenkhoanTKTT);
+  thongtinchuyenkhoanTKTT.map((ck) => {
+    console.log(ck.dataValues);
+  });
 
   // Tính tổng số tiền chuyển khoản trong ngày của tài khoản chuyển khoản
   let tongtienchuyenkhoan = 0;
@@ -240,6 +253,8 @@ module.exports.chuyenKhoanNoiBo = async (thongtinchuyenkhoan) => {
   console.log('Cập nhật tài khoản thụ hưởng thành công');
 
   const now = new Date();
+  const dmy =
+    now.getDate() + '-' + (+now.getMonth() + +1) + '-' + now.getFullYear();
   const maChuyenKhoan = generateMaChuyenKhoan(
     mataikhoanchuyenkhoan,
     mataikhoanthuhuong
@@ -249,8 +264,16 @@ module.exports.chuyenKhoanNoiBo = async (thongtinchuyenkhoan) => {
     mataikhoanchuyenkhoan,
     mataikhoanthuhuong,
     sotienchuyenkhoan,
+    sodutaikhoanchuyenkhoantruocgiaodich:
+      capNhatTaiKhoanChuyenKhoan.sodutruocgiaodich,
+    sodutaikhoanchuyenkhoansaugiaodich:
+      capNhatTaiKhoanChuyenKhoan.sodusaugiaodich,
+    sodutaikhoanthuhuongtruocgiaodich:
+      capNhatTaiKhoanThuHuong.sodutruocgiaodich,
+    sodutaikhoanthuhuongsaugiaodich: capNhatTaiKhoanThuHuong.sodusaugiaodich,
     noidung,
     thoigian: now,
+    thoigiandmy: dmy,
     loaichuyenkhoanId,
   });
   if (!taoChuyenKhoan) {

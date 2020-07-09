@@ -10,24 +10,24 @@ import { AuthRoute, UnAuthRoute } from './Auth/AuthRoute';
 class App extends Component {
   render() {
     return (
-      <div className='container-fluid'>
+      <div>
         <Switch>
-          <Route exact path='/'>
+          <Route exact path="/">
             <HomePage />
           </Route>
-          <UnAuthRoute path='/login'>
+          <UnAuthRoute path="/login">
             <LoginPage />
           </UnAuthRoute>
-          <UnAuthRoute path='/signup'>
+          <UnAuthRoute path="/signup">
             <SignUpPage />
           </UnAuthRoute>
-          <AuthRoute path='/profile'>
+          <AuthRoute path="/profile">
             <ProfilePage />
           </AuthRoute>
-          <AuthRoute path='/tktt'>
+          <AuthRoute path="/tktt">
             <QuanLyTaiKhoanThanhToanPage />
           </AuthRoute>
-          <AuthRoute path='/chuyenkhoan'>
+          <AuthRoute path="/chuyenkhoan">
             <ChuyenKhoanPage />
           </AuthRoute>
         </Switch>

@@ -25,11 +25,31 @@ ChuyenKhoan.init(
       type: Sequelize.DECIMAL,
       allowNull: false,
     },
+    sodutaikhoanchuyenkhoantruocgiaodich: {
+      type: Sequelize.DECIMAL,
+      allowNull: false,
+    },
+    sodutaikhoanchuyenkhoansaugiaodich: {
+      type: Sequelize.DECIMAL,
+      allowNull: false,
+    },
+    sodutaikhoanthuhuongtruocgiaodich: {
+      type: Sequelize.DECIMAL,
+      allowNull: false,
+    },
+    sodutaikhoanthuhuongsaugiaodich: {
+      type: Sequelize.DECIMAL,
+      allowNull: false,
+    },
     noidung: {
       type: Sequelize.TEXT,
     },
     thoigian: {
       type: Sequelize.DATE,
+    },
+    thoigiandmy: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
   },
   {

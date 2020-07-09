@@ -71,8 +71,8 @@ module.exports.putcapNhatThongTinTaiKhoan = async (req, res) => {
 
 module.exports.getDanhSachTaiKhoanThanhToan = async (req, res) => {
   let { khachhangSodienthoai } = req.query;
-  console.log(req.query);
-  console.log(typeof req.query);
+  // console.log(req.query);
+  // console.log(typeof req.query);
   // khachhangSodienthoai = JSON.parse(khachhangSodienthoai);
   const dstk = await taiKhoanService.findAllByPhone(khachhangSodienthoai);
   if (dstk.error) {

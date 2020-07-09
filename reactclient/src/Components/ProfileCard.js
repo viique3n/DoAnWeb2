@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import jwt_decode from 'jwt-decode';
 import { Redirect } from 'react-router-dom';
+import { Card, Container } from 'react-bootstrap';
 
 class ProfileCard extends Component {
   constructor(props) {
@@ -28,11 +29,24 @@ class ProfileCard extends Component {
     if (this.state.isAuthenticated) {
       const { email, sodienthoai, tenhienthi } = this.state.user;
       return (
-        <ul>
-          <li>Email: {email}</li>
-          <li>Số điện thoại: {sodienthoai}</li>
-          <li>Tên hiển thị: {tenhienthi}</li>
-        </ul>
+        <Container>
+          <br />
+          <Card style={{ width: '20rem' }}>
+            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Body>
+              <Card.Title>Thông tin khách hàng</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                Email: {email}
+              </Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">
+                Số điện thoại: {sodienthoai}
+              </Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">
+                Tên khách hàng: {tenhienthi}
+              </Card.Subtitle>
+            </Card.Body>
+          </Card>
+        </Container>
       );
     }
     return <div></div>;

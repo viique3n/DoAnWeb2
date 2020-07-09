@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { renewAccessToken } from '../Auth/AuthRoute';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Col, Container, Row } from 'react-bootstrap';
 
 class ChuyenKhoan extends Component {
   constructor(props) {
@@ -47,13 +47,21 @@ class ChuyenKhoan extends Component {
     //#endregion
   }
   //#region function
-  getDanhSachTaiKhoanThanhToan() {
+  renewAcess() {
     let token = sessionStorage.getItem('refreshToken');
     const isValidToken = renewAccessToken(token);
     if (isValidToken === false) {
+      return false;
+    }
+    return true;
+  }
+  getDanhSachTaiKhoanThanhToan() {
+    const renew = this.renewAcess;
+    if (renew === false) {
       return;
     }
     debugger;
+    let token = sessionStorage.getItem('refreshToken');
     token = sessionStorage.getItem('jwtToken');
     const decoded = jwt_decode(token);
     const { sodienthoai } = decoded;
@@ -79,6 +87,11 @@ class ChuyenKhoan extends Component {
     const test = this.state;
     const test2 = this.props.values;
     event.preventDefault();
+    const renew = this.renewAcess();
+    if (renew === false) {
+      return;
+    }
+
     this.getDanhSachTaiKhoanThanhToan();
     const loaichuyenkhoan = event.target.value;
     if (loaichuyenkhoan === 'DEFAULT') {
@@ -110,6 +123,10 @@ class ChuyenKhoan extends Component {
   }
   handleSelectMaTaiKhoanChuyenKhoan(event) {
     event.preventDefault();
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     const mataikhoanchuyenkhoan = event.target.value;
     this.setState({
       mataikhoanchuyenkhoan,
@@ -117,6 +134,10 @@ class ChuyenKhoan extends Component {
   }
   handleSelectMaTaiKhoanChuyenKhoan2(event) {
     event.preventDefault();
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     const mataikhoanchuyenkhoan2 = event.target.value;
     this.setState({
       mataikhoanchuyenkhoan2,
@@ -125,6 +146,10 @@ class ChuyenKhoan extends Component {
   handleSelectMaTaiKhoanThuHuong(event) {
     debugger;
     event.preventDefault();
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     const mataikhoanthuhuong = event.target.value;
     this.setState({
       mataikhoanthuhuong,
@@ -134,6 +159,10 @@ class ChuyenKhoan extends Component {
     event.preventDefault();
   }
   haldeChangeSoTienChuyenKhoan(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const sotienchuyenkhoan = event.target.value;
     this.setState({
@@ -141,6 +170,10 @@ class ChuyenKhoan extends Component {
     });
   }
   handleChangeNoiDungChuyenKhoan(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const noidung = event.target.value;
     this.setState({
@@ -148,6 +181,10 @@ class ChuyenKhoan extends Component {
     });
   }
   handleSubmit1(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const {
       mataikhoanchuyenkhoan,
@@ -188,6 +225,10 @@ class ChuyenKhoan extends Component {
     debugger;
   }
   handleSubmit2(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const { mataikhoanchuyenkhoan2, loaichuyenkhoanId } = this.state;
     const {
@@ -238,7 +279,7 @@ class ChuyenKhoan extends Component {
     const { loaichuyenkhoanId } = this.state;
     if (loaichuyenkhoanId === 1) {
       return (
-        <Form onSubmit={this.handleSubmit1} style={{ width: '30%' }}>
+        <Form onSubmit={this.handleSubmit1}>
           <Form.Group>
             <Form.Label>Chọn tài khoản gốc</Form.Label>
             <Form.Control
@@ -246,6 +287,7 @@ class ChuyenKhoan extends Component {
               name="mataikhoanchuyenkhoan"
               onChange={this.handleSelectMaTaiKhoanChuyenKhoan}
             >
+              <option value="DEFAULT">Chọn tài khoản</option>
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
                 <option value={taikhoan.mataikhoan}>
                   {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
@@ -260,6 +302,7 @@ class ChuyenKhoan extends Component {
               name="mataikhoanthuhuong"
               onChange={this.handleSelectMaTaiKhoanThuHuong}
             >
+              <option value="DEFAULT">Chọn tài khoản</option>
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
                 <option value={taikhoan.mataikhoan}>
                   {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
@@ -290,62 +333,65 @@ class ChuyenKhoan extends Component {
           </Button>
           <p>{this.state.trangthaichuyenkhoan}</p>
         </Form>
-        // <div>
-        //   <form onSubmit={this.handleSubmit1}>
-        //     <label>Chọn tài khoản gốc</label>
-        //     <select
-        //       defaultValue={'DEFAULT'}
-        //       name='mataikhoanchuyenkhoan'
-        //       onChange={this.handleSelectMaTaiKhoanChuyenKhoan}
-        //     >
-        //       {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
-        //         <option value={taikhoan.mataikhoan}>
-        //           {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
-        //         </option>
-        //       ))}
-        //     </select>
-        //     <br />
-
-        //     <label>Chọn tài khoản thụ hưởng</label>
-        //     <select
-        //       defaultValue={'DEFAULT'}
-        //       name='mataikhoanthuhuong'
-        //       onChange={this.handleSelectMaTaiKhoanThuHuong}
-        //     >
-        //       {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
-        //         <option>{taikhoan.mataikhoan}</option>
-        //       ))}
-        //     </select>
-        //     <br />
-        //     <label>Nhập số tiền cần chuyển*</label>
-        //     <input
-        //       type='text'
-        //       onChange={this.props.handleChange}
-        //       name='sotienchuyenkhoan1'
-        //     ></input>
-        //     <p>{this.props.errors.sotienchuyenkhoan1}</p>
-        //     <br />
-        //     <label>Nội dung chuyển khoản</label>
-        //     <textarea
-        //       onChange={this.props.handleChange}
-        //       name='noidung1'
-        //     ></textarea>
-        //     <br />
-        //     <button type='submit'>Xác nhận</button>
-        //   </form>
-        //   <p>{this.state.trangthaichuyenkhoan}</p>
-        // </div>
       );
     } else if (loaichuyenkhoanId === 2) {
       return (
         <div>
-          <form onSubmit={this.handleSubmit2}>
-            <label>Chọn tài khoản gốc</label>
+          <Form onSubmit={this.handleSubmit2}>
+            <Form.Group>
+              <Form.Label>Chọn tài khoản gốc</Form.Label>
+              <Form.Control
+                as="select"
+                defaultValue={'DEFAULT'}
+                name="mataikhoanchuyenkhoan"
+                onChange={this.handleSelectMaTaiKhoanChuyenKhoan2}
+              >
+                <option value="DEFAULT">Chọn tài khoản</option>
+                {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
+                  <option value={taikhoan.mataikhoan}>
+                    {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Nhập mã thẻ/Số khoản thụ hưởng*</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={this.props.handleChange}
+                name="mataikhoanthuhuong2"
+              ></Form.Control>
+              <p>{this.props.errors.mataikhoanthuhuong2}</p>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Nhập số tiền cần chuyển*</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={this.props.handleChange}
+                name="sotienchuyenkhoan2"
+              ></Form.Control>
+              <p>{this.props.errors.sotienchuyenkhoan2}</p>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Nội dung chuyển khoản</Form.Label>
+              <Form.Control
+                as="textarea"
+                onChange={this.props.handleChange}
+                name="noidung2"
+              ></Form.Control>
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Xác nhận
+            </Button>
+            <p>{this.state.trangthaichuyenkhoan2}</p>
+
+            {/* <label>Chọn tài khoản gốc</label>
             <select
               defaultValue={'DEFAULT'}
               name="mataikhoanchuyenkhoan"
               onChange={this.handleSelectMaTaiKhoanChuyenKhoan2}
             >
+              <option value="DEFAULT">Chọn tài khoản</option>
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
                 <option value={taikhoan.mataikhoan}>
                   {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
@@ -360,8 +406,8 @@ class ChuyenKhoan extends Component {
               name="mataikhoanthuhuong2"
             ></input>
             <p>{this.props.errors.mataikhoanthuhuong2}</p>
-            <br />
-            <label>Nhập số tiền cần chuyển*</label>
+            <br /> */}
+            {/* <label>Nhập số tiền cần chuyển*</label>
             <input
               type="text"
               onChange={this.props.handleChange}
@@ -374,10 +420,10 @@ class ChuyenKhoan extends Component {
               onChange={this.props.handleChange}
               name="noidung2"
             ></textarea>
-            <br />
-            <button type="submit">Xác nhận</button>
-            <p>{this.state.trangthaichuyenkhoan2}</p>
-          </form>
+            <br /> */}
+            {/* <button type="submit">Xác nhận</button>
+            <p>{this.state.trangthaichuyenkhoan2}</p> */}
+          </Form>
         </div>
       );
     } else if (loaichuyenkhoanId === 3) {
@@ -435,29 +481,36 @@ class ChuyenKhoan extends Component {
   //#region render
   render() {
     return (
-      <>
-        <div>
-          <h1>Chuyển khoản</h1>
-          <Form.Group style={{ width: '30%' }}>
-            <Form.Control
-              as="select"
-              customdefaultValue={'DEFAULT'}
-              className="loaichuyenkhoanSelect"
-              onChange={this.handleSelectLoaiChuyenKhoan}
-            >
-              <option value="DEFAULT">
-                Chuyển khoản qua tài khoản của quý khách
-              </option>
-              <option value="chuyenkhoan2">
-                Chuyển khoản qua tài khoản nội bộ
-              </option>
-              <option value="chuyenkhoan3">Chuyển khoản liên ngân hàng</option>
-            </Form.Control>
-            <p>{this.state.thongtinloaichuyenkhoan}</p>
-          </Form.Group>
-        </div>
-        {this.renderKhungChuyenKhoan()}
-      </>
+      <Container>
+        <Row>
+          <Col sm={2} md={2} lg={2}></Col>
+          <Col sm={5} md={5} lg={5}>
+            <br></br>
+            <h3 style={{ textAlign: 'center' }}>Chuyển khoản</h3>
+            <Form.Group>
+              <Form.Control
+                as="select"
+                customdefaultValue={'DEFAULT'}
+                className="loaichuyenkhoanSelect"
+                onChange={this.handleSelectLoaiChuyenKhoan}
+              >
+                <option value="DEFAULT">
+                  Chuyển khoản qua tài khoản của quý khách
+                </option>
+                <option value="chuyenkhoan2">
+                  Chuyển khoản qua tài khoản nội bộ
+                </option>
+                <option value="chuyenkhoan3">
+                  Chuyển khoản liên ngân hàng
+                </option>
+              </Form.Control>
+              <p>{this.state.thongtinloaichuyenkhoan}</p>
+            </Form.Group>
+            {this.renderKhungChuyenKhoan()}
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container>
     );
   }
   //#endregion

@@ -56,8 +56,8 @@ module.exports.findAllByPhone = async (khachhangSodienthoai) => {
       khachhangSodienthoai,
     },
   });
-  console.log(`danh sach tai khoan cua so dien thoai: ${khachhangSodienthoai}`);
-  console.log(danhSachTaiKhoan);
+  // console.log(`danh sach tai khoan cua so dien thoai: ${khachhangSodienthoai}`);
+  // console.log(danhSachTaiKhoan);
   if (!danhSachTaiKhoan) {
     return {
       error: 'Số điện thoại không tồn tại ',
@@ -93,11 +93,16 @@ module.exports.capNhatSoDu = async (thongtin) => {
       error: 'tai khoan khong ton tai',
     };
   }
-  console.log(taiKhoan.dataValues);
+  const sodutruocgiaodich = taiKhoan.sodu;
+  // console.log(taiKhoan.dataValues);
 
-  console.log(`typeof sotienchuyenkhoan: ${typeof sotienchuyenkhoan}`);
-  console.log(`typeof sodu: ${typeof taiKhoan.sodu}`);
+  // console.log(`typeof sotienchuyenkhoan: ${typeof sotienchuyenkhoan}`);
+  // console.log(`typeof sodu: ${typeof taiKhoan.sodu}`);
   taiKhoan.sodu = +taiKhoan.sodu + +sotienchuyenkhoan;
   const result = await taiKhoan.save();
-  return result;
+  const sodusaugiaodich = taiKhoan.sodu;
+  return {
+    sodutruocgiaodich,
+    sodusaugiaodich,
+  };
 };

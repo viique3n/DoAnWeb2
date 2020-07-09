@@ -23,8 +23,8 @@ module.exports.findAll = async () => {
     return {
       error: 'Bảng danh sách sổ tiết kiệm rỗng',
     };
-    return danhSachSoTietKiem;
   }
+  return danhSachSoTietKiem;
 };
 
 module.exports.findAllByPhone = async (khachhangSodienthoai) => {

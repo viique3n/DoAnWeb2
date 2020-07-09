@@ -56,23 +56,23 @@ class Header extends Component {
       console.log(tenhienthi);
       return (
         <div>
-          <Navbar bg='light' expand='lg'>
-            <Navbar.Brand as={Link} to='/'>
+          <Navbar bg="light" expand="lg">
+            <Navbar.Brand as={Link} to="/">
               Internet Banking
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls='basic-navbar-nav' />
-            <Navbar.Collapse id='basic-navbar-nav'>
-              <Nav className='mr-auto'>
-                <Nav.Link as={Link} to='/profile'>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link as={Link} to="/profile">
                   {tenhienthi}
                 </Nav.Link>
-                <Nav.Link as={Link} to='/tktt'>
+                <Nav.Link as={Link} to="/tktt">
                   Tài khoản
                 </Nav.Link>
-                <Nav.Link as={Link} to='/chuyenkhoan'>
+                <Nav.Link as={Link} to="/chuyenkhoan">
                   Chuyển khoản
                 </Nav.Link>
-                <Nav.Link as={Link} to='/' onClick={this.logout}>
+                <Nav.Link as={Link} to="/" onClick={this.logout}>
                   Đăng xuất
                 </Nav.Link>
               </Nav>
@@ -110,17 +110,17 @@ class Header extends Component {
     }
     return (
       <div>
-        <Navbar bg='light' expand='lg'>
-          <Navbar.Brand as={Link} to='/'>
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand as={Link} to="/">
             Internet Banking
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='mr-auto'>
-              <Nav.Link as={Link} to='/login'>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link as={Link} to="/login">
                 Đăng nhập
               </Nav.Link>
-              <Nav.Link as={Link} to='/signup'>
+              <Nav.Link as={Link} to="/signup">
                 Đăng ký
               </Nav.Link>
             </Nav>
