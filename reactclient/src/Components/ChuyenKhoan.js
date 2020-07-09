@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { renewAccessToken } from '../Auth/AuthRoute';
+import { Form, Button } from 'react-bootstrap';
 
 class ChuyenKhoan extends Component {
   constructor(props) {
@@ -65,18 +66,6 @@ class ChuyenKhoan extends Component {
         this.setState({
           danhsachtaikhoanthanhtoan: res.data,
         });
-        // if (res.data[0] && res.data[0].mataikhoan) {
-        //   this.setState({
-        //     mataikhoanchuyenkhoan: this.state.danhsachtaikhoanthanhtoan[0]
-        //       .mataikhoan,
-        //   });
-        //   this.setState({
-        //     mataikhoanthuhuong: this.state.danhsachtaikhoanthanhtoan[0]
-        //       .mataikhoan,
-        //   });
-        // }
-        console.log(typeof res.data);
-        console.log(res.data[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -134,6 +123,7 @@ class ChuyenKhoan extends Component {
     });
   }
   handleSelectMaTaiKhoanThuHuong(event) {
+    debugger;
     event.preventDefault();
     const mataikhoanthuhuong = event.target.value;
     this.setState({
@@ -243,15 +233,17 @@ class ChuyenKhoan extends Component {
 
   //#region Render Form
   renderKhungChuyenKhoan() {
+    debugger;
+    const test = this.state;
     const { loaichuyenkhoanId } = this.state;
     if (loaichuyenkhoanId === 1) {
       return (
-        <div>
-          <form onSubmit={this.handleSubmit1}>
-            <label>Chọn tài khoản gốc</label>
-            <select
-              defaultValue={'DEFAULT'}
-              name="mataikhoanchuyenkhoan"
+        <Form onSubmit={this.handleSubmit1} style={{ width: '30%' }}>
+          <Form.Group>
+            <Form.Label>Chọn tài khoản gốc</Form.Label>
+            <Form.Control
+              as='select'
+              name='mataikhoanchuyenkhoan'
               onChange={this.handleSelectMaTaiKhoanChuyenKhoan}
             >
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
@@ -259,38 +251,90 @@ class ChuyenKhoan extends Component {
                   {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
                 </option>
               ))}
-            </select>
-            <br />
-
-            <label>Chọn tài khoản thụ hưởng</label>
-            <select
-              defaultValue={'DEFAULT'}
-              name="mataikhoanthuhuong"
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Chọn tài khoản thụ hưởng</Form.Label>
+            <Form.Control
+              as='select'
+              name='mataikhoanthuhuong'
               onChange={this.handleSelectMaTaiKhoanThuHuong}
             >
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
-                <option>{taikhoan.mataikhoan}</option>
+                <option value={taikhoan.mataikhoan}>
+                  {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
+                </option>
               ))}
-            </select>
-            <br />
-            <label>Nhập số tiền cần chuyển*</label>
-            <input
-              type="text"
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Nhập số tiền chuyển khoản</Form.Label>
+            <Form.Control
+              type='text'
+              name='sotienchuyenkhoan1'
               onChange={this.props.handleChange}
-              name="sotienchuyenkhoan1"
-            ></input>
-            <p>{this.props.errors.sotienchuyenkhoan}</p>
-            <br />
-            <label>Nội dung chuyển khoản</label>
-            <textarea
+            />
+            <p>{this.props.errors.sotienchuyenkhoan1}</p>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Nội dung chuyển khoản</Form.Label>
+            <Form.Control
+              type='textarea'
+              name='noidung1'
               onChange={this.props.handleChange}
-              name="noidung1"
-            ></textarea>
-            <br />
-            <button type="submit">Xác nhận</button>
-          </form>
+            />
+            <p>{this.props.errors.noidung1}</p>
+          </Form.Group>
+          <Button variant='primary' type='submit'>
+            Xác nhận
+          </Button>
           <p>{this.state.trangthaichuyenkhoan}</p>
-        </div>
+        </Form>
+        // <div>
+        //   <form onSubmit={this.handleSubmit1}>
+        //     <label>Chọn tài khoản gốc</label>
+        //     <select
+        //       defaultValue={'DEFAULT'}
+        //       name='mataikhoanchuyenkhoan'
+        //       onChange={this.handleSelectMaTaiKhoanChuyenKhoan}
+        //     >
+        //       {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
+        //         <option value={taikhoan.mataikhoan}>
+        //           {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
+        //         </option>
+        //       ))}
+        //     </select>
+        //     <br />
+
+        //     <label>Chọn tài khoản thụ hưởng</label>
+        //     <select
+        //       defaultValue={'DEFAULT'}
+        //       name='mataikhoanthuhuong'
+        //       onChange={this.handleSelectMaTaiKhoanThuHuong}
+        //     >
+        //       {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
+        //         <option>{taikhoan.mataikhoan}</option>
+        //       ))}
+        //     </select>
+        //     <br />
+        //     <label>Nhập số tiền cần chuyển*</label>
+        //     <input
+        //       type='text'
+        //       onChange={this.props.handleChange}
+        //       name='sotienchuyenkhoan1'
+        //     ></input>
+        //     <p>{this.props.errors.sotienchuyenkhoan1}</p>
+        //     <br />
+        //     <label>Nội dung chuyển khoản</label>
+        //     <textarea
+        //       onChange={this.props.handleChange}
+        //       name='noidung1'
+        //     ></textarea>
+        //     <br />
+        //     <button type='submit'>Xác nhận</button>
+        //   </form>
+        //   <p>{this.state.trangthaichuyenkhoan}</p>
+        // </div>
       );
     } else if (loaichuyenkhoanId === 2) {
       return (
@@ -299,7 +343,7 @@ class ChuyenKhoan extends Component {
             <label>Chọn tài khoản gốc</label>
             <select
               defaultValue={'DEFAULT'}
-              name="mataikhoanchuyenkhoan"
+              name='mataikhoanchuyenkhoan'
               onChange={this.handleSelectMaTaiKhoanChuyenKhoan2}
             >
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
@@ -311,27 +355,27 @@ class ChuyenKhoan extends Component {
             <br />
             <label>Nhập mã thẻ/Số khoản thụ hưởng*</label>
             <input
-              type="text"
+              type='text'
               onChange={this.props.handleChange}
-              name="mataikhoanthuhuong2"
+              name='mataikhoanthuhuong2'
             ></input>
-            <p>{this.props.errors.mataikhoanthuhuong}</p>
+            <p>{this.props.errors.mataikhoanthuhuong2}</p>
             <br />
             <label>Nhập số tiền cần chuyển*</label>
             <input
-              type="text"
+              type='text'
               onChange={this.props.handleChange}
-              name="sotienchuyenkhoan2"
+              name='sotienchuyenkhoan2'
             ></input>
-            <p>{this.props.errors.sotienchuyenkhoan}</p>
+            <p>{this.props.errors.sotienchuyenkhoan2}</p>
             <br />
             <label>Nội dung chuyển khoản</label>
             <textarea
               onChange={this.props.handleChange}
-              name="noidung2"
+              name='noidung2'
             ></textarea>
             <br />
-            <button type="submit">Xác nhận</button>
+            <button type='submit'>Xác nhận</button>
             <p>{this.state.trangthaichuyenkhoan2}</p>
           </form>
         </div>
@@ -348,31 +392,31 @@ class ChuyenKhoan extends Component {
             </select>
             <br />
             <select defaultValue={'DEFAULT'}>
-              <option value="DEFAULT">NGÂN HÀNG ???</option>
+              <option value='DEFAULT'>NGÂN HÀNG ???</option>
             </select>
             <label>Nhập mã thẻ/Số khoản thụ hưởng*</label>
             <input
-              type="text"
+              type='text'
               onChange={this.props.handleChange}
-              name="mataikhoanthuhuong"
+              name='mataikhoanthuhuong'
             ></input>
             <p>{this.props.errors.mataikhoanthuhuong}</p>
             <br />
             <label>Nhập số tiền cần chuyển*</label>
             <input
-              type="text"
+              type='text'
               onChange={this.props.handleChange}
-              name="sotienchuyenkhoan"
+              name='sotienchuyenkhoan'
             ></input>
             <p>{this.props.errors.sotienchuyenkhoan}</p>
             <br />
             <label>Nội dung chuyển khoản</label>
             <textarea
               onChange={this.props.handleChange}
-              name="noidung"
+              name='noidung'
             ></textarea>
             <br />
-            <button type="submit">Xác nhận</button>
+            <button type='submit'>Xác nhận</button>
           </form>
         </div>
       );
@@ -394,20 +438,23 @@ class ChuyenKhoan extends Component {
       <>
         <div>
           <h1>Chuyển khoản</h1>
-          <select
-            defaultValue={'DEFAULT'}
-            className="loaichuyenkhoanSelect"
-            onChange={this.handleSelectLoaiChuyenKhoan}
-          >
-            <option value="DEFAULT">
-              Chuyển khoản qua tài khoản của quý khách
-            </option>
-            <option value="chuyenkhoan2">
-              Chuyển khoản qua tài khoản nội bộ
-            </option>
-            <option value="chuyenkhoan3">Chuyển khoản liên ngân hàng</option>
-          </select>
-          <p>{this.state.thongtinloaichuyenkhoan}</p>
+          <Form.Group style={{ width: '30%' }}>
+            <Form.Control
+              as='select'
+              customdefaultValue={'DEFAULT'}
+              className='loaichuyenkhoanSelect'
+              onChange={this.handleSelectLoaiChuyenKhoan}
+            >
+              <option value='DEFAULT'>
+                Chuyển khoản qua tài khoản của quý khách
+              </option>
+              <option value='chuyenkhoan2'>
+                Chuyển khoản qua tài khoản nội bộ
+              </option>
+              <option value='chuyenkhoan3'>Chuyển khoản liên ngân hàng</option>
+            </Form.Control>
+            <p>{this.state.thongtinloaichuyenkhoan}</p>
+          </Form.Group>
         </div>
         {this.renderKhungChuyenKhoan()}
       </>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import decode from 'jwt-decode';
+import { Nav, Navbar } from 'react-bootstrap';
 import './css/header.css';
 
 class Header extends Component {
@@ -54,53 +55,103 @@ class Header extends Component {
 
       console.log(tenhienthi);
       return (
-        <ul id="menu">
-          <li>
-            <NavLink className="navLink" to="/">
-              Trang chủ
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className="navLink" to="/profile">
-              {tenhienthi}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className="navLink" to="tktt">
-              Tài khoản
-            </NavLink>
-          </li>
-          <li>
-            <li>
-              <NavLink className="navLink" to="/chuyenkhoan">
-                Chuyển khoản
-              </NavLink>
-            </li>
-            <NavLink className="navLink" to="/" onClick={this.logout}>
-              Đăng xuất
-            </NavLink>
-          </li>
-        </ul>
+        <div>
+          <Navbar bg='light' expand='lg'>
+            <Navbar.Brand as={Link} to='/'>
+              Internet Banking
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls='basic-navbar-nav' />
+            <Navbar.Collapse id='basic-navbar-nav'>
+              <Nav className='mr-auto'>
+                <Nav.Link as={Link} to='/profile'>
+                  {tenhienthi}
+                </Nav.Link>
+                <Nav.Link as={Link} to='/tktt'>
+                  Tài khoản
+                </Nav.Link>
+                <Nav.Link as={Link} to='/chuyenkhoan'>
+                  Chuyển khoản
+                </Nav.Link>
+                <Nav.Link as={Link} to='/' onClick={this.logout}>
+                  Đăng xuất
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </div>
+        // <ul id='menu'>
+        //   <li>
+        //     <NavLink className='navLink' to='/'>
+        //       Trang chủ
+        //     </NavLink>
+        //   </li>
+        //   <li>
+        //     <NavLink className='navLink' to='/profile'>
+        //       {tenhienthi}
+        //     </NavLink>
+        //   </li>
+        //   <li>
+        //     <NavLink className='navLink' to='tktt'>
+        //       Tài khoản
+        //     </NavLink>
+        //   </li>
+        //   <li>
+        //     <li>
+        //       <NavLink className='navLink' to='/chuyenkhoan'>
+        //         Chuyển khoản
+        //       </NavLink>
+        //     </li>
+        //     <NavLink className='navLink' to='/' onClick={this.logout}>
+        //       Đăng xuất
+        //     </NavLink>
+        //   </li>
+        // </ul>
       );
     }
     return (
-      <ul id="menu">
-        <li>
-          <NavLink className="navLink" to="/">
-            Trang chủ
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className="navLink" to="/login">
-            Đăng nhập
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className="navLink" to="signup" onClick={this.props.logout}>
-            Đăng ký tài khoản
-          </NavLink>
-        </li>
-      </ul>
+      <div>
+        <Navbar bg='light' expand='lg'>
+          <Navbar.Brand as={Link} to='/'>
+            Internet Banking
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          <Navbar.Collapse id='basic-navbar-nav'>
+            <Nav className='mr-auto'>
+              <Nav.Link as={Link} to='/login'>
+                Đăng nhập
+              </Nav.Link>
+              <Nav.Link as={Link} to='/signup'>
+                Đăng ký
+              </Nav.Link>
+            </Nav>
+            {/* <Form inline>
+              <FormControl
+                type='text'
+                placeholder='Search'
+                className='mr-sm-2'
+              />
+              <Button variant='outline-success'>Search</Button>
+            </Form> */}
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
+      // <ul id='menu'>
+      //   <li>
+      //     <NavLink className='navLink' to='/'>
+      //       Trang chủ
+      //     </NavLink>
+      //   </li>
+      //   <li>
+      //     <NavLink className='navLink' to='/login' >
+      //       Đăng nhập
+      //     </NavLink>
+      //   </li>
+      //   <li>
+      //     <NavLink className='navLink' to='signup' onClick={this.props.logout}>
+      //       Đăng ký tài khoản
+      //     </NavLink>
+      //   </li>
+      // </ul>
     );
   }
   componentDidMount() {
