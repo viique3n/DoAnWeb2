@@ -128,6 +128,18 @@ async function kiemTraChuyenKhoanHopLe(
   if (hanMucId != 11 && hanMucId != 12) {
     console.log(`Hạn mức id here: ${hanMucId}`);
     // Số tiền chuyển khoản vượt hạn mức tối đa trên ngày
+    console.log(
+      `Hạn mức tối đa/ngày của tài khoản: ${+hanmuc.hanmuctoidatrenngay}`
+    );
+    console.log(
+      `Hạn mức tối đa/giao dịch của tài khoản: ${+hanmuc.hanmuctoidatrengiaodich}`
+    );
+    console.log(
+      `Số tiền tài khoản đã chuyển khoản trong ngày: ${tongtienchuyenkhoan}`
+    );
+    console.log(
+      `Thông tin số tiền giao dịch: ${+thongtinchuyenkhoan.sotienchuyenkhoan}`
+    );
     if (
       +thongtinchuyenkhoan.sotienchuyenkhoan + +tongtienchuyenkhoan >
       +hanmuc.hanmuctoidatrenngay
@@ -140,8 +152,7 @@ async function kiemTraChuyenKhoanHopLe(
 
     // Số tiền chuyển khoản vượt hạn mức tối đa trên một giao dịch
     if (
-      +thongtinchuyenkhoan.sotienchuyenkhoan >
-      +hanmuc.hanmuctoithieutrengiaodich
+      +thongtinchuyenkhoan.sotienchuyenkhoan > +hanmuc.hanmuctoidatrengiaodich
     ) {
       errors.push({
         hanmuctrengiaodichquaquydinh:

@@ -7,17 +7,22 @@ const ChuyenKhoanForMikContainer = withFormik({
   mapPropsToValues() {
     // Init form field
     return {
-      sotienchuyenkhoan: '',
-      mataikhoanthuhuong: '',
-      noidung: '',
+      sotienchuyenkhoan1: '',
+      noidung1: '',
+      mataikhoanthuhuong2: '',
+      sotienchuyenkhoan2: '',
+      noidung2: '',
     };
   },
   validationSchema: Yup.object().shape({
     // Validate form field
-    sotienchuyenkhoan: Yup.string()
+    sotienchuyenkhoan1: Yup.string()
       .matches(curReg, 'Số tiền chuyển khoản không hợp lệ')
       .required('Vui lòng nhập số tiền chuyển khoản'),
-    mataikhoanthuhuong: Yup.string()
+    sotienchuyenkhoan2: Yup.string()
+      .matches(curReg, 'Số tiền chuyển khoản không hợp lệ')
+      .required('Vui lòng nhập số tiền chuyển khoản'),
+    mataikhoanthuhuong2: Yup.string()
       .required('Vui lòng nhập mã tài khoản thụ hưởng')
       .min(8, 'Mã tài khoản thụ hưởng phải dài hơn 8 ký tự')
       .max(30, 'Mã tài khoản thụ hưởng phải ngắn hơn 30 ký tự'),

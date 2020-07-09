@@ -6,52 +6,77 @@ import { renewAccessToken } from '../Auth/AuthRoute';
 class ChuyenKhoan extends Component {
   constructor(props) {
     super(props);
+    //#region state
     this.state = {
       loaichuyenkhoanId: 1,
       thongtinloaichuyenkhoan:
         'Thực hiện việc chuyển khoản giữa các tài khoản thanh toán của quý khách',
       danhsachtaikhoanthanhtoan: [],
       mataikhoanchuyenkhoan: '',
+      mataikhoanchuyenkhoan2: '',
       mataikhoanthuhuong: '',
+      mataikhoanthuhuong2: '',
       sotienchuyenkhoan: '',
+      sotienchuyenkhoan2: '',
       noidung: '',
+      noidung2: '',
       thoigian: '',
       trangthaichuyenkhoan: '',
+      trangthaichuyenkhoan2: '',
+      trangthaichuyenkhoan3: '',
     };
+    //#endregion
+
+    //#region bindEventHandle
     this.handleSelectLoaiChuyenKhoan = this.handleSelectLoaiChuyenKhoan.bind(
       this
     );
     this.handleSelectMaTaiKhoanChuyenKhoan = this.handleSelectMaTaiKhoanChuyenKhoan.bind(
       this
     );
+    this.handleSelectMaTaiKhoanChuyenKhoan2 = this.handleSelectMaTaiKhoanChuyenKhoan2.bind(
+      this
+    );
     this.handleSelectMaTaiKhoanThuHuong = this.handleSelectMaTaiKhoanThuHuong.bind(
       this
     );
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit1 = this.handleSubmit1.bind(this);
+    this.handleSubmit2 = this.handleSubmit2.bind(this);
+    this.handleSubmit3 = this.handleSubmit3.bind(this);
+    //#endregion
   }
   //#region function
-  getDanhSachTaiKhoanThanhToan(khachhangSodienthoai) {
-    const token = sessionStorage.getItem('refreshToken');
+  getDanhSachTaiKhoanThanhToan() {
+    let token = sessionStorage.getItem('refreshToken');
     const isValidToken = renewAccessToken(token);
     if (isValidToken === false) {
       return;
     }
     debugger;
+    token = sessionStorage.getItem('jwtToken');
+    const decoded = jwt_decode(token);
+    const { sodienthoai } = decoded;
     axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
-      params: { khachhangSodienthoai },
+      params: { khachhangSodienthoai: sodienthoai },
     })
       .then((res) => {
         console.log(res.data);
         debugger;
-        if (res.data[0] && res.data[0].mataikhoan) {
-          this.setState({ mataikhoanchuyenkhoan: res.data[0].mataikhoan });
-          this.setState({ mataikhoanthuhuong: res.data[0].mataikhoan });
-        }
-        console.log(typeof res.data);
-        console.log(res.data[0]);
         this.setState({
           danhsachtaikhoanthanhtoan: res.data,
         });
+        // if (res.data[0] && res.data[0].mataikhoan) {
+        //   this.setState({
+        //     mataikhoanchuyenkhoan: this.state.danhsachtaikhoanthanhtoan[0]
+        //       .mataikhoan,
+        //   });
+        //   this.setState({
+        //     mataikhoanthuhuong: this.state.danhsachtaikhoanthanhtoan[0]
+        //       .mataikhoan,
+        //   });
+        // }
+        console.log(typeof res.data);
+        console.log(res.data[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -65,15 +90,22 @@ class ChuyenKhoan extends Component {
     const test = this.state;
     const test2 = this.props.values;
     event.preventDefault();
+    this.getDanhSachTaiKhoanThanhToan();
     const loaichuyenkhoan = event.target.value;
     if (loaichuyenkhoan === 'DEFAULT') {
       this.setState({
+        mataikhoanchuyenkhoan: this.state.danhsachtaikhoanthanhtoan[0]
+          .mataikhoan,
+        mataikhoanthuhuong: this.state.danhsachtaikhoanthanhtoan[0].mataikhoan,
         loaichuyenkhoanId: 1,
         thongtinloaichuyenkhoan:
           'Thực hiện việc chuyển khoản giữa các tài khoản thanh toán của quý khách',
       });
     } else if (loaichuyenkhoan === 'chuyenkhoan2') {
       this.setState({
+        mataikhoanchuyenkhoan2: this.state.danhsachtaikhoanthanhtoan[0]
+          .mataikhoan,
+        mataikhoanthuhuong2: '',
         loaichuyenkhoanId: 2,
         thongtinloaichuyenkhoan:
           'Thực hiện việc chuyển khoản tới các tài khoản trong cùng ngân hàng',
@@ -92,6 +124,13 @@ class ChuyenKhoan extends Component {
     const mataikhoanchuyenkhoan = event.target.value;
     this.setState({
       mataikhoanchuyenkhoan,
+    });
+  }
+  handleSelectMaTaiKhoanChuyenKhoan2(event) {
+    event.preventDefault();
+    const mataikhoanchuyenkhoan2 = event.target.value;
+    this.setState({
+      mataikhoanchuyenkhoan2,
     });
   }
   handleSelectMaTaiKhoanThuHuong(event) {
@@ -118,53 +157,87 @@ class ChuyenKhoan extends Component {
       noidung,
     });
   }
-  handleSubmit(event) {
+  handleSubmit1(event) {
     event.preventDefault();
-    const test = this.state;
+    const {
+      mataikhoanchuyenkhoan,
+      mataikhoanthuhuong,
+      loaichuyenkhoanId,
+    } = this.state;
+    const { sotienchuyenkhoan1, noidung1 } = this.props.values;
     debugger;
 
-    if (this.state.loaichuyenkhoanId == 1) {
-      const {
+    if (sotienchuyenkhoan1 == '') {
+      return;
+    }
+    axios
+      .post('http://localhost:9000/api/chuyenkhoan/chuyenkhoan', {
         mataikhoanchuyenkhoan,
         mataikhoanthuhuong,
+        sotienchuyenkhoan: sotienchuyenkhoan1,
+        noidung: noidung1,
+        thoigian: new Date(),
         loaichuyenkhoanId,
-      } = this.state;
-      const { sotienchuyenkhoan, noidung } = this.props.values;
-      if (sotienchuyenkhoan == '') {
-        return;
-      }
-      axios
-        .post('http://localhost:9000/api/chuyenkhoan/chuyenkhoan', {
-          mataikhoanchuyenkhoan,
-          mataikhoanthuhuong,
-          sotienchuyenkhoan,
-          noidung,
-          thoigian: new Date(),
-          loaichuyenkhoanId,
-        })
-        .then((res) => {
-          if (res.data.thanhcong) {
-            this.setState({
-              trangthaichuyenkhoan: 'Chuyển khoản thành công',
-            });
-            const token = sessionStorage.getItem('jwtToken');
-            const decoded = jwt_decode(token);
-            const { sodienthoai } = decoded;
-            this.getDanhSachTaiKhoanThanhToan(sodienthoai);
-          }
-        })
-        .catch((err) => {
+      })
+      .then((res) => {
+        if (res.data.thanhcong) {
           this.setState({
-            trangthaichuyenkhoan: 'Chuyển khoản thất bại',
+            trangthaichuyenkhoan: 'Chuyển khoản thành công',
           });
-          debugger;
-          console.log(err);
+
+          this.getDanhSachTaiKhoanThanhToan();
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          trangthaichuyenkhoan: 'Chuyển khoản thất bại',
         });
-      debugger;
-    } else if (this.state.loaichuyenkhoanId == 2) {
-      const { mataikhoanchuyenkhoan } = this.state;
-      const { mataikhoanthuhuong } = this.props.values;
+        debugger;
+        console.log(err);
+      });
+    debugger;
+  }
+  handleSubmit2(event) {
+    event.preventDefault();
+    const { mataikhoanchuyenkhoan2, loaichuyenkhoanId } = this.state;
+    const {
+      sotienchuyenkhoan2,
+      noidung2,
+      mataikhoanthuhuong2,
+    } = this.props.values;
+    debugger;
+
+    if (sotienchuyenkhoan2 == '') {
+      return;
     }
+    axios
+      .post('http://localhost:9000/api/chuyenkhoan/chuyenkhoan', {
+        mataikhoanchuyenkhoan: mataikhoanchuyenkhoan2,
+        mataikhoanthuhuong: mataikhoanthuhuong2,
+        sotienchuyenkhoan: sotienchuyenkhoan2,
+        noidung: noidung2,
+        thoigian: new Date(),
+        loaichuyenkhoanId,
+      })
+      .then((res) => {
+        if (res.data.thanhcong) {
+          this.setState({
+            trangthaichuyenkhoan2: 'Chuyển khoản thành công',
+          });
+          this.getDanhSachTaiKhoanThanhToan();
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          trangthaichuyenkhoan2: 'Chuyển khoản thất bại',
+        });
+        debugger;
+        console.log(err);
+      });
+    debugger;
+  }
+  handleSubmit3(event) {
+    event.preventDefault();
   }
   //#endregion
 
@@ -174,7 +247,7 @@ class ChuyenKhoan extends Component {
     if (loaichuyenkhoanId === 1) {
       return (
         <div>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit1}>
             <label>Chọn tài khoản gốc</label>
             <select
               defaultValue={'DEFAULT'}
@@ -204,14 +277,14 @@ class ChuyenKhoan extends Component {
             <input
               type="text"
               onChange={this.props.handleChange}
-              name="sotienchuyenkhoan"
+              name="sotienchuyenkhoan1"
             ></input>
             <p>{this.props.errors.sotienchuyenkhoan}</p>
             <br />
             <label>Nội dung chuyển khoản</label>
             <textarea
               onChange={this.props.handleChange}
-              name="noidung"
+              name="noidung1"
             ></textarea>
             <br />
             <button type="submit">Xác nhận</button>
@@ -222,11 +295,15 @@ class ChuyenKhoan extends Component {
     } else if (loaichuyenkhoanId === 2) {
       return (
         <div>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit2}>
             <label>Chọn tài khoản gốc</label>
-            <select defaultValue={'DEFAULT'} name="mataikhoanchuyenkhoan">
+            <select
+              defaultValue={'DEFAULT'}
+              name="mataikhoanchuyenkhoan"
+              onChange={this.handleSelectMaTaiKhoanChuyenKhoan2}
+            >
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
-                <option>
+                <option value={taikhoan.mataikhoan}>
                   {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
                 </option>
               ))}
@@ -236,7 +313,7 @@ class ChuyenKhoan extends Component {
             <input
               type="text"
               onChange={this.props.handleChange}
-              name="mataikhoanthuhuong"
+              name="mataikhoanthuhuong2"
             ></input>
             <p>{this.props.errors.mataikhoanthuhuong}</p>
             <br />
@@ -244,17 +321,18 @@ class ChuyenKhoan extends Component {
             <input
               type="text"
               onChange={this.props.handleChange}
-              name="sotienchuyenkhoan"
+              name="sotienchuyenkhoan2"
             ></input>
             <p>{this.props.errors.sotienchuyenkhoan}</p>
             <br />
             <label>Nội dung chuyển khoản</label>
             <textarea
               onChange={this.props.handleChange}
-              name="noidung"
+              name="noidung2"
             ></textarea>
             <br />
             <button type="submit">Xác nhận</button>
+            <p>{this.state.trangthaichuyenkhoan2}</p>
           </form>
         </div>
       );
@@ -304,10 +382,7 @@ class ChuyenKhoan extends Component {
 
   //#region cpLifeCircle
   componentDidMount() {
-    const token = sessionStorage.getItem('jwtToken');
-    const decoded = jwt_decode(token);
-    const { sodienthoai } = decoded;
-    this.getDanhSachTaiKhoanThanhToan(sodienthoai);
+    this.getDanhSachTaiKhoanThanhToan();
   }
   componentDidUpdate() {}
 
