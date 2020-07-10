@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import decode from 'jwt-decode';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import './css/header.css';
 
 class Header extends Component {
@@ -51,7 +51,6 @@ class Header extends Component {
     if (this.state.isAuthentiacted) {
       const userData = this.state.userData;
       const { tenhienthi } = userData;
-      debugger;
 
       console.log(tenhienthi);
       return (
@@ -72,6 +71,23 @@ class Header extends Component {
                 <Nav.Link as={Link} to="/chuyenkhoan">
                   Chuyển khoản
                 </Nav.Link>
+                <NavDropdown
+                  title="Tiết kiệm trực tuyến"
+                  id="basic-nav-dropdown"
+                >
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/tietkiemtructuyen/taosotietkiem"
+                  >
+                    Tạo sổ tiết kiệm
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/tietkiemtructuyen/themtien">
+                    Thêm tiền vào sổ tiết kiệm
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/tietkiemtructuyen/ruttien">
+                    Rút tiền từ sổ tiết kiệm
+                  </NavDropdown.Item>
+                </NavDropdown>
                 <Nav.Link as={Link} to="/" onClick={this.logout}>
                   Đăng xuất
                 </Nav.Link>

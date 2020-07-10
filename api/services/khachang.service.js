@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const { Op } = require('sequelize');
 
-//#region Authentication
+//#region BaseService
 module.exports.findAll = async (filter) => {
   const { tenhienthi, tinhtrang, email, sodienthoai } = filter;
   console.log('filter khachhang');
@@ -136,6 +136,7 @@ module.exports.taoTaiKhoan = async (khachhang) => {
 };
 //#endregion
 
+//#region BusService
 module.exports.capNhatMatKhau = async (filter) => {
   const { sodienthoai, email, matkhaumoi } = filter;
   let khachhang;
@@ -232,3 +233,4 @@ module.exports.capNhatTenHienThi = async (filter) => {
   const result = await khachhang.save();
   return result;
 };
+//#endregion

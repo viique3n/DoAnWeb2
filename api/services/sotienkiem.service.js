@@ -1,20 +1,45 @@
 const SoTietKiem = require('../db/models/SoTietKiem.Model');
 
-module.exports.TaoSoTietKiem = async (stk) => {
-  const { sodienthoai, ngaymo, kyhan, sotiengui } = stk;
-  const ngaydong = ngaymo + kyhan;
-  const ngay = ngaymo.getDate();
-  const thang = ngaymo.getMonth();
-  const nam = ngaymo.getYear();
-  const id = sodienthoai + nam + thang + ngay;
+//#region BaseService
+function generateMaSoTietKiem() {}
 
-  const newsotietkiem = await SoTietKiem.create({
-    mataikhoan: id,
-    ngaymo: ngaymo,
-    ngaydong: ngaydong,
-    sotiengui: sotiengui,
+module.exports.TaoSoTietKiem = async (sotietkiem) => {
+  //
+  const {
+    ngaymo,
+    sotiengui,
+    kyhan,
+    tienlai,
+    tinhtrang,
+    laisuatId,
+    taikhoanthanhtoanMataikhoan,
+    khachhangSodienthoai,
+  } = sotietkiem;
+
+  const maSoTietKiem = generateMaSoTietKiem();
+  const ngaydong = '';
+
+  const newSotietkiem = await SoTietKiem.create({
+    id: maSoTietKiem,
+    ngaymo,
+    ngaydong,
+    sotiengui,
+    kyhan,
+    tienlai,
+    tinhtrang,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    laisuatId,
+    taikhoanthanhtoanMataikhoan,
+    khachhangSodienthoai,
   });
-  return newsotietkiem;
+
+  if (!newSotietkiem) {
+    return {
+      error: 'Không thể tạo sổ tiết kiệm',
+    };
+  }
+  return newSotietkiem;
 };
 
 module.exports.findAll = async () => {
@@ -42,3 +67,9 @@ module.exports.findAllByPhone = async (khachhangSodienthoai) => {
 };
 
 module.exports.findBy;
+//#endregion
+
+//#region BusService
+module.exports.capNhatSoTietKiem = async () => {};
+
+//#endregion

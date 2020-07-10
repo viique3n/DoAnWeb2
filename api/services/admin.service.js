@@ -75,4 +75,4 @@ module.exports.capNhatTinhTrangKhachHang = async (filter) => {
   console.log(capnhat);
   return capnhat;
 };
-//#region
+//#endregion

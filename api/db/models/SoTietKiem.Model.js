@@ -45,7 +45,7 @@ SoTietKiem.init(
       type: Sequelize.FLOAT,
       allowNull: false,
     },
-    tingtrang: {
+    tinhtrang: {
       // Đang gửi
       // Đã tất toán (Toàn bộ tiền gốc và lãi được gửi về tài khoản thanh toán của khách)
       // Đã bị khóa

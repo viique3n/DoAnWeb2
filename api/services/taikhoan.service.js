@@ -1,5 +1,6 @@
 const TaiKhoanThanhToan = require('../db/models/TaiKhoanThanhToan.Model');
 
+//#region BaseService
 module.exports.generateMaTaiKhoan = (sodienthoai) => {
   const now = new Date();
   const d = ('0' + now.getDate()).slice(-2);
@@ -79,7 +80,9 @@ module.exports.findById = async (mataikhoan) => {
   }
   return taiKhoan;
 };
+//#endregion
 
+//#region BusService
 module.exports.capNhatSoDu = async (thongtin) => {
   console.log('Cập nhật số dư');
   const { mataikhoan, sotienchuyenkhoan } = thongtin;
@@ -106,3 +109,4 @@ module.exports.capNhatSoDu = async (thongtin) => {
     sodusaugiaodich,
   };
 };
+//#endregion

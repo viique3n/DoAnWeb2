@@ -1,5 +1,7 @@
 const HanMucGiaoDich = require('../db/models/HanMucGiaoDich.Model');
 const khachHangService = require('../services/khachang.service');
+
+//#region BaseService
 module.exports.findAll = async () => {
   const hanmuc = HanMucGiaoDich.findAll();
   return hanmuc;
@@ -35,3 +37,4 @@ module.exports.findByLoaiChuyenKhoanVaDoiTuongKhachHang = async (
   }
   return hanmuc;
 };
+//#endregion

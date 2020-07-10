@@ -1,5 +1,6 @@
 const RefreshToken = require('../db/models/RefreshToken.Model');
 
+//#region BaseService
 module.exports.taoToken = async (token) => {
   const newToken = await RefreshToken.create({
     token,
@@ -20,3 +21,4 @@ module.exports.findToken = async (token) => {
   }
   return rs;
 };
+//#endregion

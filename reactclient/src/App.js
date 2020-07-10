@@ -6,6 +6,9 @@ import SignUpPage from './Pages/SignUpPage';
 import ProfilePage from './Pages/ProfilePage';
 import QuanLyTaiKhoanThanhToanPage from './Pages/QuanLyTaiKhoanThanhToanPage';
 import ChuyenKhoanPage from './Pages/ChuyenKhoanPage';
+import TaoSoTietKiemPage from './Pages/TaoSoTietKiemPage';
+import ThemTienTietKiemPage from './Pages/ThemTienTietKiemPage';
+import RutTienTietKiemPage from './Pages/RutTienTietKiemPage';
 import { AuthRoute, UnAuthRoute } from './Auth/AuthRoute';
 class App extends Component {
   render() {
@@ -29,6 +32,15 @@ class App extends Component {
           </AuthRoute>
           <AuthRoute path="/chuyenkhoan">
             <ChuyenKhoanPage />
+          </AuthRoute>
+          <AuthRoute path="/tietkiemtructuyen/taosotietkiem">
+            <TaoSoTietKiemPage />
+          </AuthRoute>
+          <AuthRoute path="/tietkiemtructuyen/themtien">
+            <ThemTienTietKiemPage />
+          </AuthRoute>
+          <AuthRoute path="/tietkiemtructuyen/ruttien">
+            <RutTienTietKiemPage />
           </AuthRoute>
         </Switch>
       </div>
