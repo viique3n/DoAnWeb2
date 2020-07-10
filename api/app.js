@@ -13,6 +13,7 @@ const taikhoanRouter = require('./api/routes/taikhoan.route');
 const chuyenKhoanRouter = require('./api/routes/chuyenkhoan.route');
 const { chuyenKhoanLienNganHang } = require('./services/chuyenkhoan.service');
 const laiSuatRouter = require('./api/routes/laisuat.route');
+const totpRouter = require('./api/routes/totp.route');
 const app = express();
 //#endregion
 
@@ -41,7 +42,8 @@ app.use('/api/admin/', adminApiRouter);
 app.use('/api/auth/', khachhangApiRouter);
 app.use('/api/taikhoan/', taikhoanRouter);
 app.use('/api/chuyenkhoan/', chuyenKhoanRouter);
-app.use('/api/laisuat', laiSuatRouter);
+app.use('/api/laisuat/', laiSuatRouter);
+app.use('/api/totp', totpRouter);
 app.use('/', indexRouter);
 //#endregion
 

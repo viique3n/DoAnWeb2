@@ -104,6 +104,8 @@ module.exports.postSignUpAPI = async (req, res) => {
   const accessToken = jwtService.generateAccessToken(khachhang.dataValues);
   console.log(accessToken);
   const refreshToken = jwtService.generateRefreshToken(khachhang.dataValues);
+  const newToken = refreshtokenService.taoToken(refreshToken);
+
   if (newToken.error) {
     return res.status(404).json({
       error: true,

@@ -2,19 +2,59 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { renewAccessToken } from '../../Auth/AuthRoute';
-import { Form, Button, Col, Container, Row, Card } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  Col,
+  Container,
+  Row,
+  Card,
+  Modal,
+} from 'react-bootstrap';
+import Example from './example';
 
 class TaoSoTietKiem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showModal: false,
       danhsachtaikhoanthanhtoan: [],
       danhsachlaisuat: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
   }
 
   //#region function
+  close() {
+    this.setState({ showModal: false });
+  }
+
+  open() {
+    let secret;
+    let token;
+    axios
+      .post('http://localhost:9000/api/totp/totp-secret')
+      .then((res) => {
+        secret = res.data.secret;
+        axios
+          .post('http://localhost:9000/api/totp/totp-generate', { secret })
+          .then((res) => {
+            token = res.data.token;
+            console.log(`secret: ${secret}`);
+            console.log(`token: ${token}`);
+          })
+          .catch((err) => {
+            return;
+          });
+      })
+      .catch((err) => {
+        return;
+      });
+    debugger;
+    this.setState({ showModal: true });
+  }
   renewAcess() {
     let token = sessionStorage.getItem('refreshToken');
     const isValidToken = renewAccessToken(token);
@@ -65,6 +105,7 @@ class TaoSoTietKiem extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    debugger;
   }
 
   componentDidMount() {
@@ -74,14 +115,13 @@ class TaoSoTietKiem extends Component {
 
   render() {
     const test = this.state;
-    debugger;
     return (
       <Container>
         <br />
         <Row>
           <Col></Col>
           <Col>
-            <Form onSubmit={this.handleSubmit1}>
+            <Form>
               <Card border="info">
                 <Card.Header>Tài khoản nguồn</Card.Header>
                 <Card.Body>
@@ -154,9 +194,30 @@ class TaoSoTietKiem extends Component {
                     </Form.Control>
                   </Form.Group>
                   <Form.Group>
-                    <Button>Xác nhận</Button>
+                    <Button onClick={this.open}>Xác nhận</Button>
                   </Form.Group>
                 </Card.Body>
+                <Modal
+                  size="sm"
+                  show={this.state.showModal}
+                  onHide={this.close}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Xác thực OTP</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form.Label>Nhập mã OTP</Form.Label>
+                    <Form.Text>
+                      Mã OTP đã được gửi tới Email của quý khách, vui lòng xác
+                      nhận
+                    </Form.Text>
+                    <Form.Control type="text" name="otp"></Form.Control>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button onClick={this.close}>Close</Button>
+                    <Button onClick={this.close}>Xác nhận</Button>
+                  </Modal.Footer>
+                </Modal>
               </Card>
 
               {/* <Button variant="primary" type="submit">
