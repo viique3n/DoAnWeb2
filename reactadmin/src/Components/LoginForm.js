@@ -40,6 +40,7 @@ class LoginForm extends Component {
     return (
       <div className="w3-container" style={{ width: '30%' }}>
         <form className="loginform" onSubmit={this.handleSubmit}>
+        
           <h1>Login</h1>
           <label>
             <b>Email</b>
@@ -47,6 +48,7 @@ class LoginForm extends Component {
           <input
             type="email"
             name="email"
+            placeholder="Email"
             required
             onChange={this.props.handleChange}
           ></input>
@@ -58,6 +60,7 @@ class LoginForm extends Component {
           <input
             type="password"
             name="matkhau"
+            placeholder="Password user"
             required
             onChange={this.props.handleChange}
           ></input>

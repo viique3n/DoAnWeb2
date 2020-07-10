@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+
+import { Button, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import decode from 'jwt-decode';
 import './css/header.css';
+
 
 class Header extends Component {
   constructor(props) {
@@ -50,48 +53,43 @@ class Header extends Component {
     if (this.state.isAuthentiacted) {
       const userData = this.state.userData;
       return (
-        <ul id="menu">
-          <li>
+        <Navbar bg="light" expand="lg">
+          
             <NavLink className="navLink" to="/">
-              Trang chủ
+              Trang chủ |
             </NavLink>
-          </li>
-          <li>
+          
             <NavLink className="navLink" to="/admin/profile">
-              {userData.tenhienthi}
+              {userData.tenhienthi} |
             </NavLink>
-          </li>
-          <li>
+          
             <NavLink className="navLink" to="/admin/getdanhsachkhachhang">
-              Danh sách khách hàng
+              Danh sách khách hàng |
             </NavLink>
-          </li>
-          <li>
+          
             <NavLink className="navLink" to="/admin/capnhattaikhoan">
-              Cập nhật danh sách
+              Cập nhật danh sách |
             </NavLink>
-          </li>
-          <li>
+          
             <NavLink className="navLink" to="/" onClick={this.logout}>
               Đăng xuất
             </NavLink>
-          </li>
-        </ul>
+          
+        
+        </Navbar>
       );
     }
     return (
-      <ul id="menu">
-        <li>
-          <NavLink className="navLink" to="/">
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className="navLink" to="/admin/login">
-            Đăng nhập
-          </NavLink>
-        </li>
-      </ul>
+      <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="/">Internet Banking</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="mr-auto">
+        <Nav.Link href="/">Home</Nav.Link>
+        <Nav.Link href="/admin/login">Đăng Ký</Nav.Link>
+      </Nav>
+  </Navbar.Collapse>
+</Navbar>
     );
   }
   componentDidMount() {
