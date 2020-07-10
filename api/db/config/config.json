@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "0147963",
+    "password": "1234",
     "database": "myinternetbanking",
     "host": "localhost",
     "dialect": "postgres"

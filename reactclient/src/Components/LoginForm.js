@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -42,34 +42,42 @@ class LoginForm extends Component {
     }
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} style={{ width: '30%' }}>
-          <h3>Đăng nhập</h3>
-          <Form.Group controlId='formBasicSoDienThoai'>
-            <Form.Label>Số điện thoại</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Ví dụ: 0123456789'
-              name='sodienthoai'
-              onChange={this.props.handleChange}
-            />
-            <div>{this.props.errors.sodienthoai}</div>
-          </Form.Group>
+        <Container>
+          <Row>
+            <Col sm={2} md={2} lg={2}></Col>
+            <Col sm={20} md={10} lg={20}>
+              <Form onSubmit={this.handleSubmit} style={{ width: '45%' }}>
+                <h3 style={{ textAlign: 'center' }}>Đăng nhập</h3>
+                <Form.Group controlId='formBasicSoDienThoai'>
+                  <Form.Label><b>Số điện thoại</b></Form.Label>
+                  <Form.Control
+                    type='text'
+                    placeholder='Nhập số điện thoại ...'
+                    name='sodienthoai'
+                    onChange={this.props.handleChange}
+                  />
+                  <div>{this.props.errors.sodienthoai}</div>
+                </Form.Group>
 
-          <Form.Group controlId='formBasicPassword'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='...'
-              name='matkhau'
-              onChange={this.props.handleChange}
-            />
-            <div>{this.props.errors.matkhau}</div>
-          </Form.Group>
+                <Form.Group controlId='formBasicPassword'>
+                  <Form.Label><b>Password</b></Form.Label>
+                  <Form.Control
+                    type='password'
+                    placeholder='Nhập password ...'
+                    name='matkhau'
+                    onChange={this.props.handleChange}
+                  />
+                  <div>{this.props.errors.matkhau}</div>
+                </Form.Group>
 
-          <Button variant='primary' type='submit'>
-            Đăng nhập
-          </Button>
-        </Form>
+                <Button variant='primary' type='submit' >
+                  Đăng nhập
+                </Button>
+              </Form>
+            </Col>
+            <Col></Col>
+          </Row>
+        </Container>
       </div>
       /*{ <form className='loginform' onSubmit={this.handleSubmit}>
           <h1>Login</h1>
