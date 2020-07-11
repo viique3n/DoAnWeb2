@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import TaoSoTietKiem from '../Components/SoTietKiem/TaoSoTietKiem';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
+import TaoSoTietKiem from '../../Components/SoTietKiem/TaoSoTietKiem';
+import Header from '../../Components/Header';
+import Footer from '../../Components/Footer';
 
 class TaoSoTietKiemPage extends Component {
   render() {

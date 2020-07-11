@@ -71,6 +71,17 @@ class Header extends Component {
                 <Nav.Link as={Link} to="/chuyenkhoan">
                   Chuyển khoản
                 </Nav.Link>
+                <NavDropdown title="Chuyển khoản">
+                  <NavDropdown.Item as={Link} to="/ck/cungkh">
+                    Chuyển khoản qua tài khoản của quý khách
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ck/cungnganhang">
+                    Chuyển khoản qua tài khoản nội bộ
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ck/liennganhang">
+                    Chuyển khoản liên ngân hàng
+                  </NavDropdown.Item>
+                </NavDropdown>
                 <NavDropdown
                   title="Tiết kiệm trực tuyến"
                   id="basic-nav-dropdown"

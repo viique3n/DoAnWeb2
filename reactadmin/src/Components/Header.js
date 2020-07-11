@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
-import { Button, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import {
+  Button,
+  Navbar,
+  Nav,
+  NavItem,
+  NavDropdown,
+  MenuItem,
+} from 'react-bootstrap';
 import decode from 'jwt-decode';
 import './css/header.css';
-
 
 class Header extends Component {
   constructor(props) {
@@ -54,42 +60,39 @@ class Header extends Component {
       const userData = this.state.userData;
       return (
         <Navbar bg="light" expand="lg">
-          
-            <NavLink className="navLink" to="/">
-              Trang chủ |
-            </NavLink>
-          
-            <NavLink className="navLink" to="/admin/profile">
-              {userData.tenhienthi} |
-            </NavLink>
-          
-            <NavLink className="navLink" to="/admin/getdanhsachkhachhang">
-              Danh sách khách hàng |
-            </NavLink>
-          
-            <NavLink className="navLink" to="/admin/capnhattaikhoan">
-              Cập nhật danh sách |
-            </NavLink>
-          
-            <NavLink className="navLink" to="/" onClick={this.logout}>
-              Đăng xuất
-            </NavLink>
-          
-        
+          <NavLink className="navLink" to="/">
+            Trang chủ |
+          </NavLink>
+
+          <NavLink className="navLink" to="/admin/profile">
+            {userData.tenhienthi} |
+          </NavLink>
+
+          <NavLink className="navLink" to="/admin/getdanhsachkhachhang">
+            Danh sách khách hàng |
+          </NavLink>
+
+          <NavLink className="navLink" to="/admin/capnhattaikhoan">
+            Cập nhật danh sách |
+          </NavLink>
+
+          <NavLink className="navLink" to="/" onClick={this.logout}>
+            Đăng xuất
+          </NavLink>
         </Navbar>
       );
     }
     return (
       <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Internet Banking</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-      <Nav className="mr-auto">
-        <Nav.Link href="/">Home</Nav.Link>
-        <Nav.Link href="/admin/login">Đăng Ký</Nav.Link>
-      </Nav>
-  </Navbar.Collapse>
-</Navbar>
+        <Navbar.Brand href="/">Internet Banking</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/admin/login">Đăng Ký</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
   componentDidMount() {

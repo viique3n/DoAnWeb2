@@ -6,9 +6,12 @@ import SignUpPage from './Pages/SignUpPage';
 import ProfilePage from './Pages/ProfilePage';
 import QuanLyTaiKhoanThanhToanPage from './Pages/QuanLyTaiKhoanThanhToanPage';
 import ChuyenKhoanPage from './Pages/ChuyenKhoanPage';
-import TaoSoTietKiemPage from './Pages/TaoSoTietKiemPage';
-import ThemTienTietKiemPage from './Pages/ThemTienTietKiemPage';
-import RutTienTietKiemPage from './Pages/RutTienTietKiemPage';
+import ChuyenKhoanCungKhachHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanCungKhachHangPage';
+import ChuyenKhoanCungNganHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanCungNganHangPage';
+import ChuyenKhoanLienNganHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanLienNganHangPage';
+import TaoSoTietKiemPage from './Pages/SoTietKiemPages/TaoSoTietKiemPage';
+import ThemTienTietKiemPage from './Pages/SoTietKiemPages/ThemTienTietKiemPage';
+import RutTienTietKiemPage from './Pages/SoTietKiemPages/RutTienTietKiemPage';
 import { AuthRoute, UnAuthRoute } from './Auth/AuthRoute';
 class App extends Component {
   render() {
@@ -32,6 +35,15 @@ class App extends Component {
           </AuthRoute>
           <AuthRoute path="/chuyenkhoan">
             <ChuyenKhoanPage />
+          </AuthRoute>
+          <AuthRoute path="/ck/cungkh">
+            <ChuyenKhoanCungKhachHangPage />
+          </AuthRoute>
+          <AuthRoute path="/ck/cungnganhang">
+            <ChuyenKhoanCungNganHangPage />
+          </AuthRoute>
+          <AuthRoute path="/ck/liennganhang">
+            <ChuyenKhoanLienNganHangPage />
           </AuthRoute>
           <AuthRoute path="/tietkiemtructuyen/taosotietkiem">
             <TaoSoTietKiemPage />

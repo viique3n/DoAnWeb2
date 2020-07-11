@@ -124,13 +124,21 @@ module.exports.verifyPassword = (password, passwordHash) => {
 };
 
 module.exports.taoTaiKhoan = async (khachhang) => {
+  const {
+    sodienthoai,
+    email,
+    tenhienthi,
+    matkhau,
+    doituongkhachhangId,
+  } = khachhang;
   const newkhachhang = await KhachHang.create({
-    sodienthoai: khachhang.sodienthoai,
-    email: khachhang.email,
-    tenhienthi: khachhang.tenhienthi,
-    matkhau: hashPassword(khachhang.matkhau),
+    sodienthoai,
+    email,
+    tenhienthi,
+    matkhau: hashPassword(matkhau),
     tinhtrang: 'Chưa xác thực',
     token: crypto.randomBytes(3).toString('hex').toUpperCase(),
+    doituongkhachhangId,
   });
   return newkhachhang;
 };

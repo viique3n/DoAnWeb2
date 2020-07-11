@@ -72,6 +72,7 @@ module.exports.postSignUpAPI = async (req, res) => {
     email,
     tenhienthi,
     matkhau,
+    doituongkhachhangId: 1,
   };
   const khachhang = await khachHangService.taoTaiKhoan(thongtin);
   console.log('them khach hang thanh cong');
