@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-
-import {
-  Button,
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Nav, Navbar } from 'react-bootstrap';
 import decode from 'jwt-decode';
-import './css/header.css';
+//import './css/header.css';
 
 class Header extends Component {
   constructor(props) {
@@ -59,37 +51,64 @@ class Header extends Component {
     if (this.state.isAuthentiacted) {
       const userData = this.state.userData;
       return (
-        <Navbar bg="light" expand="lg">
-          <NavLink className="navLink" to="/">
-            Trang chủ |
-          </NavLink>
+        <div>
+          <Navbar bg='light' expand='lg'>
+            <Navbar.Brand as={Link} to='/'>
+              Internet Banking
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls='basic-navbar-nav' />
+            <Navbar.Collapse id='basic-navbar-nav'>
+              <Nav className='mr-auto'>
+                <Nav.Link as={Link} to='/admin/profile'>
+                  {userData.tenhienthi}
+                </Nav.Link>
+                <Nav.Link as={Link} to='/admin/getdanhsachkhachhang'>
+                  Danh sách khách hàng
+                </Nav.Link>
+                <Nav.Link as={Link} to='/admin/capnhattaikhoan'>
+                  Cập nhật danh sách
+                </Nav.Link>
+                <Nav.Link as={Link} to='/' onClick={this.logout}>
+                  Đăng xuất
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </div>
+        // <Navbar bg="light" expand="lg">
+        //   <NavLink className="navLink" to="/">
+        //     Trang chủ |
+        //   </NavLink>
 
-          <NavLink className="navLink" to="/admin/profile">
-            {userData.tenhienthi} |
-          </NavLink>
+        //   <NavLink className="navLink" to="/admin/profile">
+        //     {userData.tenhienthi} |
+        //   </NavLink>
 
-          <NavLink className="navLink" to="/admin/getdanhsachkhachhang">
-            Danh sách khách hàng |
-          </NavLink>
+        //   <NavLink className="navLink" to="/admin/getdanhsachkhachhang">
+        //     Danh sách khách hàng |
+        //   </NavLink>
 
-          <NavLink className="navLink" to="/admin/capnhattaikhoan">
-            Cập nhật danh sách |
-          </NavLink>
+        //   <NavLink className="navLink" to="/admin/capnhattaikhoan">
+        //     Cập nhật danh sách |
+        //   </NavLink>
 
-          <NavLink className="navLink" to="/" onClick={this.logout}>
-            Đăng xuất
-          </NavLink>
-        </Navbar>
+        //   <NavLink className="navLink" to="/" onClick={this.logout}>
+        //     Đăng xuất
+        //   </NavLink>
+        // </Navbar>
       );
     }
     return (
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/">Internet Banking</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/admin/login">Đăng Ký</Nav.Link>
+      <Navbar bg='light' expand='lg'>
+        <Navbar.Brand as={Link} to='/'>
+          Internet Banking
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='mr-auto'>
+            <Nav.Link as={Link} to='/admin/login'>
+              Đăng nhập
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
