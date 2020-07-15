@@ -13,9 +13,9 @@ module.exports.postTotpGenerate = async (req, res) => {
     }),
     remaining: 300 - Math.floor((new Date().getTime() / 1000.0) % 30),
   };
-  console.log(`generate token`);
-  console.log(`secret: ${req.body.secret}`);
-  console.log(`token: ${OTP.token}`);
+  // console.log(`generate token`);
+  // console.log(`secret: ${req.body.secret}`);
+  // console.log(`token: ${OTP.token}`);
   return res.json(OTP);
   // console.log(OTP);
   // const sendMail = await mailService.send(
@@ -39,17 +39,10 @@ module.exports.postTotpValidate = (req, res) => {
       secret,
       encoding: 'base32',
       token,
-      window: 0,
+      window: 2,
     }),
   };
   console.log(`verify: ${verify.valid}`);
 
-  res.json({
-    valid: Speakeasy.totp.verify({
-      secret,
-      encoding: 'base32',
-      token,
-      window: 0,
-    }),
-  });
+  res.json(verify);
 };

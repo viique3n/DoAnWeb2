@@ -1,3 +1,4 @@
+//#region import
 import React, { Component } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -11,25 +12,36 @@ import {
   Card,
   Modal,
 } from 'react-bootstrap';
+//#endregion
 
 class TaoSoTietKiem extends Component {
+  //#region constructor
   constructor(props) {
     super(props);
+    //#region state
     this.state = {
       mataikhoanthanhtoan: '',
       sodu: 0,
       sodutext: '',
       ngaymo: '',
+      ngaydong: '',
+      ngaydongtext: '',
+      sotiensautietkiem: 0,
+      sotiensautietkiemtext: '',
       hinhthuctralai: '',
       showModal: false,
       danhsachtaikhoanthanhtoan: [],
       danhsachkyhan: [],
       danhsachlaisuat: [],
       kyhan: '',
+      laisuatId: '',
       laisuat: '',
       laisuattext: '',
       sotiengui: '',
+      sotienguitemp: '', // Lưu số tiền gửi kể cả khi không hợp lệ
       sotienguierrors: '',
+      tienlai: 0,
+      tienlaitext: '',
       secret: '',
       maotp: '',
       xacthucotp: false,
@@ -39,6 +51,9 @@ class TaoSoTietKiem extends Component {
       xacnhantaosoerror: '',
       trangthaitaoso: '',
     };
+    //#endregion
+
+    //#region eventHandler
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.handleOnChangeSoTienGuiTietKiem = this.handleOnChangeSoTienGuiTietKiem.bind(
@@ -53,7 +68,9 @@ class TaoSoTietKiem extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     // this.handleSelectHinhThucOTP = this.handleSelectHinhThucOTP.bind(this);
+    //#endregion
   }
+  //#endregion
 
   //#region function
   close() {
@@ -175,6 +192,7 @@ class TaoSoTietKiem extends Component {
       params: { khachhangSodienthoai: sodienthoai },
     })
       .then((res) => {
+        debugger;
         let danhsachtaikhoanthanhtoan = [];
         res.data.map((tk) => {
           if (tk.tinhtrang === 'Đã kích hoạt') {
@@ -210,16 +228,41 @@ class TaoSoTietKiem extends Component {
         console.log(err);
       });
   }
+  addWeeks(date, weeks) {
+    return new Date(date.setDate(date.getDate() + weeks * 7));
+  }
+  addMonths(date, months) {
+    var d = date.getDate();
+    date.setMonth(date.getMonth() + +months);
+    if (date.getDate() != d) {
+      date.setDate(0);
+    }
+    return date;
+  }
+  tinhTienLai(sotiengui, laisuat, kyhan) {
+    debugger;
+    if (kyhan) {
+      return parseInt(+sotiengui * (+laisuat / 100) * (+kyhan / 360));
+    }
+  }
   //#endregion
 
   //#region EventHandler
   handleOnChangeSoTienGuiTietKiem(event) {
     event.preventDefault();
+    debugger;
     if (isNaN(event.target.value)) {
       this.setState({
+        sotiengui: '',
         sotienguierrors: 'Số tiền gửi không hợp lệ',
+        sotienguitemp: '',
         laisuat: '',
+        laisuatId: '',
         laisuattext: '',
+        sotiensautietkiem: '',
+        sotiensautietkiemtext: '',
+        tienlai: 0,
+        tienlaitext: '',
       });
       return;
     }
@@ -227,49 +270,110 @@ class TaoSoTietKiem extends Component {
     const sotiengui = event.target.value;
     if (+sotiengui < 3000000) {
       this.setState({
+        sotiengui: '',
+        sotienguitemp: '',
         sotienguierrors: 'Số tiền gửi tối thiểu phải lớn hơn 3 triệu đồng',
         laisuat: '',
+        laisuatId: '',
         laisuattext: '',
+        sotiensautietkiem: '',
+        sotiensautietkiemtext: '',
+        tienlai: 0,
+        tienlaitext: '',
       });
       return;
     } else if (+sotiengui % 50000 !== 0) {
       this.setState({
+        sotiengui: '',
+        sotienguitemp: '',
         sotienguierrors:
           'Số tiền gửi không hợp lệ, yêu cầu số tiền phải chia hết cho 50 nghìn đồng',
         laisuat: '',
+        laisuatId: '',
         laisuattext: '',
+        sotiensautietkiem: '',
+        sotiensautietkiemtext: '',
+        tienlai: 0,
+        tienlaitext: '',
       });
     } else if (+sotiengui > +this.state.sodu) {
       this.setState({
+        sotiengui: '',
+        sotienguitemp: sotiengui,
         sotienguierrors:
           'Số tiền gửi tiết kiệm lớn hơn số tiền trong tài khoản thanh toán, vui lòng nhập số tiền thấp hơn',
         laisuat: '',
+        laisuatId: '',
         laisuattext: '',
+        sotiensautietkiem: '',
+        sotiensautietkiemtext: '',
+        tienlai: 0,
+        tienlaitext: '',
       });
     } else {
       const { danhsachlaisuat, kyhan } = this.state;
+      if (kyhan === 'DEFAULT' || kyhan === '') {
+        this.setState({
+          sotiengui,
+          sotienguitemp: '',
+          laisuat: '',
+          laisuatId: '',
+          laisuattext: '',
+          ngaydong: '',
+          ngaydongtext: '',
+          tienlai: 0,
+          tienlaitext: '',
+          sotiensautietkiem: '',
+          sotiensautietkiemtext: '',
+          sotienguierrors: '',
+        });
+        return;
+      }
       let ls;
+      let lsId;
+      let kyhand;
+      const splKyHan = kyhan.split(' ');
+      if (splKyHan[1] === 'tuần') {
+        kyhand = splKyHan[0] * 7;
+      } else if (splKyHan[1] === 'tháng') {
+        kyhand = splKyHan[0] * 30;
+      }
+      debugger;
       danhsachlaisuat.map((laisuat) => {
+        debugger;
         if (
           +sotiengui >= +laisuat.muctientoithieu &&
           +sotiengui < +laisuat.muctientoida &&
           laisuat.kyhan === kyhan
         ) {
           ls = laisuat.laisuat;
+          lsId = laisuat.id;
         } else if (
           +sotiengui >= +laisuat.muctientoithieu &&
           +laisuat.muctientoida === -1 &&
           laisuat.kyhan === kyhan
         ) {
           ls = laisuat.laisuat;
+          lsId = laisuat.id;
         }
       });
-      const test = this.state;
+      debugger;
+      let tienlai, tienlaitext, sotiensautietkiem, sotiensautietkiemtext;
+      tienlai = this.tinhTienLai(sotiengui, ls, kyhand);
+      tienlaitext = `Tiền lãi sau tiết kiệm: ${tienlai}`;
+      sotiensautietkiem = +sotiengui + +tienlai;
+      sotiensautietkiemtext = `Số tiền sau khi hoàn tất kỳ hạn tiết kiệm: ${sotiensautietkiem}`;
       this.setState({
         sotiengui,
+        sotienguitemp: '',
         laisuat: ls,
+        laisuatId: lsId,
         laisuattext: 'Lãi suất: ' + ls + '%',
         sotienguierrors: '',
+        tienlai,
+        tienlaitext,
+        sotiensautietkiem,
+        sotiensautietkiemtext,
       });
     }
   }
@@ -282,56 +386,155 @@ class TaoSoTietKiem extends Component {
         sodu: 0,
         sodutext: '',
         laisuat: '',
+        laisuatId: '',
         laisuattext: '',
         sotienguierrors: '',
+        tienlai: 0,
+        tienlaitext: '',
+        sotiensautietkiem: '',
+        sotiensautietkiemtext: '',
       });
       return;
     }
-    const { danhsachtaikhoanthanhtoan } = this.state;
+
+    const { danhsachtaikhoanthanhtoan, kyhan, sotiengui } = this.state;
+    let kyhand;
+    const splKyHan = kyhan.split(' ');
+    if (splKyHan[1] === 'tuần') {
+      kyhand = splKyHan[0] * 7;
+    } else if (splKyHan[1] === 'tháng') {
+      kyhand = splKyHan[0] * 30;
+    }
     danhsachtaikhoanthanhtoan.map((taikhoan) => {
       if (taikhoan.mataikhoan === mataikhoanthanhtoan) {
         if (+this.state.sotiengui > +taikhoan.sodu) {
+          debugger;
           this.setState({
             sotienguierrors:
               'Số tiền gửi tiết kiệm lớn hơn số tiền trong tài khoản thanh toán, vui lòng nhập số tiền thấp hơn',
             laisuat: '',
+            laisuatId: '',
             laisuattext: '',
+            tienlai: '',
+            tienlaitext: '',
+            sotiensautietkiem: '',
+            sotiensautietkiemtext: '',
+            mataikhoanthanhtoan,
+            sodu: taikhoan.sodu,
+            sodutext: 'Số dư: ' + taikhoan.sodu + ' ' + taikhoan.donvitiente,
           });
+          return;
+        } else if (
+          !this.sotiengui &&
+          +this.state.sotienguitemp > +taikhoan.sodu
+        ) {
+          debugger;
+          this.setState({
+            sotienguierrors:
+              'Số tiền gửi tiết kiệm lớn hơn số tiền trong tài khoản thanh toán, vui lòng nhập số tiền thấp hơn',
+            laisuat: '',
+            laisuatId: '',
+            laisuattext: '',
+            tienlai: '',
+            tienlaitext: '',
+            sotiensautietkiem: '',
+            sotiensautietkiemtext: '',
+            mataikhoanthanhtoan,
+            sodu: taikhoan.sodu,
+            sodutext: 'Số dư: ' + taikhoan.sodu + ' ' + taikhoan.donvitiente,
+          });
+          return;
         } else {
-          const { danhsachlaisuat, kyhan, sotiengui } = this.state;
+          const { danhsachlaisuat } = this.state;
+          if (kyhan === 'DEFAULT') {
+            this.setState({
+              laisuat: '',
+              laisuatId: '',
+              laisuattext: '',
+              ngaydong: '',
+              ngaydongtext: '',
+              tienlai: 0,
+              tienlaitext: '',
+              sotiensautietkiem: '',
+              sotiensautietkiemtext: '',
+            });
+            return;
+          }
+          const { sotienguitemp } = this.state;
           let ls;
-          danhsachlaisuat.map((laisuat) => {
-            if (
-              +sotiengui >= +laisuat.muctientoithieu &&
-              +sotiengui < +laisuat.muctientoida &&
-              laisuat.kyhan === kyhan
-            ) {
-              ls = laisuat.laisuat;
-            } else if (
-              +sotiengui >= +laisuat.muctientoithieu &&
-              +laisuat.muctientoida === -1 &&
-              laisuat.kyhan === kyhan
-            ) {
-              ls = laisuat.laisuat;
-            }
-          });
-          const test = this.state;
+          let lsId;
+          if (sotiengui !== '') {
+            danhsachlaisuat.map((laisuat) => {
+              if (
+                +sotiengui >= +laisuat.muctientoithieu &&
+                +sotiengui < +laisuat.muctientoida &&
+                laisuat.kyhan === kyhan
+              ) {
+                ls = laisuat.laisuat;
+                lsId = laisuat.id;
+              } else if (
+                +sotiengui >= +laisuat.muctientoithieu &&
+                +laisuat.muctientoida === -1 &&
+                laisuat.kyhan === kyhan
+              ) {
+                ls = laisuat.laisuat;
+                lsId = laisuat.id;
+              }
+            });
+          } else if (sotienguitemp !== '') {
+            danhsachlaisuat.map((laisuat) => {
+              if (
+                +sotienguitemp >= +laisuat.muctientoithieu &&
+                +sotienguitemp < +laisuat.muctientoida &&
+                laisuat.kyhan === kyhan
+              ) {
+                ls = laisuat.laisuat;
+                lsId = laisuat.id;
+              } else if (
+                +sotienguitemp >= +laisuat.muctientoithieu &&
+                +laisuat.muctientoida === -1 &&
+                laisuat.kyhan === kyhan
+              ) {
+                ls = laisuat.laisuat;
+                lsId = laisuat.id;
+              }
+            });
+          }
+          debugger;
+          if (sotiengui === '' && sotienguitemp === '') {
+            this.setState({
+              sotiengui,
+              sotienguierrors: '',
+              mataikhoanthanhtoan,
+              sodu: taikhoan.sodu,
+              sodutext: 'Số dư: ' + taikhoan.sodu + ' ' + taikhoan.donvitiente,
+            });
+            return;
+          }
+          // sotiengui = sotienguitemp;
+
+          let tienlai, tienlaitext, sotiensautietkiem, sotiensautietkiemtext;
+          tienlai = this.tinhTienLai(sotiengui, ls, kyhand);
+          tienlaitext = `Tiền lãi sau tiết kiệm: ${tienlai}`;
+          sotiensautietkiem = +sotiengui + +tienlai;
+          sotiensautietkiemtext = `Số tiền sau khi hoàn tất kỳ hạn tiết kiệm: ${sotiensautietkiem}`;
+
           this.setState({
             sotiengui,
             laisuat: ls,
+            laisuatId: lsId,
             laisuattext: 'Lãi suất: ' + ls + '%',
             sotienguierrors: '',
+            mataikhoanthanhtoan,
+            sodu: taikhoan.sodu,
+            sodutext: 'Số dư: ' + taikhoan.sodu + ' ' + taikhoan.donvitiente,
+            tienlai,
+            tienlaitext,
+            sotiensautietkiem,
+            sotiensautietkiemtext,
           });
         }
-        this.setState({
-          mataikhoanthanhtoan,
-          sodu: taikhoan.sodu,
-          sodutext: 'Số dư: ' + taikhoan.sodu + ' ' + taikhoan.donvitiente,
-        });
       }
-    });
-    this.setState({
-      mataikhoanthanhtoan,
     });
   }
   handleSelectKyHan(event) {
@@ -340,12 +543,57 @@ class TaoSoTietKiem extends Component {
     if (kyhan === 'DEFAULT') {
       this.setState({
         laisuat: '',
+        laisuatId: '',
         laisuattext: '',
+        ngaydong: '',
+        ngaydongtext: '',
+        tienlai: 0,
+        tienlaitext: '',
+        sotiensautietkiem: '',
+        sotiensautietkiemtext: '',
+        kyhan: '',
       });
+      return;
     }
     const { sotiengui, danhsachlaisuat, sotienguierrors } = this.state;
+    debugger;
+    const now = new Date();
+    let ngaydong;
+    let ngaydongtext;
+    let kyhand;
+    const splKyHan = kyhan.split(' ');
+    if (splKyHan[1] === 'tuần') {
+      ngaydong = this.addWeeks(now, +splKyHan[0]);
+      kyhand = splKyHan[0] * 7;
+      ngaydongtext = `Ngày đóng thẻ: ${ngaydong.getDate()}/${
+        ngaydong.getMonth() + 1
+      }/${ngaydong.getFullYear()}`;
+    } else if (splKyHan[1] === 'tháng') {
+      ngaydong = this.addMonths(now, splKyHan[0]);
+      kyhand = splKyHan[0] * 30;
+      ngaydongtext = `Ngày đóng thẻ: ${ngaydong.getDate()}/${
+        ngaydong.getMonth() + 1
+      }/${ngaydong.getFullYear()}`;
+    }
+
+    if (sotiengui === '') {
+      this.setState({
+        laisuat: '',
+        laisuatId: '',
+        laisuattext: '',
+        sotiensautietkiem: '',
+        sotiensautietkiemtext: '',
+        tienlai: '',
+        tienlaitext: '',
+        kyhan,
+        ngaydong,
+        ngaydongtext,
+      });
+      return;
+    }
 
     let ls;
+    let lsId;
     danhsachlaisuat.map((laisuat) => {
       if (
         +sotiengui >= +laisuat.muctientoithieu &&
@@ -353,20 +601,36 @@ class TaoSoTietKiem extends Component {
         laisuat.kyhan === kyhan
       ) {
         ls = laisuat.laisuat;
+        lsId = laisuat.id;
       } else if (
         +sotiengui >= +laisuat.muctientoithieu &&
         +laisuat.muctientoida === -1 &&
         laisuat.kyhan === kyhan
       ) {
         ls = laisuat.laisuat;
+        lsId = laisuat.id;
       }
     });
+
+    let tienlai, tienlaitext, sotiensautietkiem, sotiensautietkiemtext;
+    tienlai = this.tinhTienLai(sotiengui, ls, kyhand);
+    tienlaitext = `Tiền lãi sau tiết kiệm: ${tienlai}`;
+    sotiensautietkiem = +sotiengui + +tienlai;
+    sotiensautietkiemtext = `Số tiền sau khi hoàn tất kỳ hạn tiết kiệm: ${sotiensautietkiem}`;
+    debugger;
     this.setState({
       sotiengui,
       laisuat: ls,
+      laisuatId: lsId,
       laisuattext: 'Lãi suất: ' + ls + '%',
       sotienguierrors: '',
       kyhan,
+      ngaydong,
+      ngaydongtext,
+      tienlai,
+      tienlaitext,
+      sotiensautietkiem,
+      sotiensautietkiemtext,
     });
   }
   handleSelectHinhThucTraLai(event) {
@@ -399,18 +663,54 @@ class TaoSoTietKiem extends Component {
       })
       .then((res) => {
         console.log(`typeof token: ${typeof maotp}`);
+        console.log(res.data);
         const { valid } = res.data;
         debugger;
         if (valid === true) {
+          let token = sessionStorage.getItem('refreshToken');
+          token = sessionStorage.getItem('jwtToken');
+          const decoded = jwt_decode(token);
+          const { sodienthoai } = decoded;
+          const {
+            ngaydong,
+            sotiengui,
+            kyhan,
+            tienlai,
+            laisuat,
+            laisuatId,
+            mataikhoanthanhtoan,
+          } = this.state;
+          const sotietkiem = {
+            ngaymo: new Date(),
+            ngaydong,
+            sotiengui,
+            kyhan,
+            tienlai,
+            laisuatId,
+            laisuat,
+            taikhoanthanhtoanMataikhoan: mataikhoanthanhtoan,
+            khachhangSodienthoai: sodienthoai,
+          };
           axios
-            .post('http://localhost:9000/api/totp/totp-validate')
-            .then((res) => {})
-            .catch((err) => {});
-          this.setState({
-            xacthucotp: true,
-            trangthaitaoso: 'Tạo sổ tiết kiệm thành công',
-            showModal: false,
-          });
+            .post('http://localhost:9000/api/sotietkiem/taosotietkiem', {
+              sotietkiem,
+            })
+            .then((res) => {
+              console.log('thong tin tao so tiet kiem');
+              console.log(res.data);
+              this.setState({
+                xacthucotp: true,
+                trangthaitaoso: 'Tạo sổ tiết kiệm thành công',
+                showModal: false,
+                sodutext: '',
+              });
+              // this.getDanhSachTaiKhoanThanhToan();
+              alert('Chuyển khoản thành công');
+              window.location.reload();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           this.setState({
             xacthucotp: false,
@@ -422,8 +722,6 @@ class TaoSoTietKiem extends Component {
       .catch((err) => {
         console.log(err);
       });
-
-    debugger;
   }
   //#endregion
 
@@ -486,6 +784,7 @@ class TaoSoTietKiem extends Component {
                         <option value={kyhan}>{kyhan}</option>
                       ))}
                     </Form.Control>
+                    <Form.Text>{this.state.ngaydongtext}</Form.Text>
                   </Form.Group>
 
                   <Form.Group>
@@ -498,6 +797,8 @@ class TaoSoTietKiem extends Component {
                       {this.state.sotienguierrors}
                     </Form.Text>
                     <Form.Text>{this.state.laisuattext}</Form.Text>
+                    <Form.Text>{this.state.tienlaitext}</Form.Text>
+                    <Form.Text>{this.state.sotiensautietkiemtext}</Form.Text>
                   </Form.Group>
 
                   <Form.Group>

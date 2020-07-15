@@ -190,6 +190,43 @@ function generateMaChuyenKhoan(mataikhoanchuyenkhoan, mataikhoanthuhuong) {
   );
 }
 
+module.exports.taoChuyenKhoan = async (thongtinchuyenkhan) => {
+  const {
+    maChuyenKhoan,
+    mataikhoanchuyenkhoan,
+    mataikhoanthuhuong,
+    sotienchuyenkhoan,
+    sodutaikhoanchuyenkhoantruocgiaodich,
+    sodutaikhoanchuyenkhoansaugiaodich,
+    sodutaikhoanthuhuongtruocgiaodich,
+    sodutaikhoanthuhuongsaugiaodich,
+    noidung,
+    thoigian,
+    thoigiandmy,
+    loaichuyenkhoanId,
+  } = thongtinchuyenkhan;
+  const taoChuyenKhoan = await ChuyenKhoan.create({
+    id: maChuyenKhoan,
+    mataikhoanchuyenkhoan,
+    mataikhoanthuhuong,
+    sotienchuyenkhoan,
+    sodutaikhoanchuyenkhoantruocgiaodich,
+    sodutaikhoanchuyenkhoansaugiaodich,
+    sodutaikhoanthuhuongtruocgiaodich,
+    sodutaikhoanthuhuongsaugiaodich,
+    noidung,
+    thoigian,
+    thoigiandmy,
+    loaichuyenkhoanId,
+  });
+  if (!taoChuyenKhoan) {
+    return {
+      error: 'Tạo thông tin chuyển khoản thất bại',
+    };
+  }
+  return taoChuyenKhoan;
+};
+
 module.exports.chuyenKhoanNoiBo = async (thongtinchuyenkhoan) => {
   const {
     mataikhoanchuyenkhoan,

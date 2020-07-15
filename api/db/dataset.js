@@ -1133,6 +1133,12 @@ const loaiChuyenKhoan = [
     createdAt: now,
     updatedAt: now,
   },
+  {
+    id: 4,
+    loaichuyenkhoan: 'Tạo sổ tiết kiệm',
+    createdAt: now,
+    updatedAt: now,
+  },
 ];
 
 const hanMucGiaoDich = [
