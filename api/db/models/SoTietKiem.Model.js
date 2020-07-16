@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/sequelize');
 const LaiSuat = require('./LaiSuat.Model');
 const TaiKhoanThanhToan = require('./TaiKhoanThanhToan.Model');
+const HinhThucTraLai = require('./HinhThucTraLai.Model');
 const Model = Sequelize.Model;
 
 class SoTietKiem extends Model {}
@@ -59,6 +60,7 @@ SoTietKiem.init(
   }
 );
 
+SoTietKiem.belongsTo(HinhThucTraLai);
 SoTietKiem.belongsTo(LaiSuat);
 SoTietKiem.belongsTo(TaiKhoanThanhToan);
 module.exports = SoTietKiem;

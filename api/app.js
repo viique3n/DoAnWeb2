@@ -2,19 +2,19 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-//var cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const CronJob = require('cron').CronJob;
 
 const indexRouter = require('./api/routes/index');
 const khachhangApiRouter = require('./api/routes/khachhang.route');
 const adminApiRouter = require('./api/routes/admin.route');
 const taikhoanRouter = require('./api/routes/taikhoan.route');
 const chuyenKhoanRouter = require('./api/routes/chuyenkhoan.route');
-const { chuyenKhoanLienNganHang } = require('./services/chuyenkhoan.service');
 const laiSuatRouter = require('./api/routes/laisuat.route');
 const totpRouter = require('./api/routes/totp.route');
 const sotietkiemRouter = require('./api/routes/sotietkiem.route');
+const { capNhatSoTietKiem } = require('./services/sotienkiem.service');
 const app = express();
 //#endregion
 
@@ -38,6 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // auth middleware
 //app.use(require('./middlewares/auth.middleware'));
 
+const capNhatSoTietKiemJob = new CronJob('* * * * * *', capNhatSoTietKiem);
+capNhatSoTietKiemJob.start();
 //#region api
 app.use('/api/admin/', adminApiRouter);
 app.use('/api/auth/', khachhangApiRouter);

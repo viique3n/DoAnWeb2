@@ -97,10 +97,7 @@ module.exports.capNhatSoDu = async (thongtin) => {
     };
   }
   const sodutruocgiaodich = taiKhoan.sodu;
-  // console.log(taiKhoan.dataValues);
 
-  // console.log(`typeof sotienchuyenkhoan: ${typeof sotienchuyenkhoan}`);
-  // console.log(`typeof sodu: ${typeof taiKhoan.sodu}`);
   taiKhoan.sodu = +taiKhoan.sodu + +sotienchuyenkhoan;
   const result = await taiKhoan.save();
   const sodusaugiaodich = taiKhoan.sodu;

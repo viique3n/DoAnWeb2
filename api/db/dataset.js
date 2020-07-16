@@ -1139,6 +1139,12 @@ const loaiChuyenKhoan = [
     createdAt: now,
     updatedAt: now,
   },
+  {
+    id: 5,
+    loaichuyenkhoan: 'Tất toán tiết kiệm',
+    createdAt: now,
+    updatedAt: now,
+  },
 ];
 
 const hanMucGiaoDich = [
@@ -1249,6 +1255,21 @@ const taiKhoanThanhToan = [
   },
 ];
 
+const danhSachHinhThucTraLai = [
+  {
+    id: 1,
+    tenhinhthuc: 'Lãi nhập gốc',
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: 2,
+    tenhinhthuc: 'Lãi trả vào tài khoản thanh toán khi đến hạn',
+    createdAt: now,
+    updatedAt: now,
+  },
+];
+
 module.exports = {
   nhanVienQuanLy,
   doiTuongKhachHang,
@@ -1257,4 +1278,5 @@ module.exports = {
   loaiChuyenKhoan,
   hanMucGiaoDich,
   taiKhoanThanhToan,
+  danhSachHinhThucTraLai,
 };

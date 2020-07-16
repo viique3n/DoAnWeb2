@@ -29,6 +29,7 @@ class TaoSoTietKiem extends Component {
       sotiensautietkiem: 0,
       sotiensautietkiemtext: '',
       hinhthuctralai: '',
+      hinhthuctralaiId: '',
       showModal: false,
       danhsachtaikhoanthanhtoan: [],
       danhsachkyhan: [],
@@ -635,14 +636,17 @@ class TaoSoTietKiem extends Component {
   }
   handleSelectHinhThucTraLai(event) {
     event.preventDefault();
+    debugger;
     const hinhthuctralai = event.target.value;
     if (hinhthuctralai === 'DEFAULT') {
       this.setState({
         hinhthuctralai: '',
+        hinhthuctralaiId: '',
       });
     } else {
       this.setState({
         hinhthuctralai,
+        hinhthuctralaiId: hinhthuctralai,
       });
     }
   }
@@ -679,6 +683,7 @@ class TaoSoTietKiem extends Component {
             laisuat,
             laisuatId,
             mataikhoanthanhtoan,
+            hinhthuctralaiId,
           } = this.state;
           const sotietkiem = {
             ngaymo: new Date(),
@@ -690,6 +695,7 @@ class TaoSoTietKiem extends Component {
             laisuat,
             taikhoanthanhtoanMataikhoan: mataikhoanthanhtoan,
             khachhangSodienthoai: sodienthoai,
+            hinhthuctralaiId,
           };
           axios
             .post('http://localhost:9000/api/sotietkiem/taosotietkiem', {
@@ -809,8 +815,8 @@ class TaoSoTietKiem extends Component {
                       onChange={this.handleSelectHinhThucTraLai}
                     >
                       <option value="DEFAULT">Chọn hình thức trả lãi</option>
-                      <option value="hinhthuclai1">Lãi nhập gốc</option>
-                      <option value="hinhthuclai2">
+                      <option value="1">Lãi nhập gốc</option>
+                      <option value="2">
                         Lãi trả vào tải khoản tiết kiệm khi đến hạn
                       </option>
                     </Form.Control>
