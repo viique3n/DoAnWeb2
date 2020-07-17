@@ -250,8 +250,11 @@ class TaoSoTietKiem extends Component {
 
   //#region EventHandler
   handleOnChangeSoTienGuiTietKiem(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
-    debugger;
     if (isNaN(event.target.value)) {
       this.setState({
         sotiengui: '',
@@ -379,6 +382,10 @@ class TaoSoTietKiem extends Component {
     }
   }
   handleSelectMaTaiKhoanGoc(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const mataikhoanthanhtoan = event.target.value;
     if (mataikhoanthanhtoan === 'DEFAULT') {
@@ -539,6 +546,10 @@ class TaoSoTietKiem extends Component {
     });
   }
   handleSelectKyHan(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const kyhan = event.target.value;
     if (kyhan === 'DEFAULT') {
@@ -635,6 +646,10 @@ class TaoSoTietKiem extends Component {
     });
   }
   handleSelectHinhThucTraLai(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     debugger;
     const hinhthuctralai = event.target.value;
@@ -651,6 +666,10 @@ class TaoSoTietKiem extends Component {
     }
   }
   handleChangeMaOTP(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const maotp = event.target.value;
     this.setState({
@@ -658,6 +677,10 @@ class TaoSoTietKiem extends Component {
     });
   }
   handleSubmit(event) {
+    const renew = this.renewAcess;
+    if (renew === false) {
+      return;
+    }
     event.preventDefault();
     const { maotp, secret } = this.state;
     axios

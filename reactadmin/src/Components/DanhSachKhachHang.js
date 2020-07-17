@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { renewAccessToken } from '../Auth/AuthRoute';
-import './css/khachhang.css';
-import { array } from 'yup';
+import {
+  Container,
+  Table,
+  Button,
+  ButtonGroup,
+  Form,
+  Col,
+  Row,
+} from 'react-bootstrap';
+import axios from 'axios';
 
 class DanhSachKhachHang extends Component {
   constructor(props) {
@@ -62,65 +68,104 @@ class DanhSachKhachHang extends Component {
         <th>Email</th>
         <th>Tên hiển thị</th>
         <th>Tình trạng</th>
-        <th>Xóa</th>
+        <th style={{ textAlign: 'center' }}>Xác thực</th>
+        {/* <th>Hủy xác thực</th>
         <th>Khóa</th>
-        <th>Xác thực</th>
-        <th>Hủy xác thực</th>
+        <th>Xóa</th> */}
       </tr>
     );
   }
   renderTable() {
     return this.state.danhsachkhachhang.map((khachhang) => {
       const { email, sodienthoai, tinhtrang, tenhienthi } = khachhang;
+      let c = 'black';
+      if (tinhtrang === 'Đã xác thực') {
+        c = 'blue';
+      } else if (tinhtrang === 'Chưa xác thực') {
+        c = 'orange';
+      } else if (tinhtrang === 'Đã khóa') {
+        c = 'orange';
+      } else if (tinhtrang === 'Đã xóa') {
+        c = 'red';
+      }
       return (
         <tr key={sodienthoai}>
           <td>{sodienthoai}</td>
           <td>{email}</td>
           <td>{tenhienthi}</td>
-          <td>{tinhtrang}</td>
+          <td style={{ color: c }}>{tinhtrang}</td>
           <td>
-            {/* Một kiểu truyền dữ liệu, không hiệu quả bằng cách bên dưới */}
-            {/* <button
-              className="khachhangDeleteButton"
-              onClick={this.handleTableDeleteButtonClick.bind(this, khachhang)}
-            >
-              Xóa
-            </button> */}
-            <button
-              onClick={this.handleTableUpdateButtonClick}
-              data-khsodienthoai={khachhang.sodienthoai}
-              data-tinhtrang="Đã xóa"
-            >
-              Xóa
-            </button>
+            <ButtonGroup>
+              <Button
+                style={{ border: 'none' }}
+                variant="outline-primary"
+                onClick={this.handleTableUpdateButtonClick}
+                data-khsodienthoai={khachhang.sodienthoai}
+                data-tinhtrang="Đã xác thực"
+              >
+                Xác thực
+              </Button>
+              <Button
+                style={{ border: 'none' }}
+                variant="outline-warning"
+                onClick={this.handleTableUpdateButtonClick}
+                data-khsodienthoai={khachhang.sodienthoai}
+                data-tinhtrang="Chưa xác thực"
+              >
+                Hủy xác thực
+              </Button>
+              <Button
+                style={{ border: 'none' }}
+                variant="outline-warning"
+                onClick={this.handleTableUpdateButtonClick}
+                data-khsodienthoai={khachhang.sodienthoai}
+                data-tinhtrang="Đã khóa"
+              >
+                Khoá
+              </Button>
+              <Button
+                style={{ border: 'none' }}
+                variant="outline-danger"
+                onClick={this.handleTableUpdateButtonClick}
+                data-khsodienthoai={khachhang.sodienthoai}
+                data-tinhtrang="Đã xóa"
+              >
+                Xóa
+              </Button>
+            </ButtonGroup>
           </td>
-          <td>
-            <button
-              onClick={this.handleTableUpdateButtonClick}
-              data-khsodienthoai={khachhang.sodienthoai}
-              data-tinhtrang="Đã khóa"
-            >
-              Khoá
-            </button>
-          </td>
-          <td>
-            <button
-              onClick={this.handleTableUpdateButtonClick}
-              data-khsodienthoai={khachhang.sodienthoai}
-              data-tinhtrang="Đã xác thực"
-            >
-              Xác thực
-            </button>
-          </td>
-          <td>
-            <button
+
+          {/* <td>
+            <Button
+              variant="outline-warning"
               onClick={this.handleTableUpdateButtonClick}
               data-khsodienthoai={khachhang.sodienthoai}
               data-tinhtrang="Chưa xác thực"
             >
               Hủy xác thực
-            </button>
+            </Button>
           </td>
+          <td>
+            <Button
+              variant="outline-warning"
+              onClick={this.handleTableUpdateButtonClick}
+              data-khsodienthoai={khachhang.sodienthoai}
+              data-tinhtrang="Đã khóa"
+            >
+              Khoá
+            </Button>
+          </td>
+          <td>
+      
+            <Button
+              variant="outline-danger"
+              onClick={this.handleTableUpdateButtonClick}
+              data-khsodienthoai={khachhang.sodienthoai}
+              data-tinhtrang="Đã xóa"
+            >
+              Xóa
+            </Button>
+          </td> */}
         </tr>
       );
     });
@@ -279,53 +324,77 @@ class DanhSachKhachHang extends Component {
   //#region render
   render() {
     return (
-      <>
-        <div className="khachhangbody">
-          <form id="formkhachhang">
-            <div>
-              <label className="khachhangLabel">Tình trạng: </label>
-              <select
-                className="khachhangSelect"
-                name="tinhtrang"
-                defaultValue={'DEFAULT'}
-                onChange={this.handleSelectTinhTrangChange}
-              >
-                <option value="DEFAULT">Tất cả</option>
-                <option value="chuaxacthuc">Chưa xác thực</option>
-                <option value="daxacthuc">Đã xác thực</option>
-                <option value="dakhoa">Đã khóa</option>
-              </select>
-            </div>
-            <div>
-              <label className="khachhangLabel">Lọc theo: </label>
-              <select
-                defaultValue={'DEFAULT'}
-                className="khachhangSelect"
-                onChange={this.handleSelectLoaiTimKiemChange}
-              >
-                <option value="DEFAULT">Email</option>
-                <option value="tenhienthi">Tên hiển thị</option>
-                <option value="sodienthoai">Số điện thoại</option>
-              </select>
-              <input
-                type="text"
-                className="khachhangSearchBox"
-                onChange={this.handleSearchChange}
-              ></input>
-              <button type="button" onClick={this.handleSearchSubmit}>
-                Filter
-              </button>
-            </div>
-          </form>
-          <br></br>
-          <table id="khachhang">
+      <Container>
+        <br></br>
+        <Form>
+          <Row>
+            <Col>
+              <Row>
+                <Form.Label column sm={4}>
+                  Tình trạng
+                </Form.Label>
+                <Col>
+                  <Form.Control
+                    as="select"
+                    name="tinhtrang"
+                    defaultValue={'DEFAULT'}
+                    onChange={this.handleSelectTinhTrangChange}
+                  >
+                    <option value="DEFAULT">Tất cả</option>
+                    <option value="chuaxacthuc">Chưa xác thực</option>
+                    <option value="daxacthuc">Đã xác thực</option>
+                    <option value="dakhoa">Đã khóa</option>
+                  </Form.Control>
+                </Col>
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <Form.Label column sm={4}>
+                  Lọc theo
+                </Form.Label>
+                <Col>
+                  <Form.Control
+                    as="select"
+                    defaultValue={'DEFAULT'}
+                    className="khachhangSelect"
+                    onChange={this.handleSelectLoaiTimKiemChange}
+                  >
+                    <option value="DEFAULT">Email</option>
+                    <option value="tenhienthi">Tên hiển thị</option>
+                    <option value="sodienthoai">Số điện thoại</option>
+                  </Form.Control>
+                </Col>
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <Col>
+                  <Form.Control
+                    sm={8}
+                    type="text"
+                    onChange={this.handleSearchChange}
+                  ></Form.Control>
+                </Col>
+                <Col sm={4}>
+                  <Button onClick={this.handleSearchSubmit}>Filter</Button>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Form>
+        <br></br>
+        {/* <table id="khachhang">
             <tbody>
               {this.renderTableHeader()}
               {this.renderTable()}
             </tbody>
-          </table>
-        </div>
-      </>
+          </table> */}
+        <Table>
+          {this.renderTableHeader()}
+          <tbody>{this.renderTable()}</tbody>
+        </Table>
+      </Container>
     );
   }
   //#endregion

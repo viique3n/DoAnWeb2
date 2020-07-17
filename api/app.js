@@ -38,7 +38,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // auth middleware
 //app.use(require('./middlewares/auth.middleware'));
 
-const capNhatSoTietKiemJob = new CronJob('* * * * * *', capNhatSoTietKiem);
+// const capNhatSoTietKiemJob = new CronJob('* * * * *', capNhatSoTietKiem); // Cron every minute
+// const capNhatSoTietKiemJob = new CronJob('* * * * * *', capNhatSoTietKiem); // Cron every second
+const capNhatSoTietKiemJob = new CronJob('0 1 * * *', capNhatSoTietKiem); // Cron at 01:00 am
+
 capNhatSoTietKiemJob.start();
 //#region api
 app.use('/api/admin/', adminApiRouter);

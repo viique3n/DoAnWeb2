@@ -233,7 +233,7 @@ module.exports.capNhatSoTietKiem = async () => {
       taikhoanthanhtoanMataikhoan,
     } = sotietkiem;
     const kt = kiemTraHanRutTien(sotietkiem);
-    console.log(kt);
+    console.log(`${sotietkiem.id}: ${kt}`);
     // Kiểm tra tới hạn trả lãi
     if (kt === true) {
       console.log(`Hình thức trả lãi: ${sotietkiem.hinhthuctralaiId}`);
@@ -324,6 +324,7 @@ module.exports.capNhatSoTietKiem = async () => {
 
         // Cập nhật tình trạng sổ tiết kiệm cũ
         sotietkiem.tinhtrang = 'Đã hoàn tất tiết kiệm';
+        sotietkiem.ngayruttien = ngaydong;
         const capNhatSoCu = await sotietkiem.save();
         if (!capNhatSoCu) {
           return {
@@ -387,6 +388,7 @@ module.exports.capNhatSoTietKiem = async () => {
         }
         console.log('Cập nhật thông tin chuyển khoản thành công');
         sotietkiem.tinhtrang = 'Đã hoàn tất trả lãi';
+        sotiengui.ngayruttien = now;
         const capNhatSoCu = await sotietkiem.save();
         if (!capNhatSoCu) {
           return {
@@ -399,48 +401,3 @@ module.exports.capNhatSoTietKiem = async () => {
 };
 
 //#endregion
-async function capNhatThongTinChuyenKhoan(thongtin) {
-  // Cập nhật thông tin chuyển khoản
-  const {
-    mataikhoanchuyenkhoan,
-    mataikhoanthuhuong,
-    sotienchuyenkhoan,
-    sodutaikhoanchuyenkhoantruocgiaodich,
-    sodutaikhoanchuyenkhoansaugiaodich,
-    sodutaikhoanthuhuongtruocgiaodich,
-    sodutaikhoanthuhuongsaugiaodich,
-    noidung,
-    loaichuyenkhoanId,
-  } = thongtin;
-
-  const maChuyenKhoan = generateMaChuyenKhoan(
-    mataikhoanchuyenkhoan,
-    mataikhoanthuhuong
-  );
-  const now = new Date();
-  const dmy =
-    now.getDate() + '-' + (+now.getMonth() + +1) + '-' + now.getFullYear();
-  const taoChuyenKhoan = await chuyenKhoanService.taoChuyenKhoan({
-    maChuyenKhoan,
-    mataikhoanchuyenkhoan,
-    mataikhoanthuhuong,
-    sotienchuyenkhoan,
-    sodutaikhoanchuyenkhoantruocgiaodich,
-    sodutaikhoanchuyenkhoansaugiaodich,
-    sodutaikhoanthuhuongtruocgiaodich,
-    sodutaikhoanthuhuongsaugiaodich,
-    noidung,
-    thoigian: now,
-    thoigiandmy: dmy,
-    loaichuyenkhoanId,
-  });
-
-  if (!taoChuyenKhoan) {
-    return {
-      error: 'Tạo thông tin chuyển khoản thất bại',
-    };
-  }
-
-  console.log('Tạo chuyển khoản thành công');
-  return taoChuyenKhoan;
-}
