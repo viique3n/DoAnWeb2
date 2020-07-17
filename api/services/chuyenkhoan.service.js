@@ -78,6 +78,7 @@ async function kiemTraChuyenKhoanHopLe(
 
   // 3: Kiểm tra số tiền chuyển khoản có hợp lệ (Chia hết cho 50 nghìn)
   if (thongtinchuyenkhoan.sotienchuyenkhoan % 50000 !== 0) {
+    // Đã được kiểm tra trên frontend
     console.log('Số tiền chuyển khoản không hợp lệ');
     errors.push({
       sotienchuyenkhoan: 'Số tiền chuyển khoản không hợp lệ',
@@ -129,6 +130,7 @@ async function kiemTraChuyenKhoanHopLe(
   console.log('Thông tin chuyển khoản của tài khoản trong ngày');
   // console.log(thongtinchuyenkhoanTKTT);
   thongtinchuyenkhoanTKTT.map((ck) => {
+    // Cần sửa
     console.log(ck.dataValues);
   });
 

@@ -300,6 +300,7 @@ class TaoSoTietKiem extends Component {
         tienlai: 0,
         tienlaitext: '',
       });
+      return;
     } else if (+sotiengui > +this.state.sodu) {
       this.setState({
         sotiengui: '',
@@ -314,6 +315,7 @@ class TaoSoTietKiem extends Component {
         tienlai: 0,
         tienlaitext: '',
       });
+      return;
     } else {
       const { danhsachlaisuat, kyhan } = this.state;
       if (kyhan === 'DEFAULT' || kyhan === '') {

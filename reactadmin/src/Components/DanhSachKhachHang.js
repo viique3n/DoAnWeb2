@@ -21,6 +21,7 @@ class DanhSachKhachHang extends Component {
       danhsachkhachhang: [],
       khachhangmoixoa: [],
       isAuthenticated: true,
+      showModal: false,
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
@@ -30,12 +31,6 @@ class DanhSachKhachHang extends Component {
     this.handleSelectTinhTrangChange = this.handleSelectTinhTrangChange.bind(
       this
     );
-    // this.handleTableDeleteButtonClick = this.handleTableDeleteButtonClick.bind(
-    //   this
-    // );
-    // this.handleTableUpdateButtonClick = this.handleTableUpdateButtonClick.bind(
-    //   this
-    // );
   }
   //#region get danh sách khách hàng
   getDanhSachKhachHang(filter) {
@@ -290,34 +285,13 @@ class DanhSachKhachHang extends Component {
     debugger;
   };
 
-  // Test, tham khảo
-  // handleTableDeleteButtonClick = (khackhang, event) => {
-  //   // const check1 = event.target.getAttribute('key');
-  //   // const check = event.target;
-  //   debugger;
-  // };
-  // handleTableUpdateButtonClick = (event) => {
-  //   const sodienthoai = event.target.dataset.khsodienthoai;
-  // };
+  capNhatThongTinKhachHang(khachhang) {}
   //#endregion
 
   //#region component lifecircle
   componentDidMount() {
     const filter = { tinhtrang: '' };
     this.getDanhSachKhachHang(filter);
-    // if (
-    //   sessionStorage.getItem('jwtToken') &&
-    //   sessionStorage.getItem('nhanvien')
-    // ) {
-    //   const ds = this.getDanhSachKhachHang();
-    //   this.setState({
-    //     isAuthenticated: true,
-    //     danhsachUpdate: ds,
-    //   });
-    // }
-    // if (this.state.isAuthenticated === false) {
-    //   return <Redirect to={{ pathname: '/' }} />;
-    // }
   }
   //#endregion
 
@@ -390,7 +364,7 @@ class DanhSachKhachHang extends Component {
               {this.renderTable()}
             </tbody>
           </table> */}
-        <Table>
+        <Table bordered>
           {this.renderTableHeader()}
           <tbody>{this.renderTable()}</tbody>
         </Table>

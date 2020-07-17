@@ -1,58 +1,43 @@
 import React, { Component } from 'react';
+import { Form, Container, Col, Row, Button } from 'react-bootstrap';
+import { renewAccessToken } from '../Auth/AuthRoute';
 import axios from 'axios';
+
 class CapNhatTaiKhoan extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      mataikhoan: '',
-      taikhoan: {},
-      isAuthenticated: true,
-    };
+    this.state = {};
   }
 
-  handleSearchSubmit = (event) => {
-    const mataikhoan = this.state.mataikhoan;
-    const filter = { mataikhoan };
-    debugger;
-    const check = axios
-      .get('http://localhost:9000/api/admin/getthontintaikhoan', {
-        params: { filter },
-      })
-      .then((res) => {
-        debugger;
-        const taikhoan = res.data;
-        this.setState({
-          taikhoan,
-        });
-      })
-      .catch((err) => {
-        debugger;
-        console.log(err);
-      });
-  };
+  handleSearchSubmit = (event) => {};
   handleSearchChange = (event) => {
     const mataikhoan = event.target.value;
     this.setState({ mataikhoan });
   };
+  componentDidMount() {
+    const token = sessionStorage.getItem('refreshToken');
+    const isValidToken = renewAccessToken(token);
+
+    if (isValidToken === false) {
+      return;
+    }
+  }
   render() {
     return (
-      <form>
-        <label>Mã tài khoản:</label>
-        <select defaultValue={'DEFAULT'}>
-          <option value='DEFAULT'>Tất cả</option>
-          <option value='chuaxacthuc'>Chưa xác thực</option>
-          <option value='daxacthuc'>Đã xác thực</option>
-          <option value='dakhoa'>Đã khóa</option>{' '}
-        </select>
-        <input
-          type='text'
-          className='capnhatSearchBox'
-          onChange={this.handleSearchChange}
-        ></input>
-        <button type='button' onClick={this.handleSearchSubmit}>
-          Filter
-        </button>
-      </form>
+      <Container>
+        <br></br>
+        <Form>
+          <Row>
+            <Col sm={4}>
+              <Form.Control
+                type="text"
+                placeholder="Email, số điện thoại hoặc mã tài khoản"
+              ></Form.Control>
+            </Col>
+            <Button>Tìm kiếm</Button>
+          </Row>
+        </Form>
+      </Container>
     );
   }
 }

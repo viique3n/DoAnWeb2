@@ -52,23 +52,23 @@ class Header extends Component {
       const userData = this.state.userData;
       return (
         <div>
-          <Navbar bg='light' expand='lg'>
-            <Navbar.Brand as={Link} to='/'>
+          <Navbar bg="light" expand="lg">
+            <Navbar.Brand as={Link} to="/">
               Internet Banking
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls='basic-navbar-nav' />
-            <Navbar.Collapse id='basic-navbar-nav'>
-              <Nav className='mr-auto'>
-                <Nav.Link as={Link} to='/admin/profile'>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link as={Link} to="/admin/profile">
                   {userData.tenhienthi}
                 </Nav.Link>
-                <Nav.Link as={Link} to='/admin/getdanhsachkhachhang'>
+                <Nav.Link as={Link} to="/admin/getdanhsachkhachhang">
                   Danh sách khách hàng
                 </Nav.Link>
-                <Nav.Link as={Link} to='/admin/capnhattaikhoan'>
-                  Cập nhật danh sách
+                <Nav.Link as={Link} to="/admin/capnhattaikhoan">
+                  Cập nhật thông tin tài khoản
                 </Nav.Link>
-                <Nav.Link as={Link} to='/' onClick={this.logout}>
+                <Nav.Link as={Link} to="/" onClick={this.logout}>
                   Đăng xuất
                 </Nav.Link>
               </Nav>
@@ -99,14 +99,14 @@ class Header extends Component {
       );
     }
     return (
-      <Navbar bg='light' expand='lg'>
-        <Navbar.Brand as={Link} to='/'>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand as={Link} to="/">
           Internet Banking
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-        <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='mr-auto'>
-            <Nav.Link as={Link} to='/admin/login'>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link as={Link} to="/admin/login">
               Đăng nhập
             </Nav.Link>
           </Nav>
