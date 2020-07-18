@@ -24,7 +24,7 @@ class ChuyenKhoanCungKhachHang extends Component {
       sodutaikhoanthuhuongtext: '',
       sotienchuyenkhoan: '',
       sotienchuyenkhoanerror: '',
-      noidung: '',
+      noidungchuyenkhoan: '',
       loaichuyenkhoanId: 1,
       danhsachtaikhoanthanhtoan: [],
       trangthaichuyenkhoan: '',
@@ -463,7 +463,6 @@ class ChuyenKhoanCungKhachHang extends Component {
                       name="noidung"
                       onChange={this.props.handleChange}
                     />
-                    <p>{this.props.errors.noidung}</p>
                   </Form.Group>
                   <Button onClick={this.openModal}>Xác nhận</Button>
                   <Form.Text style={{ color: 'red' }}>

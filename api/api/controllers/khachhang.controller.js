@@ -158,4 +158,13 @@ module.exports.postLoginAPI = async (req, res) => {
   });
 };
 
+module.exports.getThongTinKhachHang = async (req, res) => {
+  console.log('reqquery');
+  console.log(req.query);
+  let { sodienthoai } = req.query;
+
+  const kh = await khachHangService.findByPhone(sodienthoai);
+  // console.log(dskh);
+  return res.status(200).json(kh);
+};
 //#endregion

@@ -13,9 +13,9 @@ module.exports.postTotpGenerate = async (req, res) => {
     }),
     remaining: 300 - Math.floor((new Date().getTime() / 1000.0) % 30),
   };
-  // console.log(`generate token`);
-  // console.log(`secret: ${req.body.secret}`);
-  // console.log(`token: ${OTP.token}`);
+  console.log(`generate token`);
+  console.log(`secret: ${req.body.secret}`);
+  console.log(`token: ${OTP.token}`);
   return res.json(OTP);
   // console.log(OTP);
   // const sendMail = await mailService.send(

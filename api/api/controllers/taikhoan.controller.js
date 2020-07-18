@@ -19,6 +19,7 @@ module.exports.postThemTaiKhoan = async (req, res) => {
 module.exports.getThongTinTaiKhoan = async (req, res) => {
   const { mataikhoan, khachhangSodienthoai } = req.query;
   if (mataikhoan) {
+    console.log('get thong tin tai khoan');
     const taikhoan = await taiKhoanService.findById(mataikhoan);
     if (!taikhoan) {
       return res.status(404).json({
