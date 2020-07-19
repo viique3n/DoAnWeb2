@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Header from '../../Components/Header';
-import Footer from '../../Components/Footer';
+import AuthHeader from '../../Components/Common/AuthHeader';
+import Footer from '../../Components/Common/Footer';
 import ChuyenKhoanLienNganHangForMikContainer from '../../Containers/ChuyenKhoan/ChuyenKhoanLienNganHangForMikContainer';
 
 class ChuyenKhoanLienNganHangPage extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <AuthHeader />
         <ChuyenKhoanLienNganHangForMikContainer />
         <Footer />
       </div>

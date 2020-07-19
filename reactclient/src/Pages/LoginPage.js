@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import LoginForm from '../Components/LoginForm';
+import LoginForm from '../Components/Auth/LoginForm';
 import LoginForMikContainer from '../Containers/LoginForMikContainer';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
+import Header from '../Components/Common/Header';
+import Footer from '../Components/Common/Footer';
 
 class LoginPage extends Component {
   render() {

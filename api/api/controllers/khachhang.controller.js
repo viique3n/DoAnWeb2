@@ -8,7 +8,6 @@ const jwtService = require('../../services/jwt.service');
 dotenv.config();
 
 //#region  api
-let refreshTokens = [];
 //#region auth
 module.exports.renewAccessToken = (req, res) => {
   console.log('renew here');
@@ -16,7 +15,7 @@ module.exports.renewAccessToken = (req, res) => {
   // console.log(refreshTokens);
   // console.log('renew access token');
   // console.log(req);
-  if (refreshToken == null) {
+  if (!refreshToken) {
     console.log('refresh token null');
     return res.status(401);
   }
@@ -24,11 +23,6 @@ module.exports.renewAccessToken = (req, res) => {
   if (isValidToken.error) {
     return res.status(403);
   }
-  // if (!refreshTokens.includes(refreshToken)) {
-  //   console.log('some error');
-  //   return res.status(403);
-  // }
-  // console.log('verify token');
 
   jwt.verify(
     refreshToken,
@@ -139,7 +133,7 @@ module.exports.postLoginAPI = async (req, res) => {
     });
   }
 
-  console.log('herre');
+  // console.log('herre');
 
   const accessToken = jwtService.generateAccessToken(khachhang);
   const refreshToken = jwtService.generateRefreshToken(khachhang);
@@ -150,8 +144,8 @@ module.exports.postLoginAPI = async (req, res) => {
       message: 'Username or Password is Wrong',
     });
   }
-  console.log(accessToken);
-  console.log(refreshToken);
+  // console.log(accessToken);
+  // console.log(refreshToken);
   res.json({
     token: accessToken,
     refreshToken,

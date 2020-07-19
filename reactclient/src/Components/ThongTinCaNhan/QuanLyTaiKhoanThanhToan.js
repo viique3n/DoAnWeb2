@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import { renewAccessToken } from '../Auth/AuthRoute';
+import { renewAccessToken } from '../../Auth/AuthRoute';
 import { Container, Card, Row, Col, CardDeck } from 'react-bootstrap';
 
 class QuanLyTaiKhoanThanhToan extends Component {
@@ -35,7 +35,7 @@ class QuanLyTaiKhoanThanhToan extends Component {
   }
   componentDidMount() {
     const token = sessionStorage.getItem('jwtToken');
-    const decoded = jwt_decode(token);
+    const decoded = jwt_decode(token).data;
     const { sodienthoai } = decoded;
     this.getDanhSachTaiKhoanThanhToan(sodienthoai);
   }

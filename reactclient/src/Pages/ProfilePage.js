@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import ProfileCard from '../Components/ProfileCard';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
+import ProfileCard from '../Components/ThongTinCaNhan/ProfileCard';
+import AuthHeader from '../Components/Common/AuthHeader';
+import Footer from '../Components/Common/Footer';
 
 class ProfilePage extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <AuthHeader />
         <ProfileCard />
         <Footer />
       </div>

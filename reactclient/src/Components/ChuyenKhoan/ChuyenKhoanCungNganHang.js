@@ -211,7 +211,7 @@ class ChuyenKhoanCungNganHang extends Component {
     debugger;
     let token = sessionStorage.getItem('refreshToken');
     token = sessionStorage.getItem('jwtToken');
-    const decoded = jwt_decode(token);
+    const decoded = jwt_decode(token).data;
     const { sodienthoai } = decoded;
     axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
       params: { khachhangSodienthoai: sodienthoai },

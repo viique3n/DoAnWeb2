@@ -5,7 +5,7 @@ import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
 import ProfilePage from './Pages/ProfilePage';
 import QuanLyTaiKhoanThanhToanPage from './Pages/QuanLyTaiKhoanThanhToanPage';
-import ChuyenKhoanPage from './Pages/ChuyenKhoanPage';
+// import ChuyenKhoanPage from './Pages/ChuyenKhoanPage';
 import ChuyenKhoanCungKhachHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanCungKhachHangPage';
 import ChuyenKhoanCungNganHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanCungNganHangPage';
 import ChuyenKhoanLienNganHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanLienNganHangPage';
@@ -33,9 +33,9 @@ class App extends Component {
           <AuthRoute path="/tktt">
             <QuanLyTaiKhoanThanhToanPage />
           </AuthRoute>
-          <AuthRoute path="/chuyenkhoan">
+          {/* <AuthRoute path="/chuyenkhoan">
             <ChuyenKhoanPage />
-          </AuthRoute>
+          </AuthRoute> */}
           <AuthRoute path="/ck/cungkh">
             <ChuyenKhoanCungKhachHangPage />
           </AuthRoute>

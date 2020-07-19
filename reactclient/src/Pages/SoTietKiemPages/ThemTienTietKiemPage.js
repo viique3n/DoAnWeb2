@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import ThemTienTietKiem from '../../Components/SoTietKiem/ThemTienTietKiem';
-import Header from '../../Components/Header';
-import Footer from '../../Components/Footer';
+import AuthHeader from '../../Components/Common/AuthHeader';
+import Footer from '../../Components/Common/Footer';
 
 class ThemTienTietKiemPage extends Component {
   render() {
     debugger;
     return (
       <div>
-        <Header />
+        <AuthHeader />
         <ThemTienTietKiem />
         <Footer />
       </div>

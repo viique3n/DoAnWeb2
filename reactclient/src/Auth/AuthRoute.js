@@ -14,7 +14,6 @@ const checkAuth = () => {
 
   try {
     const { exp } = decode(token);
-
     if (exp < new Date().getTime() / 1000) {
       sessionStorage.clear();
       return false;
@@ -70,19 +69,30 @@ export function UnAuthRoute({ children, ...rest }) {
 
 const renewAccessTokenURL =
   'http://localhost:9000/' + 'api/auth/renewacesstoken';
-export function renewAccessToken(token) {
-  axios
+export async function renewAccessToken(refreshToken) {
+  await axios
     .post(renewAccessTokenURL, {
-      refreshToken: token,
+      refreshToken: refreshToken,
     })
     .then((res) => {
       const token = JSON.stringify(res.data.accessToken);
+      const { exp } = decode(token);
+      const exptime = new Date(exp * 1000);
+
       // console.log(token);
+      sessionStorage.removeItem('jwtToken');
       sessionStorage.setItem('jwtToken', token);
-      return true;
     })
     .catch((err) => {
       console.log(err);
       return false;
     });
+  return true;
+
+  // const res = await axios.post(renewAccessTokenURL, {
+  //   refreshToken: token,
+  // });
+  // const { data } = res.data;
+
+  // debugger;
 }

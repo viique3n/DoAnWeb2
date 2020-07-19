@@ -32,7 +32,7 @@ class Header extends Component {
     this.setState(
       {
         isAuthentiacted: true,
-        userData: decode(token),
+        userData: decode(token).data,
       },
       (err) => {
         // console.log(err);
@@ -102,37 +102,11 @@ class Header extends Component {
                 <Nav.Link as={Link} to="/" onClick={this.logout}>
                   Đăng xuất
                 </Nav.Link>
+                <Nav.Link as={Link}>Hello</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
         </div>
-        // <ul id='menu'>
-        //   <li>
-        //     <NavLink className='navLink' to='/'>
-        //       Trang chủ
-        //     </NavLink>
-        //   </li>
-        //   <li>
-        //     <NavLink className='navLink' to='/profile'>
-        //       {tenhienthi}
-        //     </NavLink>
-        //   </li>
-        //   <li>
-        //     <NavLink className='navLink' to='tktt'>
-        //       Tài khoản
-        //     </NavLink>
-        //   </li>
-        //   <li>
-        //     <li>
-        //       <NavLink className='navLink' to='/chuyenkhoan'>
-        //         Chuyển khoản
-        //       </NavLink>
-        //     </li>
-        //     <NavLink className='navLink' to='/' onClick={this.logout}>
-        //       Đăng xuất
-        //     </NavLink>
-        //   </li>
-        // </ul>
       );
     }
     return (
@@ -151,34 +125,9 @@ class Header extends Component {
                 Đăng ký
               </Nav.Link>
             </Nav>
-            {/* <Form inline>
-              <FormControl
-                type='text'
-                placeholder='Search'
-                className='mr-sm-2'
-              />
-              <Button variant='outline-success'>Search</Button>
-            </Form> */}
           </Navbar.Collapse>
         </Navbar>
       </div>
-      // <ul id='menu'>
-      //   <li>
-      //     <NavLink className='navLink' to='/'>
-      //       Trang chủ
-      //     </NavLink>
-      //   </li>
-      //   <li>
-      //     <NavLink className='navLink' to='/login' >
-      //       Đăng nhập
-      //     </NavLink>
-      //   </li>
-      //   <li>
-      //     <NavLink className='navLink' to='signup' onClick={this.props.logout}>
-      //       Đăng ký tài khoản
-      //     </NavLink>
-      //   </li>
-      // </ul>
     );
   }
   componentDidMount() {

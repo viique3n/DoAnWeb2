@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import SignUpForm from '../Components/SignUpForm';
-import SignIn from '../Components/test';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
+import Header from '../Components/Common/Header';
+import Footer from '../Components/Common/Footer';
 import SignUpForMikContainer from '../Containers/SignupForMikContainer';
 
 class SignUpPage extends Component {
@@ -12,7 +10,7 @@ class SignUpPage extends Component {
         <Header />
         {/* <SignIn /> */}
         <SignUpForMikContainer />
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }

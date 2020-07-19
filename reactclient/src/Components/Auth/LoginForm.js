@@ -79,33 +79,6 @@ class LoginForm extends Component {
           <Col></Col>
         </Row>
       </Container>
-      /*{ <form className='loginform' onSubmit={this.handleSubmit}>
-          <h1>Login</h1>
-          <label for='sodienthoai'>
-            <b>Số điện thoại</b>
-          </label>
-          <input
-            type='text'
-            name='sodienthoai'
-            required
-            onChange={this.props.handleChange}
-          ></input>
-          <div>{this.props.errors.sodienthoai}</div>
-          <br></br>
-          <label for='password'>
-            <b>Password</b>
-          </label>
-          <input
-            type='password'
-            name='matkhau'
-            required
-            onChange={this.props.handleChange}
-          ></input>
-          <div>{this.props.errors.matkhau}</div>
-
-          <br></br>
-          <button type='submit'>Login</button>
-        </form> }*/
     );
   }
 }

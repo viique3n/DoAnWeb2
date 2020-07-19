@@ -1,4 +1,4 @@
-import SignUpForm from '../Components/SignUpForm';
+import SignUpForm from '../Components/Auth/SignUpForm';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 
