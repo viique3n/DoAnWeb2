@@ -17,7 +17,9 @@ module.exports.postThemTaiKhoan = async (req, res) => {
 };
 
 module.exports.getThongTinTaiKhoan = async (req, res) => {
-  const { mataikhoan, khachhangSodienthoai } = req.query;
+  console.log('thong tin tim kiem');
+  console.log(req.query);
+  const { mataikhoan, khachhangSodienthoai, thongtintimkiem } = req.query;
   if (mataikhoan) {
     console.log('get thong tin tai khoan');
     const taikhoan = await taiKhoanService.findById(mataikhoan);
@@ -33,13 +35,42 @@ module.exports.getThongTinTaiKhoan = async (req, res) => {
     const danhSachTaiKhoan = await taiKhoanService.findAllByPhone(
       khachhangSodienthoai
     );
-    if (!danhSachTaiKhoan) {
+    if (!danhSachTaiKhoan || danhSachTaiKhoan.error) {
       return res.status(404).json({
         errors: 'Số điện thoại không tồn tại , không tìm thấy tài khoản !! ',
       });
     }
     return res.status(200).json({
       danhSachTaiKhoan,
+    });
+  } else if (thongtintimkiem) {
+    let taikhoan = await taiKhoanService.findAllByPhone(thongtintimkiem);
+    if (taikhoan && !taikhoan.error) {
+      return res.json({
+        taikhoan,
+      });
+    }
+
+    taikhoan = await taiKhoanService.findById(thongtintimkiem);
+    console.log('tìm tài khoản theo id');
+    console.log(taikhoan.error);
+
+    if (taikhoan && !taikhoan.error) {
+      return res.json({
+        taikhoan,
+      });
+    }
+
+    taikhoan = await taiKhoanService.findAllByEmail(thongtintimkiem);
+    console.log('tìm tài khoản theo email');
+    console.log(taikhoan);
+    if (taikhoan && !taikhoan.error) {
+      return res.json({
+        taikhoan,
+      });
+    }
+    return res.status(404).json({
+      error: 'Không tìm thấy tài khoản theo thông tin yêu cầu',
     });
   } else {
     const danhSachTaiKhoan = await taiKhoanService.findAll();

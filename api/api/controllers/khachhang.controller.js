@@ -146,6 +146,7 @@ module.exports.postLoginAPI = async (req, res) => {
   }
   // console.log(accessToken);
   // console.log(refreshToken);
+  res.header('Access-Control-Allow-Origin', '*');
   res.json({
     token: accessToken,
     refreshToken,

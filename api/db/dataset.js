@@ -1270,6 +1270,21 @@ const danhSachHinhThucTraLai = [
   },
 ];
 
+const danhSachLoaiGiayToTuyThan = [
+  {
+    id: 1,
+    tenloaigiayto: 'Chứng minh thư',
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: 2,
+    tenloaigiayto: 'Hộ chiếu',
+    createdAt: now,
+    updatedAt: now,
+  },
+];
+
 module.exports = {
   nhanVienQuanLy,
   doiTuongKhachHang,
@@ -1279,4 +1294,5 @@ module.exports = {
   hanMucGiaoDich,
   taiKhoanThanhToan,
   danhSachHinhThucTraLai,
+  danhSachLoaiGiayToTuyThan,
 };

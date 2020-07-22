@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import decode from 'jwt-decode';
-
-import { Card, Container } from 'react-bootstrap';
+import axios from 'axios';
+import {
+  Card,
+  Container,
+  Button,
+  Form,
+  Row,
+  Col,
+  Image,
+} from 'react-bootstrap';
 import { renewAccessToken } from '../../Auth/AuthRoute';
 
 class ProfileCard extends Component {
@@ -9,75 +17,319 @@ class ProfileCard extends Component {
     super(props);
     this.state = {
       user: {},
+      giaytoimg: null,
+      tinhtrangcapnhat: '',
+      tinhtrangupload: '',
+      thongtingiayto: {},
+      ngaycap: '',
+      magiayto: '',
+      giaytourl: '',
+      magiaytoerror: '',
+      thongtincapnhaterror: '',
     };
+    this.handleChangeFileSelect = this.handleChangeFileSelect.bind(this);
+    this.handleUploadFile = this.handleUploadFile.bind(this);
+    this.handleChangeNgayCap = this.handleChangeNgayCap.bind(this);
+    this.handleChangeMaGiayTo = this.handleChangeMaGiayTo.bind(this);
+    this.handleCapNhatThongTin = this.handleCapNhatThongTin.bind(this);
   }
-  async renewAcess() {
-    let token = sessionStorage.getItem('refreshToken');
-    const isValidToken = await renewAccessToken(token);
-    if (isValidToken === false) {
-      return false;
-    }
-    return true;
-  }
-  async componentDidMount() {
+  //#region function
+  getThongTinCaNhan() {
     const token = sessionStorage.getItem('jwtToken');
-    const refreshToken = sessionStorage.getItem('refreshToken');
-    if (!token || !refreshToken) {
-      return false;
-    }
-    const { exp } = decode(token);
-    const tokendecode = decode(token);
-    const test0 = new Date();
-    const test1 = new Date(exp * 1000);
+    const decoded = decode(token).data;
+    this.setState(
+      {
+        user: decoded,
+      },
+      () => {
+        this.getThongTinGiayToTuyThan();
+      }
+    );
 
-    const renew = await this.renewAcess();
-    if (renew === false) {
+    const test = this.state;
+  }
+  getThongTinGiayToTuyThan() {
+    debugger;
+    const { sodienthoai } = this.state.user;
+    if (sodienthoai) {
+      axios('http://localhost:9000/api/giayto/getthongtingiayto', {
+        params: { sodienthoai },
+      })
+        .then((res) => {
+          debugger;
+          const giayto = res.data;
+          this.setState({
+            thongtingiayto: giayto,
+          });
+        })
+        .catch((err) => {
+          debugger;
+          this.setState({
+            thongtingiayto: {},
+          });
+        });
+    }
+  }
+  fileUpload(file) {
+    const url = 'http://example.com/file-upload';
+    const formData = new FormData();
+    formData.append('file', file);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    return axios.post(url, formData, config).then((res) => {
+      console.log(res.data);
+      this.setState({
+        tinhtrangupload: 'Upload thành công, vui lòng ',
+      });
+    });
+  }
+  renderFormGiayToTuyThan() {
+    debugger;
+    const { thongtingiayto } = this.state;
+    if (thongtingiayto.magiayto) {
+      const giaytourl = 'http://localhost:9000/' + thongtingiayto.hinhanhurl;
+      return (
+        <Card border="info">
+          <Card.Title>Thông tin giấy tờ tùy thân</Card.Title>
+          <Card.Text>Mã giấy tờ: {thongtingiayto.magiayto}</Card.Text>
+          <Card.Text>Ngày cấp: {thongtingiayto.ngaycap}</Card.Text>
+          <Image
+            style={{ width: '400px', height: '200px' }}
+            src={giaytourl}
+          ></Image>
+          <Image></Image>
+        </Card>
+      );
+    } else {
+      return (
+        <Form>
+          <h3>Cập nhật thông tin giấy tờ tùy thân</h3>
+          <Form.Label>Mã giấy tờ</Form.Label>
+          <Form.Control
+            type="text"
+            onChange={this.handleChangeMaGiayTo}
+          ></Form.Control>
+          <Form.Text>{this.state.magiaytoerror}</Form.Text>
+          <Form.Label>Chọn ngày cấp</Form.Label>
+          <Form.Control
+            type="date"
+            onChange={this.handleChangeNgayCap}
+          ></Form.Control>
+          {/* <input type="file" onChange={this.handleChangeFileSelect} />
+        <Button onClick={this.handleUploadFile}>Upload</Button> */}
+          <Form.File
+            label="Upload ảnh giấy tờ tùy thân"
+            onChange={this.handleChangeFileSelect}
+          ></Form.File>
+          {this.renderImage()}
+          <br />
+          <Button onClick={this.handleCapNhatThongTin}>
+            Cập nhật thông tin
+          </Button>
+          <Form.Text>{this.state.thongtincapnhaterror}</Form.Text>
+          <Row>
+            <Col></Col>
+          </Row>
+        </Form>
+      );
+    }
+  }
+  renderImage() {
+    if (this.state.giaytourl) {
+      return (
+        <Image
+          style={{ width: '400px', height: '200px' }}
+          src={this.state.giaytourl}
+        ></Image>
+      );
+    }
+  }
+  //#endregion
+
+  //#region EventHandler
+  handleChangeFileSelect(event) {
+    const immg = event.target.files[0];
+    const reader = new FileReader();
+    let url = reader.readAsDataURL(immg);
+    debugger;
+    reader.onloadend = async (e) => {
+      const rs = await reader.result;
+      this.setState({
+        giaytourl: rs,
+      });
+    };
+    console.log(url);
+    debugger;
+    this.setState({
+      giaytoimg: event.target.files[0],
+    });
+  }
+  handleUploadFile(event) {
+    const url = 'http://localhost:9000/api/giayto/taogiayto';
+    const formData = new FormData();
+    formData.append('giayto', this.state.giaytoimg);
+    debugger;
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    return axios
+      .post(url, formData, config)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        debugger;
+        console.log(err);
+      });
+  }
+  handleChangeNgayCap(event) {
+    event.preventDefault();
+    const ngaycap = event.target.value;
+    this.setState({
+      ngaycap,
+    });
+  }
+  handleChangeMaGiayTo(event) {
+    event.preventDefault();
+    const reg = /[^A-Za-z0-9]+/g;
+    const magiayto = event.target.value;
+    if (reg.test(magiayto) === true) {
+      this.setState({
+        magiaytoerror: 'Mã giấy tờ chứa ký tự không hợp lệ',
+      });
       return;
     }
-
-    const token2 = sessionStorage.getItem('jwtToken');
-    const refreshToken2 = sessionStorage.getItem('refreshToken');
-    if (!token2 || !refreshToken2) {
-      return false;
-    }
-    const exp2 = decode(token2).exp;
-    const test00 = new Date();
-    const test11 = new Date(exp2 * 1000);
-
-    debugger;
-
-    // const token = sessionStorage.getItem('jwtToken');
-    // const decoded = jwt_decode(token);
-    // const { email, sodienthoai, tenhienthi } = decoded;
-    // const user = {
-    //   email,
-    //   sodienthoai,
-    //   tenhienthi,
-    // };
-    // this.setState({
-    //   user,
-    // });
+    this.setState({
+      magiayto,
+      magiaytoerror: '',
+    });
   }
+  handleCapNhatThongTin(event) {
+    event.preventDefault();
+    const { magiayto, ngaycap } = this.state;
+    let { giaytoimg } = this.state;
+    debugger;
+    if (magiayto === '') {
+      this.setState({
+        thongtincapnhaterror: 'Vui lòng nhập mã giấy tờ',
+      });
+      return;
+    } else if (ngaycap === '') {
+      this.setState({
+        thongtincapnhaterror: 'Vui lòng chọn ngày cấp',
+      });
+      return;
+    } else if (giaytoimg === null) {
+      this.setState({
+        thongtincapnhaterror: 'Vui lòng upload ảnh giấy tờ',
+      });
+      return;
+    }
+    this.setState({
+      thongtincapnhaterror: '',
+    });
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    const urlTaoGiayTo = 'http://localhost:9000/api/giayto/taothongtingiayto';
+    const urlUploadAnh = 'http://localhost:9000/api/giayto/uploadanhgiayto';
+    const name =
+      this.state.user.sodienthoai + '.' + giaytoimg.name.split('.')[1];
+    giaytoimg = new File([giaytoimg], name, { type: giaytoimg.type });
+    // const ext = giaytoimg.name.split('.')[1];
+    // debugger;
+
+    // giaytoimg.name = name + '.' + ext;
+    debugger;
+    const formData = new FormData();
+    formData.append('giayto', giaytoimg);
+    const thongtin = {
+      magiayto,
+      ngaycap,
+      loaigiaytoId: 1,
+      khachhangSodienthoai: this.state.user.sodienthoai,
+    };
+    // formData.append('thongtinimg', thongtin);
+    axios
+      .post(urlTaoGiayTo, { thongtin })
+      .then((res) => {
+        debugger;
+        const test = res.data;
+        this.setState({
+          tinhtrangcapnhat: 'Cập nhật thông tin giấy tờ thành công',
+        });
+        axios
+          .post(urlUploadAnh, formData, config)
+          .then((res) => {
+            debugger;
+            const tes = res.data;
+            console.log(res.data);
+            this.setState({
+              tinhtrangupload: 'Upload ảnh giấy tờ thành công',
+            });
+            this.getThongTinCaNhan();
+          })
+          .catch((err) => {
+            this.setState({
+              tinhtrangupload: 'Upload ảnh giấy tờ thất bại ',
+            });
+            debugger;
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          tinhtrangcapnhat: 'Cập nhật thông tin giấy tờ thất bại',
+        });
+        debugger;
+      });
+  }
+
+  //#endregion
+
+  //#region ComponentLifeCircle
+  componentDidMount() {
+    this.getThongTinCaNhan();
+    // this.getThongTinGiayToTuyThan();
+  }
+  //#endregion
   render() {
-    const { email, sodienthoai, tenhienthi } = this.state.user;
+    const { email, sodienthoai, tenhienthi, tinhtrang } = this.state.user;
     return (
       <Container>
         <br />
-        <Card style={{ width: '20rem' }}>
-          <Card.Img variant="top" src="holder.js/100px180" />
-          <Card.Body>
-            <Card.Title>Thông tin khách hàng</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Email: {email}
-            </Card.Subtitle>
-            <Card.Subtitle className="mb-2 text-muted">
-              Số điện thoại: {sodienthoai}
-            </Card.Subtitle>
-            <Card.Subtitle className="mb-2 text-muted">
-              Tên khách hàng: {tenhienthi}
-            </Card.Subtitle>
-          </Card.Body>
-        </Card>
+        <Row>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Card.Title>Thông tin khách hàng</Card.Title>
+                <Card.Text className="mb-2 text-muted">
+                  Email: {email}
+                </Card.Text>
+                <Card.Text className="mb-2 text-muted">
+                  Số điện thoại: {sodienthoai}
+                </Card.Text>
+                <Card.Text className="mb-2 text-muted">
+                  Tên khách hàng: {tenhienthi}
+                </Card.Text>
+                <Card.Text className="mb-2 text-muted">
+                  Tình trạng: {tinhtrang}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+            {/* <input type="file" onChange={this.handleChangeFileSelect} />
+        <Button onClick={this.handleUploadFile}>Upload</Button> */}
+          </Col>
+          <Col>{this.renderFormGiayToTuyThan()}</Col>
+        </Row>
       </Container>
     );
   }

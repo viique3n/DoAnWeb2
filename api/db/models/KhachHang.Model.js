@@ -3,6 +3,7 @@ const db = require('../config/sequelize');
 const TaiKhoanThanhToan = require('./TaiKhoanThanhToan.Model');
 const SoTietKiem = require('./SoTietKiem.Model');
 const DoiTuongKhachHang = require('./DoiTuongKhachHang.Model');
+const GiayToTuyThan = require('./GiayToTuyThan.Model');
 const Model = Sequelize.Model;
 
 class KhachHang extends Model {}
@@ -45,6 +46,7 @@ KhachHang.init(
 );
 
 KhachHang.belongsTo(DoiTuongKhachHang);
+GiayToTuyThan.belongsTo(KhachHang);
 KhachHang.hasMany(SoTietKiem);
 SoTietKiem.belongsTo(KhachHang);
 KhachHang.hasMany(TaiKhoanThanhToan);

@@ -14,29 +14,38 @@ const chuyenKhoanRouter = require('./api/routes/chuyenkhoan.route');
 const laiSuatRouter = require('./api/routes/laisuat.route');
 const totpRouter = require('./api/routes/totp.route');
 const sotietkiemRouter = require('./api/routes/sotietkiem.route');
+const giayToTuyThanRouter = require('./api/routes/giaytotuythan.route');
 const { capNhatSoTietKiem } = require('./services/sotienkiem.service');
 const app = express();
 //#endregion
 
 //#region express setup
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000/',
-//     credentials: true,
-//   })
-// );
-app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   next();
+// });
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    next(res.status(200).json({}));
+  }
+  next();
+});
 //#endregion
 
 //#region routes and middlewares
-// auth middleware
-//app.use(require('./middlewares/auth.middleware'));
 
 // const capNhatSoTietKiemJob = new CronJob('* * * * *', capNhatSoTietKiem); // Cron every minute
 // const capNhatSoTietKiemJob = new CronJob('* * * * * *', capNhatSoTietKiem); // Cron every second
@@ -51,6 +60,7 @@ app.use('/api/chuyenkhoan/', chuyenKhoanRouter);
 app.use('/api/laisuat/', laiSuatRouter);
 app.use('/api/totp/', totpRouter);
 app.use('/api/sotietkiem/', sotietkiemRouter);
+app.use('/api/giayto/', giayToTuyThanRouter);
 app.use('/', indexRouter);
 //#endregion
 
@@ -73,6 +83,8 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
+  // console.log(req.headers);
+  // console.log(req);
   res.render('error');
 });
 

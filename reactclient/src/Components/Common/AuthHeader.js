@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import decode from 'jwt-decode';
 import { renewAccessToken } from '../../Auth/AuthRoute';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
@@ -20,6 +20,7 @@ class AuthHeader extends Component {
       isAuthentiacted: false,
       userData: null,
     });
+    return <Redirect to={{ pathname: '/' }} />;
   }
 
   async renewAcess() {

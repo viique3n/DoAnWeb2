@@ -1,5 +1,5 @@
 const TaiKhoanThanhToan = require('../db/models/TaiKhoanThanhToan.Model');
-
+const khachHangService = require('./khachang.service');
 //#region BaseService
 module.exports.generateMaTaiKhoan = (sodienthoai) => {
   const now = new Date();
@@ -57,14 +57,47 @@ module.exports.findAllByPhone = async (khachhangSodienthoai) => {
       khachhangSodienthoai,
     },
   });
-  // console.log(`danh sach tai khoan cua so dien thoai: ${khachhangSodienthoai}`);
-  // console.log(danhSachTaiKhoan);
-  if (!danhSachTaiKhoan) {
+  console.log(`danh sach tai khoan cua so dien thoai: ${khachhangSodienthoai}`);
+  console.log(danhSachTaiKhoan);
+  if (typeof danhSachTaiKhoan !== undefined && danhSachTaiKhoan.length > 0) {
+    console.log('tài khoản của số điện thoại');
+    return danhSachTaiKhoan;
+  }
+  console.log('số điện thoại không tồn tài hoặc không hợp lệ');
+  return {
+    error: 'Số điện thoại không tồn tại ',
+  };
+};
+
+module.exports.findAllByEmail = async (email) => {
+  console.log('Tìm tài khoản thanh toán theo email');
+
+  const khachhang = await khachHangService.findByEmail(email);
+  console.log(`số điện thoại của khách hàng với email = ${email}`);
+  console.log(!khachhang.error);
+  if (!khachhang.error) {
+    console.log(khachhang.sodienthoai);
+    const { khachhangSodienthoai } = khachhang;
+    let danhSachTaiKhoan = await TaiKhoanThanhToan.findAll({
+      where: {
+        khachhangSodienthoai: khachhang.sodienthoai,
+      },
+    });
+    console.log('danh sách tài khoản ');
+    // console.log(danhSachTaiKhoan);
+    console.log(typeof danhSachTaiKhoan);
+    console.log(danhSachTaiKhoan.length);
+    if (typeof danhSachTaiKhoan !== undefined && danhSachTaiKhoan.length > 0) {
+      return danhSachTaiKhoan;
+    }
+    console.log('email không tồn tại');
     return {
-      error: 'Số điện thoại không tồn tại ',
+      error: 'Email không tồn tại ',
     };
   }
-  return danhSachTaiKhoan;
+
+  // console.log(`danh sach tai khoan cua so dien thoai: ${khachhangSodienthoai}`);
+  // console.log(danhSachTaiKhoan);
 };
 
 module.exports.findById = async (mataikhoan) => {
@@ -73,7 +106,10 @@ module.exports.findById = async (mataikhoan) => {
       mataikhoan,
     },
   });
+  console.log(`Tìm kiếm tài khoản thanh toán theo Id: ${mataikhoan}`);
+  console.log(taiKhoan);
   if (!taiKhoan) {
+    console.log('Không tìm thấy tài khoản');
     return {
       error: 'tai khoan khong ton tai',
     };

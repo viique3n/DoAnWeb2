@@ -4,6 +4,7 @@ const SoTietKiem = require('../db/models/SoTietKiem.Model');
 const hanMucGiaoDichService = require('../services/hanmucgiaodich.service');
 const khachHangService = require('../services/khachang.service');
 const taiKhoanService = require('../services/taikhoan.service');
+const { Op } = require('sequelize');
 
 async function getThongTinChuyenKhoanCuaTaiKhoanTaiThoiGian(
   mataikhoanchuyenkhoan,
@@ -17,6 +18,7 @@ async function getThongTinChuyenKhoanCuaTaiKhoanTaiThoiGian(
     where: {
       thoigiandmy: dmy,
       mataikhoanchuyenkhoan,
+      [Op.or]: [{ loaichuyenkhoanId: 2 }, { loaichuyenkhoanId: 3 }],
     },
   });
 
@@ -54,13 +56,13 @@ async function kiemTraChuyenKhoanHopLe(
   if (taikhoanchuyenkhoan.tinhtrang !== 'Đã kích hoạt') {
     console.log('tài khoản chuyển khoản chưa kích hoạt');
     errors.push({
-      tinhtrangtaikhoanchuyenkhoan: 'Tình trạng không được phép chuyển khoản',
+      tinhtrangtaikhoanchuyenkhoan: 'Tình trạng tài khoản gốc không hợp lệ',
     });
   }
   if (taikhoanthuhuong.tinhtrang !== 'Đã kích hoạt') {
     console.log('tài khoản thụ hưởng chưa kích hoạt');
     errors.push({
-      tinhtrangtaikhoanthuhuong: 'Tình trạng không được phép nhận chuyển khoản',
+      tinhtrangtaikhoanthuhuong: 'Tình trạng tài khoản thụ hưởng không hợp lệ',
     });
   }
 
@@ -70,9 +72,9 @@ async function kiemTraChuyenKhoanHopLe(
     console.log(
       `Số tiền chuyển khoản ${thongtinchuyenkhoan.sotienchuyenkhoan}`
     );
-    console.log('Số dư tài khoản chuyển khoản không đủ');
+    console.log('Số dư tài khoản gốc không đủ');
     errors.push({
-      sodutaikhoanchuyenkhoan: 'Số dư không đủ',
+      sodutaikhoanchuyenkhoan: 'Số dư tài khoản gốc không đủ',
     });
   }
 
@@ -122,7 +124,9 @@ async function kiemTraChuyenKhoanHopLe(
     });
   }
 
-  // Kiểm tra hạn mức trong ngày của tài khoản thanh toán
+  // Kiểm tra hạn mức trong ngày của tài khoản thanh toán.
+  // Chuyển khoản cho khách hàng khác cùng hoặc khách ngân hàng
+  // Không tính các chuyển khoản giữa các tài khoản thanh toán của cùng một khách hàng
   let thongtinchuyenkhoanTKTT = await getThongTinChuyenKhoanCuaTaiKhoanTaiThoiGian(
     taikhoanchuyenkhoan.mataikhoan,
     thongtinchuyenkhoan.thoigian

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/sequelize');
 const LoaiGiayTo = require('./LoaiGiayTo.Model');
-const KhachHang = require('./khachhang.model');
+const KhachHang = require('./KhachHang.Model');
 const Model = Sequelize.Model;
 
 class GiayToTuyThan extends Model {}
@@ -16,13 +16,14 @@ GiayToTuyThan.init(
       type: Sequelize.DATE,
       allowNull: false,
     },
+    hinhanhurl: {
+      type: Sequelize.STRING,
+    },
   },
   {
     sequelize: db,
     modelName: 'giaytotuythan',
   }
 );
-GiayToTuyThan.belongsTo(KhachHang);
-KhachHang.hasOne(GiayToTuyThan);
-
+GiayToTuyThan.belongsTo(LoaiGiayTo);
 module.exports = GiayToTuyThan;

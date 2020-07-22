@@ -32,6 +32,11 @@ class LoginForm extends Component {
       })
       .catch((err) => {
         debugger;
+        if (err.response) {
+          console.log(err.response.header);
+          console.log(err.response.status);
+          console.log(err.response.data);
+        }
         // console.log(err);
       });
   }

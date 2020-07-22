@@ -104,7 +104,18 @@ class ChuyenKhoanCungNganHang extends Component {
       })
         .then((res) => {
           debugger;
+          this.setState({
+            loaichuyenkhoanId: 1,
+          });
           sodienthoaithuhuong = res.data.taikhoan.khachhangSodienthoai;
+          const token = sessionStorage.getItem('jwtToken');
+          const decoded = jwt_decode(token).data;
+          const sodienthoaichuyenkhoan = decoded.sodienthoai;
+          if (sodienthoaichuyenkhoan === sodienthoaithuhuong) {
+            this.setState({
+              loaichuyenkhoanId: 1,
+            });
+          }
           this.setState({
             sodienthoaithuhuong,
             thongtinchuyenkhoanerrors: '',
@@ -515,11 +526,6 @@ class ChuyenKhoanCungNganHang extends Component {
                     <Form.Text style={{ color: 'red' }}>
                       {this.state.sotienchuyenkhoanerror}
                     </Form.Text>
-                    {this.state.chuyenkhoanerror.map((err) => (
-                      <Form.Text style={{ color: 'red' }}>
-                        {err.tinhtrangtaikhoanthuhuong}
-                      </Form.Text>
-                    ))}
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Nội dung chuyển khoản</Form.Label>
@@ -536,6 +542,28 @@ class ChuyenKhoanCungNganHang extends Component {
                   <Form.Text style={{ color: 'red' }}>
                     {this.state.OTPLimittext}
                   </Form.Text>
+                  {this.state.chuyenkhoanerror.map((err) => (
+                    <Form.Group>
+                      <Form.Text style={{ color: 'red' }}>
+                        {err.tinhtrangtaikhoanchuyenkhoan}
+                      </Form.Text>
+                      <Form.Text style={{ color: 'red' }}>
+                        {err.tinhtrangtaikhoanthuhuong}
+                      </Form.Text>
+                      <Form.Text style={{ color: 'red' }}>
+                        {err.sodutaikhoanchuyenkhoan}
+                      </Form.Text>
+                      <Form.Text style={{ color: 'red' }}>
+                        {err.sotienchuyenkhoan}
+                      </Form.Text>
+                      <Form.Text style={{ color: 'red' }}>
+                        {err.hanmuctrenngayquaquydinh}
+                      </Form.Text>
+                      <Form.Text style={{ color: 'red' }}>
+                        {err.hanmuctrengiaodichquaquydinh}
+                      </Form.Text>
+                    </Form.Group>
+                  ))}
                 </Card.Body>
                 <Modal
                   size="sm"
