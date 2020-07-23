@@ -8,6 +8,8 @@ import {
   Form,
   Col,
   Row,
+  Modal,
+  Image,
 } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -22,6 +24,12 @@ class DanhSachKhachHang extends Component {
       khachhangmoixoa: [],
       isAuthenticated: true,
       showModal: false,
+      magiayto: '',
+      ngaycap: '',
+      hinhanhurl: '',
+      tinhtrangkhachhangdangchon: '',
+      sodienthoaikhachhangdangchon: '',
+      capnhaterror: '',
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
@@ -31,15 +39,12 @@ class DanhSachKhachHang extends Component {
     this.handleSelectTinhTrangChange = this.handleSelectTinhTrangChange.bind(
       this
     );
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  //#region get danh sách khách hàng
+  //#region function
   getDanhSachKhachHang(filter) {
-    const token = sessionStorage.getItem('refreshToken');
-    const isValidToken = renewAccessToken(token);
-    if (isValidToken === false) {
-      return;
-    }
-
     axios('http://localhost:9000/api/admin/thongtinkhachhang', {
       params: { filter },
     })
@@ -52,6 +57,55 @@ class DanhSachKhachHang extends Component {
       .catch((err) => {
         console.log(err);
       });
+  }
+  openModal(event) {
+    const sodienthoai = event.target.dataset.khsodienthoai;
+    const tinhtrang = event.target.dataset.tinhtrang;
+    this.setState({
+      tinhtrangkhachhangdangchon: tinhtrang,
+      sodienthoaikhachhangdangchon: sodienthoai,
+    });
+    debugger;
+    const test = this.state;
+
+    axios
+      .get('http://localhost:9000/api/admin/thongtinkhachhanggiaytotuythan', {
+        params: {
+          sodienthoai,
+        },
+      })
+      .then((res) => {
+        const giayto = res.data;
+        this.setState({
+          ngaycap: giayto.ngaycap,
+          hinhanhurl: 'http://localhost:9000/' + giayto.hinhanhurl,
+          magiayto: giayto.magiayto,
+        });
+        debugger;
+      })
+      .catch((err) => {
+        this.setState({
+          ngaycap: 'Khách hàng chưa cung cấp thông tin',
+          hinhanhurl: '',
+          magiayto: 'Khách hàng chưa cung cấp thông tin',
+        });
+        if (err.response) {
+          console.log(`Lỗi: ${err.response.data}`);
+        }
+      });
+
+    this.setState({
+      showModal: true,
+    });
+  }
+  closeModal() {
+    this.setState({
+      ngaycap: '',
+      hinhanhurl: '',
+      magiayto: '',
+      showModal: false,
+      capnhaterror: '',
+    });
   }
   //#endregion
 
@@ -94,7 +148,7 @@ class DanhSachKhachHang extends Component {
               <Button
                 style={{ border: 'none' }}
                 variant="outline-primary"
-                onClick={this.handleTableUpdateButtonClick}
+                onClick={this.openModal}
                 data-khsodienthoai={khachhang.sodienthoai}
                 data-tinhtrang="Đã xác thực"
               >
@@ -103,7 +157,7 @@ class DanhSachKhachHang extends Component {
               <Button
                 style={{ border: 'none' }}
                 variant="outline-warning"
-                onClick={this.handleTableUpdateButtonClick}
+                onClick={this.openModal}
                 data-khsodienthoai={khachhang.sodienthoai}
                 data-tinhtrang="Chưa xác thực"
               >
@@ -112,7 +166,7 @@ class DanhSachKhachHang extends Component {
               <Button
                 style={{ border: 'none' }}
                 variant="outline-warning"
-                onClick={this.handleTableUpdateButtonClick}
+                onClick={this.openModal}
                 data-khsodienthoai={khachhang.sodienthoai}
                 data-tinhtrang="Đã khóa"
               >
@@ -121,7 +175,7 @@ class DanhSachKhachHang extends Component {
               <Button
                 style={{ border: 'none' }}
                 variant="outline-danger"
-                onClick={this.handleTableUpdateButtonClick}
+                onClick={this.openModal}
                 data-khsodienthoai={khachhang.sodienthoai}
                 data-tinhtrang="Đã xóa"
               >
@@ -129,41 +183,23 @@ class DanhSachKhachHang extends Component {
               </Button>
             </ButtonGroup>
           </td>
-
-          {/* <td>
-            <Button
-              variant="outline-warning"
-              onClick={this.handleTableUpdateButtonClick}
-              data-khsodienthoai={khachhang.sodienthoai}
-              data-tinhtrang="Chưa xác thực"
-            >
-              Hủy xác thực
-            </Button>
-          </td>
-          <td>
-            <Button
-              variant="outline-warning"
-              onClick={this.handleTableUpdateButtonClick}
-              data-khsodienthoai={khachhang.sodienthoai}
-              data-tinhtrang="Đã khóa"
-            >
-              Khoá
-            </Button>
-          </td>
-          <td>
-      
-            <Button
-              variant="outline-danger"
-              onClick={this.handleTableUpdateButtonClick}
-              data-khsodienthoai={khachhang.sodienthoai}
-              data-tinhtrang="Đã xóa"
-            >
-              Xóa
-            </Button>
-          </td> */}
         </tr>
       );
     });
+  }
+  renderHinhAnhGiayTo() {
+    const { hinhanhurl } = this.state;
+    if (hinhanhurl) {
+      return (
+        <Image
+          style={{ width: '270px', height: '135px' }}
+          src={this.state.hinhanhurl}
+        ></Image>
+      );
+    }
+    return (
+      <Form.Text>Hình ảnh giấy tờ chưa được khách hàng cung cấp</Form.Text>
+    );
   }
   //#endregion
 
@@ -236,16 +272,35 @@ class DanhSachKhachHang extends Component {
   //#endregion
 
   //#region handleTableButton
-  handleTableUpdateButtonClick = (event) => {
-    const token = sessionStorage.getItem('refreshToken');
-    const isValidToken = renewAccessToken(token);
-
-    if (isValidToken === false) {
-      return;
-    }
+  handleSubmit(event) {
+    const sodienthoai = this.state.sodienthoaikhachhangdangchon;
+    const tinhtrang = this.state.tinhtrangkhachhangdangchon;
+    const test = this.state;
     debugger;
-    const sodienthoai = event.target.dataset.khsodienthoai;
-    const tinhtrang = event.target.dataset.tinhtrang;
+    const { ngaycap, magiayto, hinhanhurl } = this.state;
+    if (tinhtrang === 'Đã xác thực') {
+      if (magiayto === '') {
+        this.setState({
+          capnhaterror: 'Mã giấy tờ không hợp lệ, không thể tiến hành xác thực',
+        });
+        return;
+      }
+      if (hinhanhurl === '') {
+        this.setState({
+          capnhaterror:
+            'Hình ảnh giấy tờ không hợp lệ, không thể tiến hành xác thực',
+        });
+        return;
+      }
+      if (ngaycap === '') {
+        this.setState({
+          capnhaterror:
+            'Thông tin ngày cấp không hợp lệ, không thể tiến hành xác thực',
+        });
+        return;
+      }
+    }
+
     axios
       .put('http://localhost:9000/api/admin/capnhattinhtrangkhachhang', {
         sodienthoai,
@@ -253,11 +308,11 @@ class DanhSachKhachHang extends Component {
       })
       .then((res) => {
         alert('Cập nhật tình trạng thành công');
-        this.setState({ khachhangmoixoa: res.data });
 
-        const loaitimkiem = this.state.loaitimkiem;
-        const tinhtrang = this.state.tinhtrang;
-        const tukhoa = this.state.tukhoa;
+        // const loaitimkiem = this.state.loaitimkiem;
+        // const tinhtrang = this.state.tinhtrang;
+        // const tukhoa = this.state.tukhoa;
+        const { loaitimkiem, tinhtrang, tukhoa } = this.state;
         let filter;
         if (loaitimkiem === 'Email') {
           filter = {
@@ -275,15 +330,17 @@ class DanhSachKhachHang extends Component {
             tinhtrang: tinhtrang,
           };
         }
+        this.setState({
+          khachhangmoixoa: res.data,
+          showModal: false,
+        });
         this.getDanhSachKhachHang(filter);
         // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    debugger;
-  };
+  }
 
   capNhatThongTinKhachHang(khachhang) {}
   //#endregion
@@ -368,6 +425,23 @@ class DanhSachKhachHang extends Component {
           {this.renderTableHeader()}
           <tbody>{this.renderTable()}</tbody>
         </Table>
+        <Modal size="sm" show={this.state.showModal} onHide={this.closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Thông tin giấy tờ tùy thân</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Text>Mã giấy tờ: {this.state.magiayto}</Form.Text>
+            <Form.Text>Ngày cấp: {this.state.ngaycap}</Form.Text>
+            {this.renderHinhAnhGiayTo()}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeModal}>Close</Button>
+            <Button onClick={this.handleSubmit}>Xác nhận</Button>
+            <Form.Text style={{ color: 'red' }}>
+              {this.state.capnhaterror}
+            </Form.Text>
+          </Modal.Footer>
+        </Modal>
       </Container>
     );
   }

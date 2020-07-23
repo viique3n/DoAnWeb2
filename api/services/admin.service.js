@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const NhanVienQuanLy = require('../db/models/NhanVienQuanLy.Model');
 const khachHangService = require('./khachang.service');
+const giayToTuyThanService = require('./giaytotuythan.service');
 
 //#region Admin Authentication
 
@@ -74,5 +75,12 @@ module.exports.capNhatTinhTrangKhachHang = async (filter) => {
 
   console.log(capnhat);
   return capnhat;
+};
+
+module.exports.getThongTinKhachHangGiayToTuyThan = async (
+  khachhangSodienthoai
+) => {
+  const giayto = giayToTuyThanService.findBySodienthoai(khachhangSodienthoai);
+  return giayto;
 };
 //#endregion

@@ -83,7 +83,7 @@ module.exports.findAll = async (filter) => {
   if (!dsKhachHang) {
     return { error: 'Không tồn tại khách hàng với thông tin theo yêu cầu' };
   }
-  console.log(dsKhachHang);
+  // console.log(dsKhachHang);
   return dsKhachHang;
 };
 

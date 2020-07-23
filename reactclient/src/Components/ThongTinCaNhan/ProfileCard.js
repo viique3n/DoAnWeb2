@@ -26,6 +26,7 @@ class ProfileCard extends Component {
       giaytourl: '',
       magiaytoerror: '',
       thongtincapnhaterror: '',
+      tinhtrangxacthuc: '',
     };
     this.handleChangeFileSelect = this.handleChangeFileSelect.bind(this);
     this.handleUploadFile = this.handleUploadFile.bind(this);
@@ -37,16 +38,28 @@ class ProfileCard extends Component {
   getThongTinCaNhan() {
     const token = sessionStorage.getItem('jwtToken');
     const decoded = decode(token).data;
-    this.setState(
-      {
-        user: decoded,
-      },
-      () => {
-        this.getThongTinGiayToTuyThan();
-      }
-    );
-
-    const test = this.state;
+    if (decoded.tinhtrang === 'Đã xác thực') {
+      this.setState(
+        {
+          user: decoded,
+          tinhtrangxacthuc: '',
+        },
+        () => {
+          this.getThongTinGiayToTuyThan();
+        }
+      );
+    } else if (decoded.tinhtrang === 'Chưa xác thực') {
+      this.setState(
+        {
+          user: decoded,
+          tinhtrangxacthuc:
+            'Vui lòng cập nhật thông tin giấy tờ tùy thân để thực hiện xác thực tài khoản',
+        },
+        () => {
+          this.getThongTinGiayToTuyThan();
+        }
+      );
+    }
   }
   getThongTinGiayToTuyThan() {
     debugger;
@@ -58,9 +71,19 @@ class ProfileCard extends Component {
         .then((res) => {
           debugger;
           const giayto = res.data;
-          this.setState({
-            thongtingiayto: giayto,
-          });
+          const { tinhtrang } = this.state.user;
+          if (tinhtrang === 'Đã xác thực') {
+            this.setState({
+              thongtingiayto: giayto,
+              tinhtrangxacthuc: '',
+            });
+          } else if (tinhtrang === 'Chưa xác thực') {
+            this.setState({
+              thongtingiayto: giayto,
+              tinhtrangxacthuc:
+                'Đang đợi xác thực, nếu trong 24 giờ chưa nhận được thông tin vui lòng liên hệ ngân hàng qua email ...@...com',
+            });
+          }
         })
         .catch((err) => {
           debugger;
@@ -323,6 +346,7 @@ class ProfileCard extends Component {
                 <Card.Text className="mb-2 text-muted">
                   Tình trạng: {tinhtrang}
                 </Card.Text>
+                <Card.Subtitle>{this.state.tinhtrangxacthuc}</Card.Subtitle>
               </Card.Body>
             </Card>
             {/* <input type="file" onChange={this.handleChangeFileSelect} />

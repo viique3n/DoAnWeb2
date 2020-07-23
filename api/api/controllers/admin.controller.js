@@ -83,6 +83,21 @@ module.exports.getThongTinKhachHang = async (req, res) => {
   return res.status(200).json(dskh);
 };
 
+module.exports.getThongTinGiayTo = async (req, res) => {
+  const { sodienthoai } = req.query;
+  console.log('get thông tin giấy tờ tùy thân');
+  console.log(`số điện thoại: ${sodienthoai}`);
+  const giayto = await adminService.getThongTinKhachHangGiayToTuyThan(
+    sodienthoai
+  );
+  if (giayto.error) {
+    return res.status(404).json({
+      error: 'Không tìm thấy thông tin',
+    });
+  }
+  return res.status(200).json(giayto);
+};
+
 module.exports.putCapNhatTinhTrangKhachHang = async (req, res) => {
   console.log('put cap nhat tinh trang khach hang controller');
   console.log(req.body);

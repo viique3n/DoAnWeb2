@@ -131,7 +131,6 @@ class ChuyenKhoanCungKhachHang extends Component {
     this.setState({ showModal: true });
   }
   closeModal() {
-    debugger;
     this.setState({ showModal: false });
   }
   countDown() {

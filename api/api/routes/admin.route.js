@@ -8,6 +8,7 @@ router.put(
   '/capnhattinhtrangkhachhang',
   controller.putCapNhatTinhTrangKhachHang
 );
+router.get('/thongtinkhachhanggiaytotuythan', controller.getThongTinGiayTo);
 router.post('/renewacesstoken', controller.renewAccessToken);
 
 module.exports = router;
