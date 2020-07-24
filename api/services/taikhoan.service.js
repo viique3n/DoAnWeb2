@@ -119,6 +119,24 @@ module.exports.findById = async (mataikhoan) => {
 //#endregion
 
 //#region BusService
+module.exports.capNhatTinhTrang = async (thongtin) => {
+  const { mataikhoan, tinhtrang } = thongtin;
+  const taikhoan = await TaiKhoanThanhToan.findOne({
+    where: {
+      mataikhoan,
+    },
+  });
+
+  taikhoan.tinhtrang = tinhtrang;
+  const saveTaiKhoan = await taikhoan.save();
+  if (!saveTaiKhoan) {
+    return {
+      error: 'Cập nhật tình trạng thất bại',
+    };
+  }
+  return taikhoan;
+};
+
 module.exports.capNhatSoDu = async (thongtin) => {
   console.log('Cập nhật số dư');
   const { mataikhoan, sotienchuyenkhoan } = thongtin;

@@ -2,29 +2,29 @@ const now = new Date();
 
 generateKhachHang = () => {
   let dsKhachHang = [];
-  let i;
-  for (i = 0; i < 100; i++) {
-    const sdt = Math.floor(Math.random() * 100000000);
-    const sodienthoai = '0' + sdt;
-    const email = 'khachhang' + i + '@gmail.com';
-    const tenhienthi = 'khach hang ' + i;
-    const tinhtrang = 'Chưa xác thực';
-    const createdAt = now;
-    const updatedAt = now;
-    const doituongkhachhangId = 1;
-    const khachhang = {
-      sodienthoai,
-      email,
-      matkhau: '$2b$10$VEMs2WSLwk4KkRYyDk1ZmeSFWcwk6PVGSQXIHveICWtFkUVe3.nNG',
-      tenhienthi,
-      tinhtrang,
-      createdAt,
-      updatedAt,
-      token: '',
-      doituongkhachhangId,
-    };
-    dsKhachHang.push(khachhang);
-  }
+  // let i;
+  // for (i = 0; i < 100; i++) {
+  //   const sdt = Math.floor(Math.random() * 100000000);
+  //   const sodienthoai = '0' + sdt;
+  //   const email = 'khachhang' + i + '@gmail.com';
+  //   const tenhienthi = 'khach hang ' + i;
+  //   const tinhtrang = 'Chưa xác thực';
+  //   const createdAt = now;
+  //   const updatedAt = now;
+  //   const doituongkhachhangId = 1;
+  //   const khachhang = {
+  //     sodienthoai,
+  //     email,
+  //     matkhau: '$2b$10$VEMs2WSLwk4KkRYyDk1ZmeSFWcwk6PVGSQXIHveICWtFkUVe3.nNG',
+  //     tenhienthi,
+  //     tinhtrang,
+  //     createdAt,
+  //     updatedAt,
+  //     token: '',
+  //     doituongkhachhangId,
+  //   };
+  //   dsKhachHang.push(khachhang);
+  // }
   const k1 = {
     sodienthoai: '0963781521',
     email: 'minhvan.996@gmail.com',

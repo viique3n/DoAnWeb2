@@ -37,6 +37,8 @@ class CapNhatTaiKhoan extends Component {
               <Card.Text>
                 Số điện thoại khách hàng: {taikhoan.khachhangSodienthoai}
               </Card.Text>
+              <Card.Text>Số dư: {taikhoan.sodu}</Card.Text>
+              <Button>Cập nhật số dư</Button>
             </Card.Body>
           </Card>
         );
@@ -50,16 +52,18 @@ class CapNhatTaiKhoan extends Component {
       debugger;
       return (
         <Card>
-          <Card.Img
-            variant="top"
-            src="http://localhost:9000/images/BingW01.jpg"
-          />
           <Card.Body>
-            <Card.Text>{this.state.danhsachtaikhoan.mataikhoan}</Card.Text>
-            <Card.Text>{this.state.danhsachtaikhoan.tinhtrang}</Card.Text>
             <Card.Text>
+              Mã tài khoản: {this.state.danhsachtaikhoan.mataikhoan}
+            </Card.Text>
+            <Card.Text>
+              Tình trạng: {this.state.danhsachtaikhoan.tinhtrang}
+            </Card.Text>
+            <Card.Text>
+              Số điện thoại khách hàng:{' '}
               {this.state.danhsachtaikhoan.khachhangSodienthoai}
             </Card.Text>
+            <Card.Text>Số dư: {this.state.danhsachtaikhoan.sodu}</Card.Text>
           </Card.Body>
         </Card>
       );

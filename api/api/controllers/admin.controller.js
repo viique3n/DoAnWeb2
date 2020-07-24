@@ -9,9 +9,6 @@ let refreshTokens = [];
 //#region auth
 module.exports.renewAccessToken = (req, res) => {
   const refreshToken = req.body.refreshToken;
-  // console.log(refreshTokens);
-  // console.log('renew access token');
-  // console.log(req);
   if (refreshToken == null) {
     console.log('refresh token null');
     return res.status(401);
@@ -54,9 +51,6 @@ module.exports.postLoginAPI = async (req, res) => {
   const accessToken = jwtService.generateAccessToken(nhanvienquanly);
   const refreshToken = jwtService.generateRefreshToken(nhanvienquanly);
   refreshTokens.push(refreshToken);
-  /* res.header('auth-token', accessToken).send(accessToken); */
-  // console.log('accesstoken');
-  // console.log(accessToken);
   res.json({
     token: accessToken,
     refreshToken,
@@ -68,15 +62,6 @@ module.exports.postLoginAPI = async (req, res) => {
 module.exports.getThongTinKhachHang = async (req, res) => {
   let { filter } = req.query;
   filter = JSON.parse(filter);
-  // console.log('get thong tin khach hang');
-  // console.log(filter);
-  // console.log(typeof filter);
-  // const filter = {
-  //   email: req.query.email,
-  //   sodienthoai: req.query.sodienthoai,
-  //   tenhienthi: req.query.tenhienthi,
-  //   tinhtrang: req.query.tinhtrang,
-  // };
 
   const dskh = await adminService.getThongTinKhachHang(filter);
   // console.log(dskh);
@@ -108,11 +93,31 @@ module.exports.putCapNhatTinhTrangKhachHang = async (req, res) => {
     tinhtrang,
   };
 
-  const capnhat = await adminService.capNhatTinhTrangKhachHang(filter);
-  console.log('Trang thai cap nhat');
-  console.log(capnhat);
+  console.log(
+    `Email: ${email} --- Số điện thoại: ${sodienthoai} --- Tình trạng: ${tinhtrang}`
+  );
+  if (tinhtrang === 'Đã xác thực') {
+    console.log('Xác thực tài khoản');
+    const thongtin = {
+      sodienthoai,
+      tinhtrang: 'Đã kích hoạt',
+    };
+    const capnhat = await adminService.capNhatTinhTrangKhachHang(filter);
+    const capnhatTaiKhoanThanhToan = await adminService.capNhatTinhTrangTaiKhoanThanhToan(
+      thongtin
+    );
+    if (!capnhat.error && !capnhatTaiKhoanThanhToan.error) {
+      return res.json({
+        tinhtrancapnhat: 'Cập nhật thành công',
+      });
+    }
+  } else {
+    const capnhat = await adminService.capNhatTinhTrangKhachHang(filter);
+    console.log('Trang thai cap nhat');
+    console.log(capnhat);
 
-  return res.json({ capnhat });
+    return res.json({ capnhat });
+  }
 };
 
 module.exports.putKichHoatTaiKhoan = async (req, res) => {};

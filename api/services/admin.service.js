@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const NhanVienQuanLy = require('../db/models/NhanVienQuanLy.Model');
 const khachHangService = require('./khachang.service');
+const taiKhoanThanhToanService = require('./taikhoan.service');
 const giayToTuyThanService = require('./giaytotuythan.service');
 
 //#region Admin Authentication
@@ -66,14 +67,14 @@ module.exports.getThongTinKhachHang = async (filter) => {
 };
 
 module.exports.capNhatTinhTrangKhachHang = async (filter) => {
-  const capnhat = khachHangService.capNhatTinhTrang(filter);
+  const capnhat = await khachHangService.capNhatTinhTrang(filter);
   if (capnhat.error) {
     const { error } = capnhat;
     console.log(error);
     return { error };
   }
 
-  console.log(capnhat);
+  // console.log(capnhat);
   return capnhat;
 };
 
@@ -82,5 +83,29 @@ module.exports.getThongTinKhachHangGiayToTuyThan = async (
 ) => {
   const giayto = giayToTuyThanService.findBySodienthoai(khachhangSodienthoai);
   return giayto;
+};
+
+module.exports.capNhatTinhTrangTaiKhoanThanhToan = async (thongtin) => {
+  const { sodienthoai, tinhtrang } = thongtin;
+  const taikhoan = await taiKhoanThanhToanService.findAllByPhone(sodienthoai);
+  console.log(
+    `Danh sách tài khoản thanh toán của số điện thoại: ${sodienthoai}`
+  );
+  console.log(taikhoan);
+  if (taikhoan.length === 1) {
+    console.log(`Mã tài khoản thanh toán: ${taikhoan[0].mataikhoan}`);
+    const capnhattaikhoan = await taiKhoanThanhToanService.capNhatTinhTrang({
+      tinhtrang,
+      mataikhoan: taikhoan[0].mataikhoan,
+    });
+    if (capnhattaikhoan.error) {
+      return {
+        error: capnhattaikhoan.error,
+      };
+    }
+    return capnhattaikhoan;
+  }
+
+  return;
 };
 //#endregion

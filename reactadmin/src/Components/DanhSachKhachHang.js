@@ -307,6 +307,7 @@ class DanhSachKhachHang extends Component {
         tinhtrang,
       })
       .then((res) => {
+        debugger;
         alert('Cập nhật tình trạng thành công');
 
         // const loaitimkiem = this.state.loaitimkiem;
