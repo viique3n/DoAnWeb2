@@ -1,9 +1,15 @@
 const soTietKiemService = require('../../services/sotienkiem.service');
 
 module.exports.getDanhSachSoTietKiem = async (req, res) => {
-  const { khachhangSodienthoai } = req.body;
+  console.log('get danh sách sổ tiết kiệm');
+  console.log('request params');
+  console.log(req.query);
+  const { khachhangSodienthoai, tinhtrang } = req.query;
   if (khachhangSodienthoai) {
-    const dsstk = await soTietKiemService.findAllByPhone(khachhangSodienthoai);
+    const dsstk = await soTietKiemService.findAllByPhone(
+      khachhangSodienthoai,
+      tinhtrang
+    );
     if (dsstk.error) {
       return res.status(404).json({
         error: 'Khách hàng không có số tiết kiệm',
@@ -33,4 +39,19 @@ module.exports.postTaoSoTietKiem = async (req, res) => {
   }
 
   return res.json(newSoTietKiem);
+};
+
+module.exports.postRutTienTietKiem = async (req, res) => {
+  console.log('Rút tiền tiết kiệm Controller');
+  const { thongtin } = req.body;
+  const ruttien = await soTietKiemService.rutTienTietKiem(thongtin);
+  console.log(ruttien);
+  if (ruttien.error) {
+    return res.status(404).json({
+      tinhtrang: 'Không tìm thấy thông tin sổ tiết kiệm cần cập nhật',
+    });
+  }
+  return res.status(200).json({
+    tinhtrang: 'Cập nhật thông tin thành công',
+  });
 };

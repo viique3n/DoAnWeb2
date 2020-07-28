@@ -1145,6 +1145,12 @@ const loaiChuyenKhoan = [
     createdAt: now,
     updatedAt: now,
   },
+  {
+    id: 6,
+    loaichuyenkhoan: 'Rút tiền tiết kiệm',
+    createdAt: now,
+    updatedAt: now,
+  },
 ];
 
 const hanMucGiaoDich = [

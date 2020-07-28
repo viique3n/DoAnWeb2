@@ -121,10 +121,11 @@ module.exports.findAll = async () => {
   return danhSachSoTietKiem;
 };
 
-module.exports.findAllByPhone = async (khachhangSodienthoai) => {
+module.exports.findAllByPhone = async (khachhangSodienthoai, tinhtrang) => {
   let danhSachSoTietKiem = await SoTietKiem.findAll({
     where: {
       khachhangSodienthoai,
+      tinhtrang,
     },
   });
   if (!danhSachSoTietKiem) {
@@ -400,4 +401,76 @@ module.exports.capNhatSoTietKiem = async () => {
   });
 };
 
+module.exports.rutTienTietKiem = async (thongtin) => {
+  const { id, ngayruttien, tinhtrang, tienlai, kyhan } = thongtin;
+
+  // Kiểm tra tồn tại sổ tiết kiệm
+  const sotietkiem = await SoTietKiem.findByPk(id);
+  if (!sotietkiem) {
+    return {
+      error: 'Mã sổ tiết kiệm không tồn tại',
+    };
+  }
+  sotietkiem.ngayruttien = ngayruttien;
+  sotietkiem.tinhtrang = tinhtrang;
+  sotietkiem.tienlai = tienlai;
+  sotietkiem.kyhan = kyhan;
+  await sotietkiem.save();
+  // Hoàn tất cập nhật sổ tiết kiệm
+
+  // Cập nhật số dư tài khoản thanh toán
+  // Chuyển tiền từ sổ tiết kiệm vào tài khoản thanh toán
+  const { sotiengui, taikhoanthanhtoanMataikhoan } = sotietkiem;
+  console.log(`Rút tiền tiết kiệm: ${id}`);
+  const tongTienSauTietKiem = +sotiengui + +tienlai;
+  console.log(`Tổng tiền sau tiết kiệm: ${tongTienSauTietKiem}`);
+
+  const capNhatTaiKhoanThanhToan = await taiKhoanThanhToanService.capNhatSoDu({
+    mataikhoan: taikhoanthanhtoanMataikhoan,
+    sotienchuyenkhoan: +tongTienSauTietKiem,
+  });
+  if (!capNhatTaiKhoanThanhToan) {
+    console.log('Cập nhật tài khoản thanh toán thất bại');
+    return {
+      error: 'Cập nhật tài khoản thanh toán thất bại',
+    };
+  }
+  // Cập nhật thông tin chuyển khoản
+  console.log('Cập nhật thông tin chuyển khoản');
+  const maChuyenKhoan = generateMaChuyenKhoan(id, taikhoanthanhtoanMataikhoan);
+  const now = new Date();
+  const dmy =
+    now.getDate() + '-' + (+now.getMonth() + +1) + '-' + now.getFullYear();
+  const taoChuyenKhoan = await chuyenKhoanService.taoChuyenKhoan({
+    maChuyenKhoan,
+    mataikhoanchuyenkhoan: id,
+    mataikhoanthuhuong: taikhoanthanhtoanMataikhoan,
+    sotienchuyenkhoan: tongTienSauTietKiem,
+    sodutaikhoanchuyenkhoantruocgiaodich: sotiengui,
+    sodutaikhoanchuyenkhoansaugiaodich: 0,
+    sodutaikhoanthuhuongtruocgiaodich: +capNhatTaiKhoanThanhToan.sodutruocgiaodich,
+    sodutaikhoanthuhuongsaugiaodich: +capNhatTaiKhoanThanhToan.sodusaugiaodich,
+    noidung: 'rút tiền tiết kiệm',
+    thoigian: now,
+    thoigiandmy: dmy,
+    loaichuyenkhoanId: 6,
+  });
+  if (!taoChuyenKhoan) {
+    return {
+      error: 'Tạo thông tin chuyển khoản thất bại',
+    };
+  }
+  console.log('Cập nhật thông tin chuyển khoản thành công');
+  sotietkiem.tinhtrang = 'Đã hoàn tất trả lãi';
+  sotiengui.ngayruttien = now;
+  const capNhatSoCu = await sotietkiem.save();
+  if (!capNhatSoCu) {
+    return {
+      error: 'Không thể cập nhật trạng thái',
+    };
+  }
+  return {
+    tinhtrang: 'Rút tiền thành công',
+  };
+};
 //#endregion
