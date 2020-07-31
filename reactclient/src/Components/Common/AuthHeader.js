@@ -89,6 +89,17 @@ class AuthHeader extends Component {
               <Nav.Link as={Link} to="/profile">
                 Thông tin khách hàng
               </Nav.Link>
+              <NavDropdown title="Khách hàng">
+                <NavDropdown.Item as={Link} to="/khachhang/thongtin">
+                  Thông tin khách hàng
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/khachhang/taikhoan">
+                  Quản lý tài khoản
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/khachhang/lichsugiaodich">
+                  Lịch sử giao dịch
+                </NavDropdown.Item>
+              </NavDropdown>
               <Nav.Link as={Link} to="/tktt">
                 Tài khoản
               </Nav.Link>

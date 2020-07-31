@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './Pages/HomePage';
 import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
-import ProfilePage from './Pages/ProfilePage';
-import QuanLyTaiKhoanThanhToanPage from './Pages/QuanLyTaiKhoanThanhToanPage';
-// import ChuyenKhoanPage from './Pages/ChuyenKhoanPage';
+import ProfilePage from './Pages/ThongTinCaNhanPages/ProfilePage';
+import QuanLyTaiKhoanThanhToanPage from './Pages/ThongTinCaNhanPages/QuanLyTaiKhoanThanhToanPage';
+import LichSuGiaoDichPage from './Pages/ThongTinCaNhanPages/LichSuGiaoDichPage';
 import ChuyenKhoanCungKhachHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanCungKhachHangPage';
 import ChuyenKhoanCungNganHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanCungNganHangPage';
 import ChuyenKhoanLienNganHangPage from './Pages/ChuyenKhoanPages/ChuyenKhoanLienNganHangPage';
@@ -27,15 +27,24 @@ class App extends Component {
           <UnAuthRoute path="/signup">
             <SignUpPage />
           </UnAuthRoute>
-          <AuthRoute path="/profile">
+          {/* <AuthRoute path="/profile">
             <ProfilePage />
           </AuthRoute>
           <AuthRoute path="/tktt">
             <QuanLyTaiKhoanThanhToanPage />
-          </AuthRoute>
+          </AuthRoute> */}
           {/* <AuthRoute path="/chuyenkhoan">
             <ChuyenKhoanPage />
           </AuthRoute> */}
+          <AuthRoute path="/khachhang/thongtin">
+            <ProfilePage />
+          </AuthRoute>
+          <AuthRoute path="/khachhang/taikhoan">
+            <QuanLyTaiKhoanThanhToanPage />
+          </AuthRoute>
+          <AuthRoute path="/khachhang/lichsugiaodich">
+            <LichSuGiaoDichPage />
+          </AuthRoute>
           <AuthRoute path="/ck/cungkh">
             <ChuyenKhoanCungKhachHangPage />
           </AuthRoute>

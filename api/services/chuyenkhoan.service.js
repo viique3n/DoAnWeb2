@@ -6,6 +6,16 @@ const khachHangService = require('../services/khachang.service');
 const taiKhoanService = require('../services/taikhoan.service');
 const { Op } = require('sequelize');
 
+module.exports.lichSuGiaoGich = async (mataikhoanchuyenkhoan) => {
+  console.log(`Mã tài khoản: ${mataikhoanchuyenkhoan}`);
+  const giaodich = await ChuyenKhoan.findAll({
+    where: {
+      mataikhoanchuyenkhoan,
+    },
+  });
+  return giaodich;
+};
+
 async function getThongTinChuyenKhoanCuaTaiKhoanTaiThoiGian(
   mataikhoanchuyenkhoan,
   thoigian

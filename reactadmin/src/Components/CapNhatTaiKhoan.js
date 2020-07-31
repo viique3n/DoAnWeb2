@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   CardDeck,
+  Modal,
 } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -17,13 +18,34 @@ class CapNhatTaiKhoan extends Component {
       thongtintimkiem: '',
       timkiemerror: '',
       danhsachtaikhoan: [],
+      mataikhoancapnhat: '',
+      soducapnhat: '',
+      soducapnhaterror: '',
+      mataikhoancapnhatsoduerror: '',
+      showModal: false,
     };
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleChangeSoDuCapNhat = this.handleChangeSoDuCapNhat.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handleCapNhatSoDu = this.handleCapNhatSoDu.bind(this);
   }
 
+  //#region function
+  openModal(event) {
+    const mataikhoan = event.target.dataset.mataikhoan;
+    this.setState({
+      mataikhoancapnhat: mataikhoan,
+      showModal: true,
+    });
+  }
+  closeModal() {
+    this.setState({
+      showModal: false,
+    });
+  }
   renderDachSachTaiKhoan() {
-    debugger;
     if (
       this.state.danhsachtaikhoan !== undefined &&
       this.state.danhsachtaikhoan.length > 0
@@ -38,7 +60,12 @@ class CapNhatTaiKhoan extends Component {
                 Số điện thoại khách hàng: {taikhoan.khachhangSodienthoai}
               </Card.Text>
               <Card.Text>Số dư: {taikhoan.sodu}</Card.Text>
-              <Button>Cập nhật số dư</Button>
+              <Button
+                onClick={this.openModal}
+                data-mataikhoan={taikhoan.mataikhoan}
+              >
+                Cập nhật
+              </Button>
             </Card.Body>
           </Card>
         );
@@ -49,7 +76,6 @@ class CapNhatTaiKhoan extends Component {
     ) {
       return;
     } else if (this.state.danhsachtaikhoan) {
-      debugger;
       return (
         <Card>
           <Card.Body>
@@ -64,12 +90,20 @@ class CapNhatTaiKhoan extends Component {
               {this.state.danhsachtaikhoan.khachhangSodienthoai}
             </Card.Text>
             <Card.Text>Số dư: {this.state.danhsachtaikhoan.sodu}</Card.Text>
+            <Form.Label>Nhập số tiền cần cập nhật</Form.Label>
+            <Form.Control
+              type="text"
+              onChange={this.handleChangeSoDuCapNhat}
+            ></Form.Control>
           </Card.Body>
         </Card>
       );
     }
   }
 
+  //#endregion
+
+  //#region eventHandler
   handleSearchSubmit = (event) => {
     event.preventDefault();
     const { thongtintimkiem } = this.state;
@@ -94,12 +128,62 @@ class CapNhatTaiKhoan extends Component {
         });
       });
   };
-  handleSearchChange = (event) => {
+  handleSearchChange(event) {
     event.preventDefault();
     const thongtintimkiem = event.target.value;
     this.setState({ thongtintimkiem });
-  };
+  }
+  handleChangeSoDuCapNhat(event) {
+    const soducapnhat = event.target.value;
+    if (isNaN(soducapnhat)) {
+      this.setState({
+        soducapnhat: '',
+        soducapnhaterror:
+          'Số tiền hợp lệ chỉ bao gồm chữ số, vui lòng nhập số tiền hợp lệ',
+      });
+      return;
+    } else if (+soducapnhat < 50000) {
+      this.setState({
+        soducapnhat: '',
+        soducapnhaterror: 'Số tiền phải lớn hơn 50000VNĐ',
+      });
+      return;
+    } else if (+soducapnhat % 50000 !== 0) {
+      this.setState({
+        soducapnhat: '',
+        soducapnhaterror:
+          'Số tiền phải là số chia hết cho 50000, vui lòng nhập số tiền hợp lệ',
+      });
+      return;
+    } else {
+      this.setState({
+        soducapnhat,
+        soducapnhaterror: '',
+      });
+    }
+  }
+  handleCapNhatSoDu(event) {
+    const { mataikhoancapnhat, soducapnhat } = this.state;
+    debugger;
+    axios
+      .put('http://localhost:9000/api/taikhoan/capnhatsodu', {
+        mataikhoan: mataikhoancapnhat,
+        soducapnhat,
+      })
+      .then((res) => {
+        alert('Cập nhật số dư thành công');
+        window.location.reload();
+        debugger;
+      })
+      .catch((err) => {
+        debugger;
+      });
+  }
+  //#endregion
+
+  //#region ComponentLicycle
   componentDidMount() {}
+  //#endregion
   render() {
     return (
       <Container>
@@ -119,6 +203,23 @@ class CapNhatTaiKhoan extends Component {
         <br />
         <CardDeck>{this.renderDachSachTaiKhoan()}</CardDeck>
         <Card.Text>{this.state.timkiemerror}</Card.Text>
+        <Modal size="sm" show={this.state.showModal} onHide={this.closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Xác thực OTP</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Label>Nhập số tiền cần cập nhật</Form.Label>
+            <Form.Control
+              type="text"
+              onChange={this.handleChangeSoDuCapNhat}
+            ></Form.Control>
+            <Card.Text>{this.state.soducapnhaterror}</Card.Text>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeModal}>Close</Button>
+            <Button onClick={this.handleCapNhatSoDu}>Cập nhật số dư</Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     );
   }

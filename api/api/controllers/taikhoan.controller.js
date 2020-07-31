@@ -114,3 +114,20 @@ module.exports.getDanhSachTaiKhoanThanhToan = async (req, res) => {
   }
   return res.status(200).json(dstk);
 };
+
+module.exports.putCapNhatSoDu = async (req, res) => {
+  console.log('put cap nhat so du tai khoan thanh toan');
+  const { mataikhoan, soducapnhat } = req.body;
+  const capnhat = await taiKhoanService.capNhatSoDu({
+    mataikhoan,
+    sotienchuyenkhoan: soducapnhat,
+  });
+  if (capnhat.error) {
+    return res.status(404).json({
+      error: 'Không tìm thấy tài khoản cần cập nhật',
+    });
+  }
+  return res.status(200).json({
+    thanhcong: 'Cập nhật số dư cho tài khoản thành công',
+  });
+};

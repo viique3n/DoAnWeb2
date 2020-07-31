@@ -9,4 +9,5 @@ router.get(
 router.post('/themtaikhoan', controller.postThemTaiKhoan);
 router.get('/getthongtintaikhoan', controller.getThongTinTaiKhoan);
 router.put('/updatethongtintaikhoan', controller.putcapNhatThongTinTaiKhoan);
+router.put('/capnhatsodu', controller.putCapNhatSoDu);
 module.exports = router;
