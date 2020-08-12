@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import './css/login.css';
 
 class LoginForm extends Component {
@@ -49,50 +49,50 @@ class LoginForm extends Component {
       return <Redirect to={{ pathname: '/' }} />;
     }
     return (
-      <Container>
-        <Row>
-          <Col></Col>
-          <Col>
-            <br />
-            <br />
-            <Form onSubmit={this.handleSubmit}>
-              <h3>Đăng nhập</h3>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>
-                  <b>Email</b>
-                </Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  placeholder="Địa chỉ email admin"
-                  onChange={this.props.handleChange}
-                />
-                <div>{this.props.errors.sodienthoai}</div>
-              </Form.Group>
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>
-                  <b>Password</b>
-                </Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="..."
-                  name="matkhau"
-                  onChange={this.props.handleChange}
-                />
-                <div>{this.props.errors.matkhau}</div>
-              </Form.Group>
+      <Row>
+        <Col>
+          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+        </Col>
+        <Col>
+          <br />
+          <br />
+          <Form onSubmit={this.handleSubmit}>
+            <h3>Đăng nhập</h3>
+            <Form.Group controlId='formBasicEmail'>
+              <Form.Label>
+                <b>Email</b>
+              </Form.Label>
+              <Form.Control
+                type='email'
+                name='email'
+                placeholder='Địa chỉ email admin'
+                onChange={this.props.handleChange}
+              />
+              <div>{this.props.errors.sodienthoai}</div>
+            </Form.Group>
+            <Form.Group controlId='formBasicPassword'>
+              <Form.Label>
+                <b>Password</b>
+              </Form.Label>
+              <Form.Control
+                type='password'
+                placeholder='...'
+                name='matkhau'
+                onChange={this.props.handleChange}
+              />
+              <div>{this.props.errors.matkhau}</div>
+            </Form.Group>
 
-              <Button variant="primary" type="submit">
-                Đăng nhập
-              </Button>
-              <Form.Text style={{ color: 'red' }}>
-                {this.state.dangnhaperror}
-              </Form.Text>
-            </Form>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container>
+            <Button variant='primary' type='submit'>
+              Đăng nhập
+            </Button>
+            <Form.Text style={{ color: 'red' }}>
+              {this.state.dangnhaperror}
+            </Form.Text>
+          </Form>
+        </Col>
+        <Col></Col>
+      </Row>
     );
   }
 }

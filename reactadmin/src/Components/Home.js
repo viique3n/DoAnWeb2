@@ -4,7 +4,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <img src="http://localhost:9000/images/BingW01.jpg"></img>
+        <img src="http://localhost:9000/images/BingW06.jpg"></img>
       </div>
     );
   }

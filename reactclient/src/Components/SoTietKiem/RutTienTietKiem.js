@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import {
-  Form,
-  Button,
-  Col,
-  Container,
-  Row,
-  Card,
-  Modal,
-} from 'react-bootstrap';
+import { Form, Button, Col, Row, Card, Modal } from 'react-bootstrap';
 class RutTienTietKiem extends Component {
   constructor(props) {
     super(props);
@@ -430,79 +422,78 @@ class RutTienTietKiem extends Component {
       tongtiennhantruockyhantext,
     } = this.state;
     return (
-      <Container>
-        <br></br>
-        <h3>Rút tiền ???????????????</h3>
-        <Row>
-          <Col></Col>
-          <Col>
-            <Form>
-              <Card>
-                <Card.Header>Thông tin sổ tiết kiệm</Card.Header>
-                <Card.Body>
-                  <Form.Group>
-                    <Card.Title>Chọn sổ tiết kiệm</Card.Title>
-                    <Form.Control
-                      as="select"
-                      name="masotietkiem"
-                      onChange={this.handleSelectSoTietKiem}
-                    >
-                      <option value="DEFAULT">Chọn sổ tiết kiệm</option>
-                      {this.state.danhsachsotietkiem.map((sotietkiem) => (
-                        <option value={sotietkiem.id}>{sotietkiem.id}</option>
-                      ))}
-                    </Form.Control>
-                    <Form.Text>{sotienguitext}</Form.Text>
-                    <Form.Text>{ngaymotext}</Form.Text>
-                    <Form.Text>{ngaydongtext}</Form.Text>
-                    <Form.Text>{kyhantext}</Form.Text>
-                    <Form.Text>{laisuattext}</Form.Text>
-                    <Form.Text>{tienlaitext}</Form.Text>
-                    <Form.Text>{thoigiandaguitext}</Form.Text>
-                    <Form.Text>{laisuatkhongkyhantext}</Form.Text>
-                    <Form.Text>{tongtiennhanduoctext}</Form.Text>
-                    <Form.Text>{tonglaitruockyhantext}</Form.Text>
-                    <Form.Text>{tongtiennhantruockyhantext}</Form.Text>
-                  </Form.Group>
-                  <Form.Group>
-                    <Button onClick={this.openModal}>Rút tiền </Button>
-                  </Form.Group>
-                </Card.Body>
-                <Modal
-                  size="sm"
-                  show={this.state.showModal}
-                  onHide={this.closeModal}
-                >
-                  <Modal.Header closeButton>
-                    <Modal.Title>Xác thực OTP</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form.Label>Nhập mã OTP</Form.Label>
-                    <Form.Text>
-                      Mã OTP đã được gửi tới Email của quý khách, vui lòng xác
-                      nhận
-                    </Form.Text>
-                    <Form.Control
-                      type="text"
-                      name="otp"
-                      onChange={this.handleChangeMaOTP}
-                    ></Form.Control>
-                    <Form.Text>
-                      Mã OTP hết hạn sau: {this.state.thoigianotpm}:
-                      {this.state.thoigianotps}
-                    </Form.Text>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button onClick={this.closeModal}>Close</Button>
-                    <Button onClick={this.handleSubmit}>Xác nhận</Button>
-                  </Modal.Footer>
-                </Modal>
-              </Card>
-            </Form>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col>
+          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+        </Col>
+        <Col>
+        <br/>
+          <Form>
+            <Card>
+              <Card.Header>Thông tin sổ tiết kiệm</Card.Header>
+              <Card.Body>
+                <Form.Group>
+                  <Card.Title>Chọn sổ tiết kiệm</Card.Title>
+                  <Form.Control
+                    as='select'
+                    name='masotietkiem'
+                    onChange={this.handleSelectSoTietKiem}
+                  >
+                    <option value='DEFAULT'>Chọn sổ tiết kiệm</option>
+                    {this.state.danhsachsotietkiem.map((sotietkiem) => (
+                      <option value={sotietkiem.id}>{sotietkiem.id}</option>
+                    ))}
+                  </Form.Control>
+                  <Form.Text>{sotienguitext}</Form.Text>
+                  <Form.Text>{ngaymotext}</Form.Text>
+                  <Form.Text>{ngaydongtext}</Form.Text>
+                  <Form.Text>{kyhantext}</Form.Text>
+                  <Form.Text>{laisuattext}</Form.Text>
+                  <Form.Text>{tienlaitext}</Form.Text>
+                  <Form.Text>{thoigiandaguitext}</Form.Text>
+                  <Form.Text>{laisuatkhongkyhantext}</Form.Text>
+                  <Form.Text>{tongtiennhanduoctext}</Form.Text>
+                  <Form.Text>{tonglaitruockyhantext}</Form.Text>
+                  <Form.Text>{tongtiennhantruockyhantext}</Form.Text>
+                </Form.Group>
+                <Form.Group>
+                  <Button onClick={this.openModal}>Rút tiền </Button>
+                </Form.Group>
+              </Card.Body>
+              <Modal
+                size='sm'
+                show={this.state.showModal}
+                onHide={this.closeModal}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Xác thực OTP</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form.Label>Nhập mã OTP</Form.Label>
+                  <Form.Text>
+                    Mã OTP đã được gửi tới Email của quý khách, vui lòng xác
+                    nhận
+                  </Form.Text>
+                  <Form.Control
+                    type='text'
+                    name='otp'
+                    onChange={this.handleChangeMaOTP}
+                  ></Form.Control>
+                  <Form.Text>
+                    Mã OTP hết hạn sau: {this.state.thoigianotpm}:
+                    {this.state.thoigianotps}
+                  </Form.Text>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={this.closeModal}>Close</Button>
+                  <Button onClick={this.handleSubmit}>Xác nhận</Button>
+                </Modal.Footer>
+              </Modal>
+            </Card>
+          </Form>
+        </Col>
+        <Col></Col>
+      </Row>
     );
   }
 }

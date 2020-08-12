@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Form,
-  Button,
-  Container,
-  Col,
-  Row,
-  Card,
-  Modal,
-} from 'react-bootstrap';
+import { Form, Button, Col, Row, Card, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { renewAccessToken } from '../../Auth/AuthRoute';
 import jwt_decode from 'jwt-decode';
@@ -411,23 +403,27 @@ class ChuyenKhoanCungKhachHang extends Component {
   }
   render() {
     return (
-      <Container>
-        <br />
+      <div>
         <Row>
-          <Col></Col>
           <Col>
+            <img src='http://localhost:9000/images/BingW06.jpg'></img>
+          </Col>
+          <Col>
+            <br />
             <Form>
-              <Card border="info">
-                <Card.Header as="h5">Tài khoản nguồn</Card.Header>
+              <Card border='info'>
+                <Card.Header as='h5'>
+                  <b>Tài khoản nguồn</b>
+                </Card.Header>
                 <Card.Body>
                   <Form.Label>Chọn tài khoản gốc</Form.Label>
                   <Form.Group>
                     <Form.Control
-                      as="select"
-                      name="mataikhoanchuyenkhoan"
+                      as='select'
+                      name='mataikhoanchuyenkhoan'
                       onChange={this.handleSelectMaTaiKhoanChuyenKhoan}
                     >
-                      <option value="DEFAULT">Chọn tài khoản</option>
+                      <option value='DEFAULT'>Chọn tài khoản</option>
                       {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
                         <option value={taikhoan.mataikhoan}>
                           {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
@@ -442,17 +438,19 @@ class ChuyenKhoanCungKhachHang extends Component {
               </Card>
 
               <br />
-              <Card border="info">
-                <Card.Header as="h5">Thông tin chuyển khoản</Card.Header>
+              <Card border='info'>
+                <Card.Header as='h5'>
+                  <b>Thông tin chuyển khoản</b>
+                </Card.Header>
                 <Card.Body>
                   <Form.Group>
                     <Form.Label>Chọn tài khoản thụ hưởng</Form.Label>
                     <Form.Control
-                      as="select"
-                      name="mataikhoanthuhuong"
+                      as='select'
+                      name='mataikhoanthuhuong'
                       onChange={this.handleSelectMaTaiKhoanThuHuong}
                     >
-                      <option value="DEFAULT">Chọn tài khoản</option>
+                      <option value='DEFAULT'>Chọn tài khoản</option>
                       {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
                         <option value={taikhoan.mataikhoan}>
                           {taikhoan.mataikhoan} --- Số dư: {taikhoan.sodu}
@@ -464,8 +462,8 @@ class ChuyenKhoanCungKhachHang extends Component {
                   <Form.Group>
                     <Form.Label>Nhập số tiền chuyển khoản</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="sotienchuyenkhoan"
+                      type='text'
+                      name='sotienchuyenkhoan'
                       onChange={this.hanleChangeSoTienChuyenKhoan}
                     />
                     <Form.Text style={{ color: 'red' }}>
@@ -475,8 +473,8 @@ class ChuyenKhoanCungKhachHang extends Component {
                   <Form.Group>
                     <Form.Label>Nội dung chuyển khoản</Form.Label>
                     <Form.Control
-                      type="textarea"
-                      name="noidung"
+                      type='textarea'
+                      name='noidung'
                       onChange={this.props.handleChange}
                     />
                   </Form.Group>
@@ -489,7 +487,7 @@ class ChuyenKhoanCungKhachHang extends Component {
                   </Form.Text>
                 </Card.Body>
                 <Modal
-                  size="sm"
+                  size='sm'
                   show={this.state.showModal}
                   onHide={this.closeModal}
                 >
@@ -503,8 +501,8 @@ class ChuyenKhoanCungKhachHang extends Component {
                       nhận
                     </Form.Text>
                     <Form.Control
-                      type="text"
-                      name="otp"
+                      type='text'
+                      name='otp'
                       onChange={this.handleChangeMaOTP}
                     ></Form.Control>
                     <Form.Text>
@@ -522,7 +520,7 @@ class ChuyenKhoanCungKhachHang extends Component {
           </Col>
           <Col></Col>
         </Row>
-      </Container>
+      </div>
     );
   }
 }

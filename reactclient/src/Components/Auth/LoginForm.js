@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -46,44 +46,52 @@ class LoginForm extends Component {
       return <Redirect to={{ pathname: '/' }} />;
     }
     return (
-      <Container>
-        <Row>
-          <Col></Col>
-          <Col>
-            <br />
-            <br />
-            <Form onSubmit={this.handleSubmit}>
-              <h3>Đăng nhập</h3>
-              <Form.Group controlId="formBasicSoDienThoai">
-                <Form.Label>Số điện thoại</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ví dụ: 0123456789"
-                  name="sodienthoai"
-                  onChange={this.props.handleChange}
-                />
-                <div>{this.props.errors.sodienthoai}</div>
-              </Form.Group>
+      <Row>
+        <Col>
+          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+        </Col>
+        <Col>
+          <br />
+          <br />
+          <Form onSubmit={this.handleSubmit}>
+            <h3>
+              <center>
+                <b>Đăng nhập</b>
+              </center>
+            </h3>
+            <Form.Group controlId='formBasicSoDienThoai'>
+              <Form.Label>
+                <b>Số điện thoại</b>
+              </Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Ví dụ: 0123456789'
+                name='sodienthoai'
+                onChange={this.props.handleChange}
+              />
+              <div>{this.props.errors.sodienthoai}</div>
+            </Form.Group>
 
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="..."
-                  name="matkhau"
-                  onChange={this.props.handleChange}
-                />
-                <div>{this.props.errors.matkhau}</div>
-              </Form.Group>
+            <Form.Group controlId='formBasicPassword'>
+              <Form.Label>
+                <b>Password</b>
+              </Form.Label>
+              <Form.Control
+                type='password'
+                placeholder='...'
+                name='matkhau'
+                onChange={this.props.handleChange}
+              />
+              <div>{this.props.errors.matkhau}</div>
+            </Form.Group>
 
-              <Button variant="primary" type="submit">
-                Đăng nhập
-              </Button>
-            </Form>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container>
+            <Button variant='primary' type='submit'>
+              <b>Đăng nhập</b>
+            </Button>
+          </Form>
+        </Col>
+        <Col></Col>
+      </Row>
     );
   }
 }

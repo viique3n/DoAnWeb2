@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Form,
-  Card,
-  Col,
-  Row,
-  Button,
-  Modal,
-} from 'react-bootstrap';
+import { Form, Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { renewAccessToken } from '../../Auth/AuthRoute';
 import jwt_decode from 'jwt-decode';
@@ -100,9 +92,12 @@ class ChuyenKhoanCungNganHang extends Component {
       return;
     } else {
       let sodienthoaithuhuong;
-      axios('https://ibnodeserver.herokuapp.com/api/taikhoan/getthongtintaikhoan', {
-        params: { mataikhoan: mataikhoanthuhuong },
-      })
+      axios(
+        'https://ibnodeserver.herokuapp.com/api/taikhoan/getthongtintaikhoan',
+        {
+          params: { mataikhoan: mataikhoanthuhuong },
+        }
+      )
         .then((res) => {
           debugger;
           this.setState({
@@ -130,9 +125,12 @@ class ChuyenKhoanCungNganHang extends Component {
             console.log(sodienthoaithuhuong);
             debugger;
             axios
-              .get('https://ibnodeserver.herokuapp.com/api/auth/getthongtinkhachhang', {
-                params: { sodienthoai: sodienthoaithuhuong },
-              })
+              .get(
+                'https://ibnodeserver.herokuapp.com/api/auth/getthongtinkhachhang',
+                {
+                  params: { sodienthoai: sodienthoaithuhuong },
+                }
+              )
               .then((res) => {
                 debugger;
                 tenkhachhangthuhuong = res.data.tenhienthi;
@@ -140,14 +138,19 @@ class ChuyenKhoanCungNganHang extends Component {
                   tenkhachhangthuhuong,
                 });
                 axios
-                  .post('https://ibnodeserver.herokuapp.com/api/totp/totp-secret')
+                  .post(
+                    'https://ibnodeserver.herokuapp.com/api/totp/totp-secret'
+                  )
                   .then((res) => {
                     secret = res.data.secret;
                     axios
-                      .post('https://ibnodeserver.herokuapp.com/api/totp/totp-generate', {
-                        secret,
-                        email,
-                      })
+                      .post(
+                        'https://ibnodeserver.herokuapp.com/api/totp/totp-generate',
+                        {
+                          secret,
+                          email,
+                        }
+                      )
                       .then((res) => {
                         timeremaining = res.data.remaining;
                         console.log(`secret: ${secret}`);
@@ -230,9 +233,12 @@ class ChuyenKhoanCungNganHang extends Component {
     this.setState({
       email,
     });
-    axios('https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
-      params: { khachhangSodienthoai: sodienthoai },
-    })
+    axios(
+      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
+      {
+        params: { khachhangSodienthoai: sodienthoai },
+      }
+    )
       .then((res) => {
         console.log(res.data);
         debugger;
@@ -412,14 +418,17 @@ class ChuyenKhoanCungNganHang extends Component {
             sotienchuyenkhoan,
           } = this.state;
           axios
-            .post('https://ibnodeserver.herokuapp.com/api/chuyenkhoan/chuyenkhoan', {
-              mataikhoanchuyenkhoan,
-              mataikhoanthuhuong,
-              sotienchuyenkhoan,
-              noidung: noidungchuyenkhoan,
-              thoigian: new Date(),
-              loaichuyenkhoanId,
-            })
+            .post(
+              'https://ibnodeserver.herokuapp.com/api/chuyenkhoan/chuyenkhoan',
+              {
+                mataikhoanchuyenkhoan,
+                mataikhoanthuhuong,
+                sotienchuyenkhoan,
+                noidung: noidungchuyenkhoan,
+                thoigian: new Date(),
+                loaichuyenkhoanId,
+              }
+            )
             .then((res) => {
               if (res.data.thanhcong) {
                 this.setState({
@@ -478,138 +487,142 @@ class ChuyenKhoanCungNganHang extends Component {
   //#region render
   render() {
     return (
-      <Container>
-        <br></br>
-        <Row>
-          <Col></Col>
-          <Col>
-            <Form>
-              <Card border="info">
-                <Card.Header as="h5">Tài khoản gốc</Card.Header>
-                <Card.Body>
-                  <Form.Label>Chọn tài khoản gốc (*)</Form.Label>
-                  <Form.Group>
-                    <Form.Control
-                      as="select"
-                      name="mataikhoanchuyenkhoan"
-                      onChange={this.handleChangeMaTaiKhoanChuyenKhoan}
-                    >
-                      <option value="DEFAULT">Chọn tài khoản</option>
-                      {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
-                        <option value={taikhoan.mataikhoan}>
-                          {taikhoan.mataikhoan}
-                        </option>
-                      ))}
-                    </Form.Control>
-                    <Form.Text>
-                      {this.state.sodutaikhoanchuyenkhoantext}
-                    </Form.Text>
-                  </Form.Group>
-                </Card.Body>
-              </Card>
-              <br />
-              <Card border="info">
-                <Card.Header as="h5">Thông tin chuyển khoản</Card.Header>
-                <Card.Body>
-                  <Form.Group>
-                    <Form.Label>Nhập mã tài khoản thụ hưởng (*)</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="mataikhoanthuhuong"
-                      onChange={this.handleChangeMaTaiKhoanThuHuong}
-                    ></Form.Control>
-                    <Form.Text style={{ color: 'red' }}>
-                      {this.state.mataikhoanthuhuongerror}
-                    </Form.Text>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Nhập số tiền chuyển khoản (*)</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="sotienchuyenkhoan"
-                      onChange={this.hanleChangeSoTienChuyenKhoan}
-                    />
-                    <Form.Text style={{ color: 'red' }}>
-                      {this.state.sotienchuyenkhoanerror}
-                    </Form.Text>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Nội dung chuyển khoản</Form.Label>
-                    <Form.Control
-                      type="textarea"
-                      name="noidung"
-                      onChange={this.handleChangeNoiDungChuyenKhoan}
-                    />
-                  </Form.Group>
-                  <Button onClick={this.openModal}>Xác nhận</Button>
-                  <Form.Text style={{ color: 'red' }}>
-                    {this.state.thongtinchuyenkhoanerrors}
+      <Row>
+        <Col>
+          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+        </Col>
+        <Col>
+          <br />
+          <Form>
+            <Card border='info'>
+              <Card.Header as='h5'>
+                <b>Tài khoản gốc</b>
+              </Card.Header>
+              <Card.Body>
+                <Form.Label>Chọn tài khoản gốc (*)</Form.Label>
+                <Form.Group>
+                  <Form.Control
+                    as='select'
+                    name='mataikhoanchuyenkhoan'
+                    onChange={this.handleChangeMaTaiKhoanChuyenKhoan}
+                  >
+                    <option value='DEFAULT'>Chọn tài khoản</option>
+                    {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
+                      <option value={taikhoan.mataikhoan}>
+                        {taikhoan.mataikhoan}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <Form.Text>
+                    {this.state.sodutaikhoanchuyenkhoantext}
                   </Form.Text>
+                </Form.Group>
+              </Card.Body>
+            </Card>
+            <br />
+            <Card border='info'>
+              <Card.Header as='h5'>
+                <b>Thông tin chuyển khoản</b>
+              </Card.Header>
+              <Card.Body>
+                <Form.Group>
+                  <Form.Label>Nhập mã tài khoản thụ hưởng (*)</Form.Label>
+                  <Form.Control
+                    type='text'
+                    name='mataikhoanthuhuong'
+                    onChange={this.handleChangeMaTaiKhoanThuHuong}
+                  ></Form.Control>
                   <Form.Text style={{ color: 'red' }}>
-                    {this.state.OTPLimittext}
+                    {this.state.mataikhoanthuhuongerror}
                   </Form.Text>
-                  {this.state.chuyenkhoanerror.map((err) => (
-                    <Form.Group>
-                      <Form.Text style={{ color: 'red' }}>
-                        {err.tinhtrangtaikhoanchuyenkhoan}
-                      </Form.Text>
-                      <Form.Text style={{ color: 'red' }}>
-                        {err.tinhtrangtaikhoanthuhuong}
-                      </Form.Text>
-                      <Form.Text style={{ color: 'red' }}>
-                        {err.sodutaikhoanchuyenkhoan}
-                      </Form.Text>
-                      <Form.Text style={{ color: 'red' }}>
-                        {err.sotienchuyenkhoan}
-                      </Form.Text>
-                      <Form.Text style={{ color: 'red' }}>
-                        {err.hanmuctrenngayquaquydinh}
-                      </Form.Text>
-                      <Form.Text style={{ color: 'red' }}>
-                        {err.hanmuctrengiaodichquaquydinh}
-                      </Form.Text>
-                    </Form.Group>
-                  ))}
-                </Card.Body>
-                <Modal
-                  size="sm"
-                  show={this.state.showModal}
-                  onHide={this.closeModal}
-                >
-                  <Modal.Header closeButton>
-                    <Modal.Title>Xác thực OTP</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form.Label>
-                      Tên người thụ hưởng: {this.state.tenkhachhangthuhuong}
-                    </Form.Label>
-                    <br></br>
-                    <Form.Label>Nhập mã OTP</Form.Label>
-                    <Form.Text>
-                      Mã OTP đã được gửi tới Email của quý khách, vui lòng xác
-                      nhận
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Nhập số tiền chuyển khoản (*)</Form.Label>
+                  <Form.Control
+                    type='text'
+                    name='sotienchuyenkhoan'
+                    onChange={this.hanleChangeSoTienChuyenKhoan}
+                  />
+                  <Form.Text style={{ color: 'red' }}>
+                    {this.state.sotienchuyenkhoanerror}
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Nội dung chuyển khoản</Form.Label>
+                  <Form.Control
+                    type='textarea'
+                    name='noidung'
+                    onChange={this.handleChangeNoiDungChuyenKhoan}
+                  />
+                </Form.Group>
+                <Button onClick={this.openModal}>Xác nhận</Button>
+                <Form.Text style={{ color: 'red' }}>
+                  {this.state.thongtinchuyenkhoanerrors}
+                </Form.Text>
+                <Form.Text style={{ color: 'red' }}>
+                  {this.state.OTPLimittext}
+                </Form.Text>
+                {this.state.chuyenkhoanerror.map((err) => (
+                  <Form.Group>
+                    <Form.Text style={{ color: 'red' }}>
+                      {err.tinhtrangtaikhoanchuyenkhoan}
                     </Form.Text>
-                    <Form.Control
-                      type="text"
-                      name="otp"
-                      onChange={this.handleChangeMaOTP}
-                    ></Form.Control>
-                    <Form.Text>
-                      Mã OTP hết hạn sau: {this.state.thoigianotpm}:
-                      {this.state.thoigianotps}
+                    <Form.Text style={{ color: 'red' }}>
+                      {err.tinhtrangtaikhoanthuhuong}
                     </Form.Text>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button onClick={this.closeModal}>Close</Button>
-                    <Button onClick={this.handleSubmit}>Xác nhận</Button>
-                  </Modal.Footer>
-                </Modal>
-              </Card>
-            </Form>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container>
+                    <Form.Text style={{ color: 'red' }}>
+                      {err.sodutaikhoanchuyenkhoan}
+                    </Form.Text>
+                    <Form.Text style={{ color: 'red' }}>
+                      {err.sotienchuyenkhoan}
+                    </Form.Text>
+                    <Form.Text style={{ color: 'red' }}>
+                      {err.hanmuctrenngayquaquydinh}
+                    </Form.Text>
+                    <Form.Text style={{ color: 'red' }}>
+                      {err.hanmuctrengiaodichquaquydinh}
+                    </Form.Text>
+                  </Form.Group>
+                ))}
+              </Card.Body>
+              <Modal
+                size='sm'
+                show={this.state.showModal}
+                onHide={this.closeModal}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Xác thực OTP</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form.Label>
+                    Tên người thụ hưởng: {this.state.tenkhachhangthuhuong}
+                  </Form.Label>
+                  <br></br>
+                  <Form.Label>Nhập mã OTP</Form.Label>
+                  <Form.Text>
+                    Mã OTP đã được gửi tới Email của quý khách, vui lòng xác
+                    nhận
+                  </Form.Text>
+                  <Form.Control
+                    type='text'
+                    name='otp'
+                    onChange={this.handleChangeMaOTP}
+                  ></Form.Control>
+                  <Form.Text>
+                    Mã OTP hết hạn sau: {this.state.thoigianotpm}:
+                    {this.state.thoigianotps}
+                  </Form.Text>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={this.closeModal}>Close</Button>
+                  <Button onClick={this.handleSubmit}>Xác nhận</Button>
+                </Modal.Footer>
+              </Modal>
+            </Card>
+          </Form>
+        </Col>
+        <Col></Col>
+      </Row>
     );
   }
   //#endregion

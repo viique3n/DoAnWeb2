@@ -55,27 +55,33 @@ class QuanLyTaiKhoanThanhToan extends Component {
         //     </ul>
         //   ))}
         // </div>
-        <Container>
-          <br></br>
-          <CardDeck>
-            {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
-              <Card>
-                <Card.Body>
-                  <Card.Title>Tài khoản thanh toán</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    Mã tài khoản: {taikhoan.mataikhoan}
-                  </Card.Subtitle>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    Số dư: {taikhoan.sodu}
-                  </Card.Subtitle>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    Tình trạng: {taikhoan.tinhtrang}
-                  </Card.Subtitle>
-                </Card.Body>
-              </Card>
-            ))}
-          </CardDeck>
-        </Container>
+        <Row>
+          <Col>
+            <img src='http://localhost:9000/images/BingW06.jpg'></img>
+          </Col>
+          <Col>
+          <br/>
+            <CardDeck>
+              {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
+                <Card>
+                  <Card.Body>
+                    <Card.Title>Tài khoản thanh toán</Card.Title>
+                    <Card.Subtitle className='mb-2 text-muted'>
+                      Mã tài khoản: {taikhoan.mataikhoan}
+                    </Card.Subtitle>
+                    <Card.Subtitle className='mb-2 text-muted'>
+                      Số dư: {taikhoan.sodu}
+                    </Card.Subtitle>
+                    <Card.Subtitle className='mb-2 text-muted'>
+                      Tình trạng: {taikhoan.tinhtrang}
+                    </Card.Subtitle>
+                  </Card.Body>
+                </Card>
+              ))}
+            </CardDeck>
+          </Col>
+          <Col></Col>
+        </Row>
       );
     }
     return <div></div>;
