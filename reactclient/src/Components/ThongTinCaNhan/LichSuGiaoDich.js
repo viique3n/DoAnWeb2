@@ -54,26 +54,26 @@ class LichSuGiaoDich extends Component {
       return lichsugiaodich.map((giaodich) => (
         <Row>
           <Col>
-            <img src='http://localhost:9000/images/BingW06.jpg'></img>
+            <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
           </Col>
           <Col>
-          <br/>
-          <Card>
-            <Card.Body>
-              <Card.Title>Thông tin giao dịch</Card.Title>
-              <Card.Text>
-                Mã tài khoản: {giaodich.mataikhoanchuyenkhoan}
-              </Card.Text>
-              <Card.Text>
-                Mã tài khoản thụ hưởng: {giaodich.mataikhoanthuhuong}
-              </Card.Text>
-              <Card.Text>
-                Số tiền chuyển khoản: {giaodich.sotienchuyenkhoan}
-              </Card.Text>
-              <Card.Text>Nội dung: {giaodich.noidung}</Card.Text>
-              <Card.Text>Thời gian: {giaodich.thoigian}</Card.Text>
-            </Card.Body>
-          </Card>
+            <br />
+            <Card>
+              <Card.Body>
+                <Card.Title>Thông tin giao dịch</Card.Title>
+                <Card.Text>
+                  Mã tài khoản: {giaodich.mataikhoanchuyenkhoan}
+                </Card.Text>
+                <Card.Text>
+                  Mã tài khoản thụ hưởng: {giaodich.mataikhoanthuhuong}
+                </Card.Text>
+                <Card.Text>
+                  Số tiền chuyển khoản: {giaodich.sotienchuyenkhoan}
+                </Card.Text>
+                <Card.Text>Nội dung: {giaodich.noidung}</Card.Text>
+                <Card.Text>Thời gian: {giaodich.thoigian}</Card.Text>
+              </Card.Body>
+            </Card>
           </Col>
           <Col></Col>
         </Row>

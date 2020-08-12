@@ -424,10 +424,10 @@ class RutTienTietKiem extends Component {
     return (
       <Row>
         <Col>
-          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
         </Col>
         <Col>
-        <br/>
+          <br />
           <Form>
             <Card>
               <Card.Header>Thông tin sổ tiết kiệm</Card.Header>
@@ -435,11 +435,11 @@ class RutTienTietKiem extends Component {
                 <Form.Group>
                   <Card.Title>Chọn sổ tiết kiệm</Card.Title>
                   <Form.Control
-                    as='select'
-                    name='masotietkiem'
+                    as="select"
+                    name="masotietkiem"
                     onChange={this.handleSelectSoTietKiem}
                   >
-                    <option value='DEFAULT'>Chọn sổ tiết kiệm</option>
+                    <option value="DEFAULT">Chọn sổ tiết kiệm</option>
                     {this.state.danhsachsotietkiem.map((sotietkiem) => (
                       <option value={sotietkiem.id}>{sotietkiem.id}</option>
                     ))}
@@ -461,7 +461,7 @@ class RutTienTietKiem extends Component {
                 </Form.Group>
               </Card.Body>
               <Modal
-                size='sm'
+                size="sm"
                 show={this.state.showModal}
                 onHide={this.closeModal}
               >
@@ -475,8 +475,8 @@ class RutTienTietKiem extends Component {
                     nhận
                   </Form.Text>
                   <Form.Control
-                    type='text'
-                    name='otp'
+                    type="text"
+                    name="otp"
                     onChange={this.handleChangeMaOTP}
                   ></Form.Control>
                   <Form.Text>

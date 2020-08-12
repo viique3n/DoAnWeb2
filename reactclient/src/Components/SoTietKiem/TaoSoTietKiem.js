@@ -779,22 +779,22 @@ class TaoSoTietKiem extends Component {
     return (
       <Row>
         <Col>
-          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
         </Col>
         <Col>
           <br />
           <Form>
-            <Card border='info'>
+            <Card border="info">
               <Card.Header>Tài khoản nguồn</Card.Header>
               <Card.Body>
                 <Form.Group>
                   <Card.Title>Chọn tài khoản gốc</Card.Title>
                   <Form.Control
-                    as='select'
-                    name='mataikhoanchuyenkhoan'
+                    as="select"
+                    name="mataikhoanchuyenkhoan"
                     onChange={this.handleSelectMaTaiKhoanGoc}
                   >
-                    <option value='DEFAULT'>Chọn tài khoản</option>
+                    <option value="DEFAULT">Chọn tài khoản</option>
                     {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
                       <option value={taikhoan.mataikhoan}>
                         {taikhoan.mataikhoan}
@@ -807,17 +807,17 @@ class TaoSoTietKiem extends Component {
             </Card>
             <br />
 
-            <Card border='info'>
+            <Card border="info">
               <Card.Header>Thông tin giao dịch</Card.Header>
               <Card.Body>
                 <Form.Group>
                   <Form.Label>Kỳ hạn</Form.Label>
                   <Form.Control
-                    as='select'
-                    name='kyhan'
+                    as="select"
+                    name="kyhan"
                     onChange={this.handleSelectKyHan}
                   >
-                    <option value='DEFAULT'>Chọn kỳ hạn - Lãi suất</option>
+                    <option value="DEFAULT">Chọn kỳ hạn - Lãi suất</option>
                     {this.state.danhsachkyhan.map((kyhan) => (
                       <option value={kyhan}>{kyhan}</option>
                     ))}
@@ -828,7 +828,7 @@ class TaoSoTietKiem extends Component {
                 <Form.Group>
                   <Form.Label>Số tiền gửi</Form.Label>
                   <Form.Control
-                    type='text'
+                    type="text"
                     onChange={this.handleOnChangeSoTienGuiTietKiem}
                   ></Form.Control>
                   <Form.Text style={{ color: 'red' }}>
@@ -842,13 +842,13 @@ class TaoSoTietKiem extends Component {
                 <Form.Group>
                   <Form.Label>Hình thức trả lãi</Form.Label>
                   <Form.Control
-                    as='select'
-                    name='hinhthuctralai'
+                    as="select"
+                    name="hinhthuctralai"
                     onChange={this.handleSelectHinhThucTraLai}
                   >
-                    <option value='DEFAULT'>Chọn hình thức trả lãi</option>
-                    <option value='1'>Lãi nhập gốc</option>
-                    <option value='2'>
+                    <option value="DEFAULT">Chọn hình thức trả lãi</option>
+                    <option value="1">Lãi nhập gốc</option>
+                    <option value="2">
                       Lãi trả vào tải khoản tiết kiệm khi đến hạn
                     </option>
                   </Form.Control>
@@ -857,11 +857,11 @@ class TaoSoTietKiem extends Component {
                 <Form.Group>
                   <Form.Label>Hình thức nhận mã OTP</Form.Label>
                   <Form.Control
-                    as='select'
-                    name='hinhthucnhanmaotp'
+                    as="select"
+                    name="hinhthucnhanmaotp"
                     onChange={this.handleSelectHinhThucOTP}
                   >
-                    <option value='DEFAULT'>Email</option>
+                    <option value="DEFAULT">Email</option>
                   </Form.Control>
                 </Form.Group>
                 <Form.Group>
@@ -872,7 +872,7 @@ class TaoSoTietKiem extends Component {
                 </Form.Text>
                 <Form.Text>{this.state.trangthaitaoso}</Form.Text>
               </Card.Body>
-              <Modal size='sm' show={this.state.showModal} onHide={this.close}>
+              <Modal size="sm" show={this.state.showModal} onHide={this.close}>
                 <Modal.Header closeButton>
                   <Modal.Title>Xác thực OTP</Modal.Title>
                 </Modal.Header>
@@ -883,8 +883,8 @@ class TaoSoTietKiem extends Component {
                     nhận
                   </Form.Text>
                   <Form.Control
-                    type='text'
-                    name='otp'
+                    type="text"
+                    name="otp"
                     onChange={this.handleChangeMaOTP}
                   ></Form.Control>
                   <Form.Text>

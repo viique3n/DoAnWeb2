@@ -117,7 +117,7 @@ class ProfileCard extends Component {
         'https://ibnodeserver.herokuapp.com/' + thongtingiayto.hinhanhurl;
       return (
         <Col>
-          <Card border='info'>
+          <Card border="info">
             <Card.Title>Thông tin giấy tờ tùy thân</Card.Title>
             <Card.Text>Mã giấy tờ: {thongtingiayto.magiayto}</Card.Text>
             <Card.Text>Ngày cấp: {thongtingiayto.ngaycap}</Card.Text>
@@ -135,19 +135,19 @@ class ProfileCard extends Component {
           <h3>Cập nhật thông tin giấy tờ tùy thân</h3>
           <Form.Label>Mã giấy tờ</Form.Label>
           <Form.Control
-            type='text'
+            type="text"
             onChange={this.handleChangeMaGiayTo}
           ></Form.Control>
           <Form.Text>{this.state.magiaytoerror}</Form.Text>
           <Form.Label>Chọn ngày cấp</Form.Label>
           <Form.Control
-            type='date'
+            type="date"
             onChange={this.handleChangeNgayCap}
           ></Form.Control>
           {/* <input type="file" onChange={this.handleChangeFileSelect} />
         <Button onClick={this.handleUploadFile}>Upload</Button> */}
           <Form.File
-            label='Upload ảnh giấy tờ tùy thân'
+            label="Upload ảnh giấy tờ tùy thân"
             onChange={this.handleChangeFileSelect}
           ></Form.File>
           {this.renderImage()}
@@ -334,21 +334,21 @@ class ProfileCard extends Component {
     return (
       <Row>
         <Col>
-          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
         </Col>
         <Col>
           <br />
           <Card>
             <Card.Body>
               <Card.Title>Thông tin khách hàng</Card.Title>
-              <Card.Text className='mb-2 text-muted'>Email: {email}</Card.Text>
-              <Card.Text className='mb-2 text-muted'>
+              <Card.Text className="mb-2 text-muted">Email: {email}</Card.Text>
+              <Card.Text className="mb-2 text-muted">
                 Số điện thoại: {sodienthoai}
               </Card.Text>
-              <Card.Text className='mb-2 text-muted'>
+              <Card.Text className="mb-2 text-muted">
                 Tên khách hàng: {tenhienthi}
               </Card.Text>
-              <Card.Text className='mb-2 text-muted'>
+              <Card.Text className="mb-2 text-muted">
                 Tình trạng: {tinhtrang}
               </Card.Text>
               <Card.Subtitle>{this.state.tinhtrangxacthuc}</Card.Subtitle>

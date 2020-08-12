@@ -57,22 +57,22 @@ class QuanLyTaiKhoanThanhToan extends Component {
         // </div>
         <Row>
           <Col>
-            <img src='http://localhost:9000/images/BingW06.jpg'></img>
+            <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
           </Col>
           <Col>
-          <br/>
+            <br />
             <CardDeck>
               {this.state.danhsachtaikhoanthanhtoan.map((taikhoan) => (
                 <Card>
                   <Card.Body>
                     <Card.Title>Tài khoản thanh toán</Card.Title>
-                    <Card.Subtitle className='mb-2 text-muted'>
+                    <Card.Subtitle className="mb-2 text-muted">
                       Mã tài khoản: {taikhoan.mataikhoan}
                     </Card.Subtitle>
-                    <Card.Subtitle className='mb-2 text-muted'>
+                    <Card.Subtitle className="mb-2 text-muted">
                       Số dư: {taikhoan.sodu}
                     </Card.Subtitle>
-                    <Card.Subtitle className='mb-2 text-muted'>
+                    <Card.Subtitle className="mb-2 text-muted">
                       Tình trạng: {taikhoan.tinhtrang}
                     </Card.Subtitle>
                   </Card.Body>
