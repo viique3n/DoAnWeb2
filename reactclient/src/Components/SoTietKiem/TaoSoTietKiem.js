@@ -20,6 +20,7 @@ class TaoSoTietKiem extends Component {
     super(props);
     //#region state
     this.state = {
+      email: '',
       mataikhoanthanhtoan: '',
       sodu: 0,
       sodutext: '',
@@ -120,12 +121,16 @@ class TaoSoTietKiem extends Component {
     if (thoigianotpm === 0 && thoigianotps === 0) {
       let secret;
       let timeremaining;
+      const { email } = this.state;
       axios
-        .post('http://localhost:9000/api/totp/totp-secret')
+        .post('https://ibnodeserver.herokuapp.com/api/totp/totp-secret')
         .then((res) => {
           secret = res.data.secret;
           axios
-            .post('http://localhost:9000/api/totp/totp-generate', { secret })
+            .post('https://ibnodeserver.herokuapp.com/api/totp/totp-generate', {
+              secret,
+              email,
+            })
             .then((res) => {
               timeremaining = res.data.remaining;
               console.log(`secret: ${secret}`);
@@ -188,10 +193,16 @@ class TaoSoTietKiem extends Component {
     let token = sessionStorage.getItem('refreshToken');
     token = sessionStorage.getItem('jwtToken');
     const decoded = jwt_decode(token).data;
-    const { sodienthoai } = decoded;
-    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
-      params: { khachhangSodienthoai: sodienthoai },
-    })
+    const { sodienthoai, email } = decoded;
+    this.setState({
+      email,
+    });
+    axios(
+      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
+      {
+        params: { khachhangSodienthoai: sodienthoai },
+      }
+    )
       .then((res) => {
         debugger;
         let danhsachtaikhoanthanhtoan = [];
@@ -213,7 +224,7 @@ class TaoSoTietKiem extends Component {
     if (renew === false) {
       return;
     }
-    axios('http://localhost:9000/api/laisuat/getdanhsachlaisuat')
+    axios('https://ibnodeserver.herokuapp.com/api/laisuat/getdanhsachlaisuat')
       .then((res) => {
         let setDanhSachKyHan = new Set();
         res.data.map((data) => {
@@ -686,7 +697,7 @@ class TaoSoTietKiem extends Component {
     event.preventDefault();
     const { maotp, secret } = this.state;
     axios
-      .post('http://localhost:9000/api/totp/totp-validate', {
+      .post('https://ibnodeserver.herokuapp.com/api/totp/totp-validate', {
         secret,
         token: maotp,
       })
@@ -723,9 +734,12 @@ class TaoSoTietKiem extends Component {
             hinhthuctralaiId,
           };
           axios
-            .post('http://localhost:9000/api/sotietkiem/taosotietkiem', {
-              sotietkiem,
-            })
+            .post(
+              'https://ibnodeserver.herokuapp.com/api/sotietkiem/taosotietkiem',
+              {
+                sotietkiem,
+              }
+            )
             .then((res) => {
               console.log('thong tin tao so tiet kiem');
               console.log(res.data);

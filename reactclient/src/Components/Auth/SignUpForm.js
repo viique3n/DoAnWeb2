@@ -18,7 +18,7 @@ class SignupForm extends Component {
     e.preventDefault();
     const { sodienthoai, email, matkhau, tenhienthi } = this.props.values;
     const user = { sodienthoai, email, matkhau, tenhienthi };
-    const signupURL = 'http://localhost:9000/' + 'api/auth/signup';
+    const signupURL = 'https://ibnodeserver.herokuapp.com/' + 'api/auth/signup';
     axios
       .post(signupURL, user)
       .then((res) => {

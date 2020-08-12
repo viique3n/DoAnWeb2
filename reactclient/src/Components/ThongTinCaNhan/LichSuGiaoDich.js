@@ -12,9 +12,12 @@ class LichSuGiaoDich extends Component {
     };
   }
   getDanhSachTaiKhoanThanhToan(khachhangSodienthoai) {
-    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
-      params: { khachhangSodienthoai },
-    })
+    axios(
+      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
+      {
+        params: { khachhangSodienthoai },
+      }
+    )
       .then((res) => {
         console.log(res.data);
         this.setState({
@@ -25,9 +28,12 @@ class LichSuGiaoDich extends Component {
         data.map((taikhoan) => {
           danhsachmataikhoan.push(taikhoan.mataikhoan);
         });
-        axios('http://localhost:9000/api/chuyenkhoan/lichsugiaodich', {
-          params: { danhsachtaikhoanthanhtoan: danhsachmataikhoan },
-        })
+        axios(
+          'https://ibnodeserver.herokuapp.com/api/chuyenkhoan/lichsugiaodich',
+          {
+            params: { danhsachtaikhoanthanhtoan: danhsachmataikhoan },
+          }
+        )
           .then((res) => {
             this.setState({
               lichsugiaodich: res.data.lichsugiaodich,

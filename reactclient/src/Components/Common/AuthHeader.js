@@ -86,9 +86,9 @@ class AuthHeader extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/profile">
+              {/* <Nav.Link as={Link} to="/profile">
                 Thông tin khách hàng
-              </Nav.Link>
+              </Nav.Link> */}
               <NavDropdown title="Khách hàng">
                 <NavDropdown.Item as={Link} to="/khachhang/thongtin">
                   Thông tin khách hàng
@@ -100,9 +100,9 @@ class AuthHeader extends Component {
                   Lịch sử giao dịch
                 </NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link as={Link} to="/tktt">
+              {/* <Nav.Link as={Link} to="/tktt">
                 Tài khoản
-              </Nav.Link>
+              </Nav.Link> */}
               {/* <Nav.Link as={Link} to="/chuyenkhoan">
                 Chuyển khoản
               </Nav.Link> */}

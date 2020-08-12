@@ -14,6 +14,7 @@ class RutTienTietKiem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
       now: new Date(),
       danhsachsotietkiem: [],
       danhsachlaisuat: [],
@@ -70,12 +71,16 @@ class RutTienTietKiem extends Component {
     if (thoigianotpm === 0 && thoigianotps === 0) {
       let secret;
       let timeremaining;
+      const { email } = this.state;
       axios
-        .post('http://localhost:9000/api/totp/totp-secret')
+        .post('https://ibnodeserver.herokuapp.com/api/totp/totp-secret')
         .then((res) => {
           secret = res.data.secret;
           axios
-            .post('http://localhost:9000/api/totp/totp-generate', { secret })
+            .post('https://ibnodeserver.herokuapp.com/api/totp/totp-generate', {
+              secret,
+              email,
+            })
             .then((res) => {
               timeremaining = res.data.remaining;
               console.log(`secret: ${secret}`);
@@ -128,8 +133,9 @@ class RutTienTietKiem extends Component {
   getDanhSachSoTietKiem() {
     const token = sessionStorage.getItem('jwtToken');
     const decoded = jwt_decode(token).data;
-    const { sodienthoai } = decoded;
-    axios('http://localhost:9000/api/sotietkiem/getsotietkiem', {
+    const { sodienthoai, email } = decoded;
+    this.setState({ email });
+    axios('https://ibnodeserver.herokuapp.com/api/sotietkiem/getsotietkiem', {
       params: {
         khachhangSodienthoai: sodienthoai,
         tinhtrang: 'Đang trong thời gian gửi tiết kiệm',
@@ -149,7 +155,7 @@ class RutTienTietKiem extends Component {
       });
   }
   getDanhSachLaiSuat() {
-    axios('http://localhost:9000/api/laisuat/getdanhsachlaisuat')
+    axios('https://ibnodeserver.herokuapp.com/api/laisuat/getdanhsachlaisuat')
       .then((res) => {
         let setDanhSachKyHan = new Set();
         res.data.map((data) => {
@@ -343,7 +349,7 @@ class RutTienTietKiem extends Component {
     const { maotp, secret } = this.state;
 
     axios
-      .post('http://localhost:9000/api/totp/totp-validate', {
+      .post('https://ibnodeserver.herokuapp.com/api/totp/totp-validate', {
         secret,
         token: maotp,
       })
@@ -368,9 +374,12 @@ class RutTienTietKiem extends Component {
             kyhan: 'Không kỳ hạn',
           };
           axios
-            .post('http://localhost:9000/api/sotietkiem/ruttientietkiem', {
-              thongtin,
-            })
+            .post(
+              'https://ibnodeserver.herokuapp.com/api/sotietkiem/ruttientietkiem',
+              {
+                thongtin,
+              }
+            )
             .then((res) => {
               debugger;
               console.log('thong tin tao so tiet kiem');

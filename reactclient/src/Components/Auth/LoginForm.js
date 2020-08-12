@@ -16,7 +16,7 @@ class LoginForm extends Component {
     const { sodienthoai, matkhau } = this.props.values;
     const user = { sodienthoai, matkhau };
     // const loginURL = 'https://ibnodeserver.herokuapp.com/' + 'api/auth/login';
-    const loginURL = 'http://localhost:9000/' + 'api/auth/login';
+    const loginURL = 'https://ibnodeserver.herokuapp.com/' + 'api/auth/login';
     // const headers = {
     //   'Content-Type': 'application/json',
     //   Authorization: 'JWT fefege...',

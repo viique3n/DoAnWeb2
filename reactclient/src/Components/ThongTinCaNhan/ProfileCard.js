@@ -65,7 +65,7 @@ class ProfileCard extends Component {
     debugger;
     const { sodienthoai } = this.state.user;
     if (sodienthoai) {
-      axios('http://localhost:9000/api/giayto/getthongtingiayto', {
+      axios('https://ibnodeserver.herokuapp.com/api/giayto/getthongtingiayto', {
         params: { sodienthoai },
       })
         .then((res) => {
@@ -113,7 +113,8 @@ class ProfileCard extends Component {
     debugger;
     const { thongtingiayto } = this.state;
     if (thongtingiayto.magiayto) {
-      const giaytourl = 'http://localhost:9000/' + thongtingiayto.hinhanhurl;
+      const giaytourl =
+        'https://ibnodeserver.herokuapp.com/' + thongtingiayto.hinhanhurl;
       return (
         <Card border="info">
           <Card.Title>Thông tin giấy tờ tùy thân</Card.Title>
@@ -191,7 +192,7 @@ class ProfileCard extends Component {
     });
   }
   handleUploadFile(event) {
-    const url = 'http://localhost:9000/api/giayto/taogiayto';
+    const url = 'https://ibnodeserver.herokuapp.com/api/giayto/taogiayto';
     const formData = new FormData();
     formData.append('giayto', this.state.giaytoimg);
     debugger;
@@ -261,8 +262,10 @@ class ProfileCard extends Component {
         'content-type': 'multipart/form-data',
       },
     };
-    const urlTaoGiayTo = 'http://localhost:9000/api/giayto/taothongtingiayto';
-    const urlUploadAnh = 'http://localhost:9000/api/giayto/uploadanhgiayto';
+    const urlTaoGiayTo =
+      'https://ibnodeserver.herokuapp.com/api/giayto/taothongtingiayto';
+    const urlUploadAnh =
+      'https://ibnodeserver.herokuapp.com/api/giayto/uploadanhgiayto';
     const name =
       this.state.user.sodienthoai + '.' + giaytoimg.name.split('.')[1];
     giaytoimg = new File([giaytoimg], name, { type: giaytoimg.type });

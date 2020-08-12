@@ -19,9 +19,12 @@ class QuanLyTaiKhoanThanhToan extends Component {
       return;
     }
     debugger;
-    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
-      params: { khachhangSodienthoai },
-    })
+    axios(
+      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
+      {
+        params: { khachhangSodienthoai },
+      }
+    )
       .then((res) => {
         console.log(res.data);
         debugger;

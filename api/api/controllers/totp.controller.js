@@ -6,6 +6,8 @@ module.exports.postTotpSecrete = (req, res) => {
   res.json({ secret: secret.base32 });
 };
 module.exports.postTotpGenerate = async (req, res) => {
+  const { email } = req.body;
+  console.log(`email: ${email}`);
   const OTP = {
     token: Speakeasy.totp({
       secret: req.body.secret,
@@ -16,18 +18,17 @@ module.exports.postTotpGenerate = async (req, res) => {
   console.log(`generate token`);
   console.log(`secret: ${req.body.secret}`);
   console.log(`token: ${OTP.token}`);
-  return res.json(OTP);
+  // return res.json(OTP);
   // console.log(OTP);
-  // const sendMail = await mailService.send(
-  //   'davera2211@pastmao.com',
-  //   'Ma xac thuc',
-  //   OTP.token
-  // );
-  // if (sendMail) {
-  //   return res.json({
-  //     remaining: OTP.remaining,
-  //   });
-  // }
+  const sendMail = await mailService.send(email, 'Ma xac thuc', OTP.token);
+  if (sendMail) {
+    return res.json({
+      remaining: OTP.remaining,
+    });
+  }
+  return res.json({
+    error: 'Loi server',
+  });
 };
 module.exports.postTotpValidate = (req, res) => {
   const { secret, token } = req.body;
@@ -39,7 +40,7 @@ module.exports.postTotpValidate = (req, res) => {
       secret,
       encoding: 'base32',
       token,
-      window: 2,
+      window: 5,
     }),
   };
   console.log(`verify: ${verify.valid}`);

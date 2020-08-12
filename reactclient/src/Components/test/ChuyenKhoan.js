@@ -65,9 +65,12 @@ class ChuyenKhoan extends Component {
     token = sessionStorage.getItem('jwtToken');
     const decoded = jwt_decode(token).data;
     const { sodienthoai } = decoded;
-    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
-      params: { khachhangSodienthoai: sodienthoai },
-    })
+    axios(
+      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
+      {
+        params: { khachhangSodienthoai: sodienthoai },
+      }
+    )
       .then((res) => {
         console.log(res.data);
         debugger;
@@ -198,7 +201,7 @@ class ChuyenKhoan extends Component {
       return;
     }
     axios
-      .post('http://localhost:9000/api/chuyenkhoan/chuyenkhoan', {
+      .post('https://ibnodeserver.herokuapp.com/api/chuyenkhoan/chuyenkhoan', {
         mataikhoanchuyenkhoan,
         mataikhoanthuhuong,
         sotienchuyenkhoan: sotienchuyenkhoan1,
@@ -242,7 +245,7 @@ class ChuyenKhoan extends Component {
       return;
     }
     axios
-      .post('http://localhost:9000/api/chuyenkhoan/chuyenkhoan', {
+      .post('https://ibnodeserver.herokuapp.com/api/chuyenkhoan/chuyenkhoan', {
         mataikhoanchuyenkhoan: mataikhoanchuyenkhoan2,
         mataikhoanthuhuong: mataikhoanthuhuong2,
         sotienchuyenkhoan: sotienchuyenkhoan2,
