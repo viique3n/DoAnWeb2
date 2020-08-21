@@ -26,38 +26,38 @@ function Footer({ children }) {
     //   </div>
     // </div>
     <MDBFooter>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <MDBContainer fluid className='text-center text-md-left'>
+      <br />
+      <br />
+      <br />
+      <br />
+      <MDBContainer fluid className="text-center text-md-left">
         <MDBRow>
-          <MDBCol md='4'>
-            <a href='/login'>
+          <MDBCol md="4">
+            <a href="/login">
               <img
-                src='http://localhost:9000/images/Bing1.png'
-                width='250'
-                height='150'
+                src="https://ibnodeserver.herokuapp.com/images/Bing1.png"
+                width="250"
+                height="150"
               ></img>
             </a>
             <h5>
               <p>Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM</p>
             </h5>
           </MDBCol>
-          <MDBCol md='3'>
+          <MDBCol md="3">
             <ul>
-              <h3 className='title'>Liên hệ</h3>
-              <i className='tel-link'>
+              <h3 className="title">Liên hệ</h3>
+              <i className="tel-link">
                 <a>Phone: </a>
               </i>
               <a>1900 54 54 13</a>
               <br />
-              <i className='mail-link'>
+              <i className="mail-link">
                 <a>Email: </a>
               </i>
               <a>17k.web2@gmail.com</a>
               <br />
-              <i className='quick-link'>
+              <i className="quick-link">
                 <a>Chi nhánh: </a>
               </i>
               <a>
@@ -67,9 +67,9 @@ function Footer({ children }) {
               <br />
             </ul>
           </MDBCol>
-          <MDBCol md='2'>
+          <MDBCol md="2">
             <ul>
-              <h3 className='title'>Thông tin</h3>
+              <h3 className="title">Thông tin</h3>
               <i>
                 <a>Tỷ giá</a>
               </i>
@@ -87,28 +87,28 @@ function Footer({ children }) {
               </i>
             </ul>
           </MDBCol>
-          <MDBCol md='2'>
+          <MDBCol md="2">
             <ul>
               <h3>Theo dõi </h3>
-              <a href='#facebook'>
+              <a href="#facebook">
                 <img
-                  src='http://localhost:9000/images/Bing2.png'
-                  width='50'
-                  height='50'
+                  src="https://ibnodeserver.herokuapp.com/images/Bing2.png"
+                  width="50"
+                  height="50"
                 ></img>
               </a>
-              <a href='#instagram'>
+              <a href="#instagram">
                 <img
-                  src='http://localhost:9000/images/Bing3.jpg'
-                  width='50'
-                  height='50'
+                  src="https://ibnodeserver.herokuapp.com/images/Bing3.jpg"
+                  width="50"
+                  height="50"
                 ></img>
               </a>
             </ul>
           </MDBCol>
         </MDBRow>
       </MDBContainer>
-      <div className='footer-copyright text-center py-3'>
+      <div className="footer-copyright text-center py-3">
         <MDBContainer>
           &copy; {new Date().getFullYear()}
           <h3>My InternetBanking Site</h3>

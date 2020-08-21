@@ -45,7 +45,7 @@ class DanhSachKhachHang extends Component {
   }
   //#region function
   getDanhSachKhachHang(filter) {
-    axios('http://localhost:9000/api/admin/thongtinkhachhang', {
+    axios('https://ibnodeserver.herokuapp.com/api/admin/thongtinkhachhang', {
       params: { filter },
     })
       .then((res) => {
@@ -69,16 +69,19 @@ class DanhSachKhachHang extends Component {
     const test = this.state;
 
     axios
-      .get('http://localhost:9000/api/admin/thongtinkhachhanggiaytotuythan', {
-        params: {
-          sodienthoai,
-        },
-      })
+      .get(
+        'https://ibnodeserver.herokuapp.com/api/admin/thongtinkhachhanggiaytotuythan',
+        {
+          params: {
+            sodienthoai,
+          },
+        }
+      )
       .then((res) => {
         const giayto = res.data;
         this.setState({
           ngaycap: giayto.ngaycap,
-          hinhanhurl: 'http://localhost:9000/' + giayto.hinhanhurl,
+          hinhanhurl: 'https://ibnodeserver.herokuapp.com/' + giayto.hinhanhurl,
           magiayto: giayto.magiayto,
         });
         debugger;
@@ -302,10 +305,13 @@ class DanhSachKhachHang extends Component {
     }
 
     axios
-      .put('http://localhost:9000/api/admin/capnhattinhtrangkhachhang', {
-        sodienthoai,
-        tinhtrang,
-      })
+      .put(
+        'https://ibnodeserver.herokuapp.com/api/admin/capnhattinhtrangkhachhang',
+        {
+          sodienthoai,
+          tinhtrang,
+        }
+      )
       .then((res) => {
         debugger;
         alert('Cập nhật tình trạng thành công');

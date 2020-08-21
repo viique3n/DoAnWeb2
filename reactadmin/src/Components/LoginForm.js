@@ -21,7 +21,7 @@ class LoginForm extends Component {
     const { email, matkhau } = this.props.values;
     const user = { email, matkhau };
     axios
-      .post('http://localhost:9000/api/admin/login', user)
+      .post('https://ibnodeserver.herokuapp.com/api/admin/login', user)
       .then((res) => {
         debugger;
         // console.log(res.data.token);
@@ -51,39 +51,39 @@ class LoginForm extends Component {
     return (
       <Row>
         <Col>
-          <img src='http://localhost:9000/images/BingW06.jpg'></img>
+          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
         </Col>
         <Col>
           <br />
           <br />
           <Form onSubmit={this.handleSubmit}>
             <h3>Đăng nhập</h3>
-            <Form.Group controlId='formBasicEmail'>
+            <Form.Group controlId="formBasicEmail">
               <Form.Label>
                 <b>Email</b>
               </Form.Label>
               <Form.Control
-                type='email'
-                name='email'
-                placeholder='Địa chỉ email admin'
+                type="email"
+                name="email"
+                placeholder="Địa chỉ email admin"
                 onChange={this.props.handleChange}
               />
               <div>{this.props.errors.sodienthoai}</div>
             </Form.Group>
-            <Form.Group controlId='formBasicPassword'>
+            <Form.Group controlId="formBasicPassword">
               <Form.Label>
                 <b>Password</b>
               </Form.Label>
               <Form.Control
-                type='password'
-                placeholder='...'
-                name='matkhau'
+                type="password"
+                placeholder="..."
+                name="matkhau"
                 onChange={this.props.handleChange}
               />
               <div>{this.props.errors.matkhau}</div>
             </Form.Group>
 
-            <Button variant='primary' type='submit'>
+            <Button variant="primary" type="submit">
               Đăng nhập
             </Button>
             <Form.Text style={{ color: 'red' }}>

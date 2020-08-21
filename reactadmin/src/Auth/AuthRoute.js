@@ -77,7 +77,7 @@ export function UnAuthRoute({ children, ...rest }) {
 
 export function renewAccessToken(token) {
   axios
-    .post('http://localhost:9000/api/admin/renewacesstoken', {
+    .post('https://ibnodeserver.herokuapp.com/api/admin/renewacesstoken', {
       refreshToken: token,
     })
     .then((res) => {
