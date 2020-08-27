@@ -92,12 +92,9 @@ class ChuyenKhoanCungNganHang extends Component {
       return;
     } else {
       let sodienthoaithuhuong;
-      axios(
-        'https://ibnodeserver.herokuapp.com/api/taikhoan/getthongtintaikhoan',
-        {
-          params: { mataikhoan: mataikhoanthuhuong },
-        }
-      )
+      axios('http://localhost:9000/api/taikhoan/getthongtintaikhoan', {
+        params: { mataikhoan: mataikhoanthuhuong },
+      })
         .then((res) => {
           debugger;
           this.setState({
@@ -125,12 +122,9 @@ class ChuyenKhoanCungNganHang extends Component {
             console.log(sodienthoaithuhuong);
             debugger;
             axios
-              .get(
-                'https://ibnodeserver.herokuapp.com/api/auth/getthongtinkhachhang',
-                {
-                  params: { sodienthoai: sodienthoaithuhuong },
-                }
-              )
+              .get('http://localhost:9000/api/auth/getthongtinkhachhang', {
+                params: { sodienthoai: sodienthoaithuhuong },
+              })
               .then((res) => {
                 debugger;
                 tenkhachhangthuhuong = res.data.tenhienthi;
@@ -138,19 +132,14 @@ class ChuyenKhoanCungNganHang extends Component {
                   tenkhachhangthuhuong,
                 });
                 axios
-                  .post(
-                    'https://ibnodeserver.herokuapp.com/api/totp/totp-secret'
-                  )
+                  .post('http://localhost:9000/api/totp/totp-secret')
                   .then((res) => {
                     secret = res.data.secret;
                     axios
-                      .post(
-                        'https://ibnodeserver.herokuapp.com/api/totp/totp-generate',
-                        {
-                          secret,
-                          email,
-                        }
-                      )
+                      .post('http://localhost:9000/api/totp/totp-generate', {
+                        secret,
+                        email,
+                      })
                       .then((res) => {
                         timeremaining = res.data.remaining;
                         console.log(`secret: ${secret}`);
@@ -233,12 +222,9 @@ class ChuyenKhoanCungNganHang extends Component {
     this.setState({
       email,
     });
-    axios(
-      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
-      {
-        params: { khachhangSodienthoai: sodienthoai },
-      }
-    )
+    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
+      params: { khachhangSodienthoai: sodienthoai },
+    })
       .then((res) => {
         console.log(res.data);
         debugger;
@@ -401,7 +387,7 @@ class ChuyenKhoanCungNganHang extends Component {
 
     const { maotp, secret } = this.state;
     axios
-      .post('https://ibnodeserver.herokuapp.com/api/totp/totp-validate', {
+      .post('http://localhost:9000/api/totp/totp-validate', {
         secret,
         token: maotp,
       })
@@ -418,17 +404,14 @@ class ChuyenKhoanCungNganHang extends Component {
             sotienchuyenkhoan,
           } = this.state;
           axios
-            .post(
-              'https://ibnodeserver.herokuapp.com/api/chuyenkhoan/chuyenkhoan',
-              {
-                mataikhoanchuyenkhoan,
-                mataikhoanthuhuong,
-                sotienchuyenkhoan,
-                noidung: noidungchuyenkhoan,
-                thoigian: new Date(),
-                loaichuyenkhoanId,
-              }
-            )
+            .post('http://localhost:9000/api/chuyenkhoan/chuyenkhoan', {
+              mataikhoanchuyenkhoan,
+              mataikhoanthuhuong,
+              sotienchuyenkhoan,
+              noidung: noidungchuyenkhoan,
+              thoigian: new Date(),
+              loaichuyenkhoanId,
+            })
             .then((res) => {
               if (res.data.thanhcong) {
                 this.setState({
@@ -489,7 +472,7 @@ class ChuyenKhoanCungNganHang extends Component {
     return (
       <Row>
         <Col>
-          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+          <img src="http://localhost:9000/images/BingW06.jpg"></img>
         </Col>
         <Col>
           <br />

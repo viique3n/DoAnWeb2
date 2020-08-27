@@ -115,11 +115,11 @@ class TaoSoTietKiem extends Component {
       let timeremaining;
       const { email } = this.state;
       axios
-        .post('https://ibnodeserver.herokuapp.com/api/totp/totp-secret')
+        .post('http://localhost:9000/api/totp/totp-secret')
         .then((res) => {
           secret = res.data.secret;
           axios
-            .post('https://ibnodeserver.herokuapp.com/api/totp/totp-generate', {
+            .post('http://localhost:9000/api/totp/totp-generate', {
               secret,
               email,
             })
@@ -189,12 +189,9 @@ class TaoSoTietKiem extends Component {
     this.setState({
       email,
     });
-    axios(
-      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
-      {
-        params: { khachhangSodienthoai: sodienthoai },
-      }
-    )
+    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
+      params: { khachhangSodienthoai: sodienthoai },
+    })
       .then((res) => {
         debugger;
         let danhsachtaikhoanthanhtoan = [];
@@ -216,7 +213,7 @@ class TaoSoTietKiem extends Component {
     if (renew === false) {
       return;
     }
-    axios('https://ibnodeserver.herokuapp.com/api/laisuat/getdanhsachlaisuat')
+    axios('http://localhost:9000/api/laisuat/getdanhsachlaisuat')
       .then((res) => {
         let setDanhSachKyHan = new Set();
         res.data.map((data) => {
@@ -689,7 +686,7 @@ class TaoSoTietKiem extends Component {
     event.preventDefault();
     const { maotp, secret } = this.state;
     axios
-      .post('https://ibnodeserver.herokuapp.com/api/totp/totp-validate', {
+      .post('http://localhost:9000/api/totp/totp-validate', {
         secret,
         token: maotp,
       })
@@ -726,12 +723,9 @@ class TaoSoTietKiem extends Component {
             hinhthuctralaiId,
           };
           axios
-            .post(
-              'https://ibnodeserver.herokuapp.com/api/sotietkiem/taosotietkiem',
-              {
-                sotietkiem,
-              }
-            )
+            .post('http://localhost:9000/api/sotietkiem/taosotietkiem', {
+              sotietkiem,
+            })
             .then((res) => {
               console.log('thong tin tao so tiet kiem');
               console.log(res.data);
@@ -779,7 +773,7 @@ class TaoSoTietKiem extends Component {
     return (
       <Row>
         <Col>
-          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+          <img src="http://localhost:9000/images/BingW06.jpg"></img>
         </Col>
         <Col>
           <br />

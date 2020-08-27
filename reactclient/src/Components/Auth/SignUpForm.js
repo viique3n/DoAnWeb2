@@ -18,7 +18,7 @@ class SignupForm extends Component {
     e.preventDefault();
     const { sodienthoai, email, matkhau, tenhienthi } = this.props.values;
     const user = { sodienthoai, email, matkhau, tenhienthi };
-    const signupURL = 'https://ibnodeserver.herokuapp.com/' + 'api/auth/signup';
+    const signupURL = 'http://localhost:9000/' + 'api/auth/signup';
     axios
       .post(signupURL, user)
       .then((res) => {
@@ -40,7 +40,7 @@ class SignupForm extends Component {
     return (
       <Row>
         <Col>
-          {/* <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img> */}
+          {/* <img src="http://localhost:9000/images/BingW06.jpg"></img> */}
         </Col>
         <Col>
           <br />

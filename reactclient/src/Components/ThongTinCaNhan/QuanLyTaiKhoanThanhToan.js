@@ -19,12 +19,9 @@ class QuanLyTaiKhoanThanhToan extends Component {
       return;
     }
     debugger;
-    axios(
-      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
-      {
-        params: { khachhangSodienthoai },
-      }
-    )
+    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
+      params: { khachhangSodienthoai },
+    })
       .then((res) => {
         console.log(res.data);
         debugger;
@@ -57,7 +54,7 @@ class QuanLyTaiKhoanThanhToan extends Component {
         // </div>
         <Row>
           <Col>
-            <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+            <img src="http://localhost:9000/images/BingW06.jpg"></img>
           </Col>
           <Col>
             <br />

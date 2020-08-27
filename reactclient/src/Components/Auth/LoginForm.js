@@ -16,8 +16,8 @@ class LoginForm extends Component {
     e.preventDefault();
     const { sodienthoai, matkhau } = this.props.values;
     const user = { sodienthoai, matkhau };
-    // const loginURL = 'https://ibnodeserver.herokuapp.com/' + 'api/auth/login';
-    const loginURL = 'https://ibnodeserver.herokuapp.com/' + 'api/auth/login';
+    // const loginURL = 'http://localhost:9000/' + 'api/auth/login';
+    const loginURL = 'http://localhost:9000/' + 'api/auth/login';
     // const headers = {
     //   'Content-Type': 'application/json',
     //   Authorization: 'JWT fefege...',
@@ -41,7 +41,7 @@ class LoginForm extends Component {
         // console.log(err);
       });
   }
- 
+
   render() {
     if (this.state.isAuthenticated) {
       return <Redirect to={{ pathname: '/' }} />;
@@ -49,55 +49,52 @@ class LoginForm extends Component {
     return (
       <Row>
         <Col></Col>
-      <Col>
-        <br />
-        <br />
-        <Form onSubmit={this.handleSubmit}>
-          <h3>
-            <center>
-              <b>Đăng nhập</b>
-            </center>
-          </h3>
-          <Form.Group controlId="formBasicSoDienThoai">
-            <Form.Label>
-              <b>Số điện thoại</b>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Ví dụ: 0123456789"
-              name="sodienthoai"
-              onChange={this.props.handleChange}
-            />
-            <div>{this.props.errors.sodienthoai}</div>
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>
-              <b>Password</b>
-            </Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="..."
-              name="matkhau"
-              onChange={this.props.handleChange}
-            />
-            <div>{this.props.errors.matkhau}</div>
-          </Form.Group>
-
-          <Button variant="primary" type="submit">
-            <b>Đăng nhập</b>
-            
-          </Button>
+        <Col>
           <br />
+          <br />
+          <Form onSubmit={this.handleSubmit}>
+            <h3>
+              <center>
+                <b>Đăng nhập</b>
+              </center>
+            </h3>
+            <Form.Group controlId="formBasicSoDienThoai">
+              <Form.Label>
+                <b>Số điện thoại</b>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ví dụ: 0123456789"
+                name="sodienthoai"
+                onChange={this.props.handleChange}
+              />
+              <div>{this.props.errors.sodienthoai}</div>
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>
+                <b>Password</b>
+              </Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="..."
+                name="matkhau"
+                onChange={this.props.handleChange}
+              />
+              <div>{this.props.errors.matkhau}</div>
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              <b>Đăng nhập</b>
+            </Button>
             <br />
             <br />
             <br />
-        </Form>
-      </Col>
-      <Col></Col>
-      
-      </Row>  
-      
+            <br />
+          </Form>
+        </Col>
+        <Col></Col>
+      </Row>
     );
   }
 }

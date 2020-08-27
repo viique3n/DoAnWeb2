@@ -7,7 +7,7 @@ class ChuyenKhoanLienNganHang extends Component {
       <div>
         <Row>
           <Col>
-            <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+            <img src="http://localhost:9000/images/BingW06.jpg"></img>
           </Col>
           <Form>
             <br />

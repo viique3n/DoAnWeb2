@@ -36,7 +36,7 @@ function Footer({ children }) {
           <MDBCol md="4">
             <a href="/login">
               <img
-                src="https://ibnodeserver.herokuapp.com/images/Bing1.png"
+                src="http://localhost:9000/images/Bing1.png"
                 width="250"
                 height="150"
               ></img>
@@ -93,14 +93,14 @@ function Footer({ children }) {
               <h3>Theo dõi </h3>
               <a href="#facebook">
                 <img
-                  src="https://ibnodeserver.herokuapp.com/images/Bing2.png"
+                  src="http://localhost:9000/images/Bing2.png"
                   width="50"
                   height="50"
                 ></img>
               </a>
               <a href="#instagram">
                 <img
-                  src="https://ibnodeserver.herokuapp.com/images/Bing3.jpg"
+                  src="http://localhost:9000/images/Bing3.jpg"
                   width="50"
                   height="50"
                 ></img>

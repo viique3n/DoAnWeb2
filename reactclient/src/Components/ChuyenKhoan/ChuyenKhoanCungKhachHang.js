@@ -96,17 +96,14 @@ class ChuyenKhoanCungKhachHang extends Component {
         let timeremaining;
         const { email } = this.state;
         axios
-          .post('https://ibnodeserver.herokuapp.com/api/totp/totp-secret')
+          .post('http://localhost:9000/api/totp/totp-secret')
           .then((res) => {
             secret = res.data.secret;
             axios
-              .post(
-                'https://ibnodeserver.herokuapp.com/api/totp/totp-generate',
-                {
-                  secret,
-                  email,
-                }
-              )
+              .post('http://localhost:9000/api/totp/totp-generate', {
+                secret,
+                email,
+              })
               .then((res) => {
                 timeremaining = res.data.remaining;
                 console.log(`secret: ${secret}`);
@@ -175,12 +172,9 @@ class ChuyenKhoanCungKhachHang extends Component {
     this.setState({
       email,
     });
-    axios(
-      'https://ibnodeserver.herokuapp.com/api/taikhoan/getdanhsachtaikhoanthanhtoan',
-      {
-        params: { khachhangSodienthoai: sodienthoai },
-      }
-    )
+    axios('http://localhost:9000/api/taikhoan/getdanhsachtaikhoanthanhtoan', {
+      params: { khachhangSodienthoai: sodienthoai },
+    })
       .then((res) => {
         console.log(res.data);
         debugger;
@@ -204,7 +198,7 @@ class ChuyenKhoanCungKhachHang extends Component {
     event.preventDefault();
     const { maotp, secret } = this.state;
     axios
-      .post('https://ibnodeserver.herokuapp.com/api/totp/totp-validate', {
+      .post('http://localhost:9000/api/totp/totp-validate', {
         secret,
         token: maotp,
       })
@@ -222,17 +216,14 @@ class ChuyenKhoanCungKhachHang extends Component {
             sotienchuyenkhoan,
           } = this.state;
           axios
-            .post(
-              'https://ibnodeserver.herokuapp.com/api/chuyenkhoan/chuyenkhoan',
-              {
-                mataikhoanchuyenkhoan,
-                mataikhoanthuhuong,
-                sotienchuyenkhoan,
-                noidung: noidungchuyenkhoan,
-                thoigian: new Date(),
-                loaichuyenkhoanId,
-              }
-            )
+            .post('http://localhost:9000/api/chuyenkhoan/chuyenkhoan', {
+              mataikhoanchuyenkhoan,
+              mataikhoanthuhuong,
+              sotienchuyenkhoan,
+              noidung: noidungchuyenkhoan,
+              thoigian: new Date(),
+              loaichuyenkhoanId,
+            })
             .then((res) => {
               if (res.data.thanhcong) {
                 this.setState({
@@ -406,7 +397,7 @@ class ChuyenKhoanCungKhachHang extends Component {
       <div>
         <Row>
           <Col>
-            <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+            <img src="http://localhost:9000/images/BingW06.jpg"></img>
           </Col>
           <Col>
             <br />

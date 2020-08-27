@@ -65,7 +65,7 @@ class ProfileCard extends Component {
     debugger;
     const { sodienthoai } = this.state.user;
     if (sodienthoai) {
-      axios('https://ibnodeserver.herokuapp.com/api/giayto/getthongtingiayto', {
+      axios('http://localhost:9000/api/giayto/getthongtingiayto', {
         params: { sodienthoai },
       })
         .then((res) => {
@@ -113,8 +113,7 @@ class ProfileCard extends Component {
     debugger;
     const { thongtingiayto } = this.state;
     if (thongtingiayto.magiayto) {
-      const giaytourl =
-        'https://ibnodeserver.herokuapp.com/' + thongtingiayto.hinhanhurl;
+      const giaytourl = 'http://localhost:9000/' + thongtingiayto.hinhanhurl;
       return (
         <Col>
           <Card border="info">
@@ -194,7 +193,7 @@ class ProfileCard extends Component {
     });
   }
   handleUploadFile(event) {
-    const url = 'https://ibnodeserver.herokuapp.com/api/giayto/taogiayto';
+    const url = 'http://localhost:9000/api/giayto/taogiayto';
     const formData = new FormData();
     formData.append('giayto', this.state.giaytoimg);
     debugger;
@@ -264,10 +263,8 @@ class ProfileCard extends Component {
         'content-type': 'multipart/form-data',
       },
     };
-    const urlTaoGiayTo =
-      'https://ibnodeserver.herokuapp.com/api/giayto/taothongtingiayto';
-    const urlUploadAnh =
-      'https://ibnodeserver.herokuapp.com/api/giayto/uploadanhgiayto';
+    const urlTaoGiayTo = 'http://localhost:9000/api/giayto/taothongtingiayto';
+    const urlUploadAnh = 'http://localhost:9000/api/giayto/uploadanhgiayto';
     const name =
       this.state.user.sodienthoai + '.' + giaytoimg.name.split('.')[1];
     giaytoimg = new File([giaytoimg], name, { type: giaytoimg.type });
@@ -334,7 +331,7 @@ class ProfileCard extends Component {
     return (
       <Row>
         <Col>
-          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+          <img src="http://localhost:9000/images/BingW06.jpg"></img>
         </Col>
         <Col>
           <br />

@@ -65,11 +65,11 @@ class RutTienTietKiem extends Component {
       let timeremaining;
       const { email } = this.state;
       axios
-        .post('https://ibnodeserver.herokuapp.com/api/totp/totp-secret')
+        .post('http://localhost:9000/api/totp/totp-secret')
         .then((res) => {
           secret = res.data.secret;
           axios
-            .post('https://ibnodeserver.herokuapp.com/api/totp/totp-generate', {
+            .post('http://localhost:9000/api/totp/totp-generate', {
               secret,
               email,
             })
@@ -127,7 +127,7 @@ class RutTienTietKiem extends Component {
     const decoded = jwt_decode(token).data;
     const { sodienthoai, email } = decoded;
     this.setState({ email });
-    axios('https://ibnodeserver.herokuapp.com/api/sotietkiem/getsotietkiem', {
+    axios('http://localhost:9000/api/sotietkiem/getsotietkiem', {
       params: {
         khachhangSodienthoai: sodienthoai,
         tinhtrang: 'Đang trong thời gian gửi tiết kiệm',
@@ -147,7 +147,7 @@ class RutTienTietKiem extends Component {
       });
   }
   getDanhSachLaiSuat() {
-    axios('https://ibnodeserver.herokuapp.com/api/laisuat/getdanhsachlaisuat')
+    axios('http://localhost:9000/api/laisuat/getdanhsachlaisuat')
       .then((res) => {
         let setDanhSachKyHan = new Set();
         res.data.map((data) => {
@@ -341,7 +341,7 @@ class RutTienTietKiem extends Component {
     const { maotp, secret } = this.state;
 
     axios
-      .post('https://ibnodeserver.herokuapp.com/api/totp/totp-validate', {
+      .post('http://localhost:9000/api/totp/totp-validate', {
         secret,
         token: maotp,
       })
@@ -366,12 +366,9 @@ class RutTienTietKiem extends Component {
             kyhan: 'Không kỳ hạn',
           };
           axios
-            .post(
-              'https://ibnodeserver.herokuapp.com/api/sotietkiem/ruttientietkiem',
-              {
-                thongtin,
-              }
-            )
+            .post('http://localhost:9000/api/sotietkiem/ruttientietkiem', {
+              thongtin,
+            })
             .then((res) => {
               debugger;
               console.log('thong tin tao so tiet kiem');
@@ -424,7 +421,7 @@ class RutTienTietKiem extends Component {
     return (
       <Row>
         <Col>
-          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+          <img src="http://localhost:9000/images/BingW06.jpg"></img>
         </Col>
         <Col>
           <br />
