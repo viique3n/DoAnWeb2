@@ -108,12 +108,9 @@ class CapNhatTaiKhoan extends Component {
     event.preventDefault();
     const { thongtintimkiem } = this.state;
     axios
-      .get(
-        'https://ibnodeserver.herokuapp.com/api/taikhoan/getthongtintaikhoan',
-        {
-          params: { thongtintimkiem },
-        }
-      )
+      .get('http://localhost:9000/api/taikhoan/getthongtintaikhoan', {
+        params: { thongtintimkiem },
+      })
       .then((res) => {
         debugger;
         console.log(res.data);
@@ -169,7 +166,7 @@ class CapNhatTaiKhoan extends Component {
     const { mataikhoancapnhat, soducapnhat } = this.state;
     debugger;
     axios
-      .put('https://ibnodeserver.herokuapp.com/api/taikhoan/capnhatsodu', {
+      .put('http://localhost:9000/api/taikhoan/capnhatsodu', {
         mataikhoan: mataikhoancapnhat,
         soducapnhat,
       })
