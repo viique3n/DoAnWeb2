@@ -40,7 +40,7 @@ class SignupForm extends Component {
     return (
       <Row>
         <Col>
-          <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img>
+          {/* <img src="https://ibnodeserver.herokuapp.com/images/BingW06.jpg"></img> */}
         </Col>
         <Col>
           <br />
