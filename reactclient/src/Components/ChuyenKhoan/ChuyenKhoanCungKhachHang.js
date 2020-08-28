@@ -397,7 +397,7 @@ class ChuyenKhoanCungKhachHang extends Component {
       <div>
         <Row>
           <Col>
-            <img src="http://localhost:9000/images/BingW06.jpg"></img>
+            <img src="http://localhost:9000/images/BingW06.jpg" height="750"></img>
           </Col>
           <Col>
             <br />

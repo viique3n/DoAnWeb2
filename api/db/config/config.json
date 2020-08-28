@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "1234",
+    "password": "sutu1308",
     "database": "myinternetbanking",
     "host": "localhost",
     "dialect": "postgres"
@@ -15,7 +15,7 @@
   },
   "production": {
     "username": "localhost",
-    "password": "1234",
+    "password": "sutu1308",
     "database": "myinternetbanking",
     "host": "127.0.0.1",
     "dialect": "postgres"

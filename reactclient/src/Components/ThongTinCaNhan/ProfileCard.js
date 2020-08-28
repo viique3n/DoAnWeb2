@@ -330,11 +330,14 @@ class ProfileCard extends Component {
     const { email, sodienthoai, tenhienthi, tinhtrang } = this.state.user;
     return (
       <Row>
-        <Col>
-          <img src="http://localhost:9000/images/BingW06.jpg"></img>
-        </Col>
-        <Col>
-          <br />
+         <Col sm={1}>
+          <img src="http://localhost:9000/images/BingW06.jpg" height="750"></img>
+        </Col>   
+        <br />  
+        <Col sm={4}>{this.renderFormGiayToTuyThan()}</Col>
+        <Col sm={1}></Col>
+        <Col sm={4}>
+          <br />  
           <Card>
             <Card.Body>
               <Card.Title>Thông tin khách hàng</Card.Title>
@@ -351,11 +354,10 @@ class ProfileCard extends Component {
               <Card.Subtitle>{this.state.tinhtrangxacthuc}</Card.Subtitle>
             </Card.Body>
           </Card>
+          <Col></Col>
           {/* <input type="file" onChange={this.handleChangeFileSelect} />
         <Button onClick={this.handleUploadFile}>Upload</Button> */}
         </Col>
-        <Col></Col>
-        <Col>{this.renderFormGiayToTuyThan()}</Col>
       </Row>
     );
   }
