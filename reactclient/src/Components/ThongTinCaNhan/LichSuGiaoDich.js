@@ -47,9 +47,10 @@ class LichSuGiaoDich extends Component {
     if (typeof lichsugiaodich !== 'undefined' && lichsugiaodich.length > 0) {
       return lichsugiaodich.map((giaodich) => (
         <Row>
-          <Col>
-            <img src="http://localhost:9000/images/BingW06.jpg" height="750"></img>
-          </Col>
+          {/* <Col>
+            <img src="http://localhost:9000/images/BingW06.jpg" ></img>
+          </Col> */}
+          <Col sm={1}></Col>
           <Col>
             <br />
             <Card>

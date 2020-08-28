@@ -329,10 +329,12 @@ class ProfileCard extends Component {
   render() {
     const { email, sodienthoai, tenhienthi, tinhtrang } = this.state.user;
     return (
-      <Row>
-         <Col sm={1}>
-          <img src="http://localhost:9000/images/BingW06.jpg" height="750"></img>
-        </Col>   
+      <Row >
+        
+        {/* <Col sm={1}>
+          <img src="http://localhost:9000/images/BingW06.jpg"></img>
+        </Col>     */}
+        <Col sm={1}></Col>
         <br />  
         <Col sm={4}>{this.renderFormGiayToTuyThan()}</Col>
         <Col sm={1}></Col>
