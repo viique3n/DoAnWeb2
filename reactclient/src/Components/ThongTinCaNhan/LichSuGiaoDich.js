@@ -46,11 +46,12 @@ class LichSuGiaoDich extends Component {
     const { lichsugiaodich } = this.state;
     if (typeof lichsugiaodich !== 'undefined' && lichsugiaodich.length > 0) {
       return lichsugiaodich.map((giaodich) => (
+        <Container>
         <Row>
           {/* <Col>
             <img src="http://localhost:9000/images/BingW06.jpg" ></img>
           </Col> */}
-          <Col sm={1}></Col>
+          <Col sm={4}></Col>
           <Col>
             <br />
             <Card>
@@ -72,6 +73,7 @@ class LichSuGiaoDich extends Component {
           </Col>
           <Col></Col>
         </Row>
+        </Container>
       ));
     }
   }
